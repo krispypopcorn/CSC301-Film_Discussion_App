@@ -1,0 +1,88 @@
+.Background {
+    background-color: rgb(23, 23, 24);
+}
+
+.NavIcon{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.bannerHolder{
+    position: relative;
+    height:400px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.bannerPic {
+    width: 100%;
+    height: auto;
+}
+
+.myBox{
+    height: 135px;
+    background: rgb(46, 46, 46);
+    border: 1px solid rgb(90, 90, 90);
+    box-shadow: 1px 1px 2px rgb(41, 39, 39) inset,
+                -1px -1px 2px rgb(41, 39, 39) inset;
+    border-radius: 3px/6px;  
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+/*This part is for the previous/next page button*/ 
+.PageButton a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+.PageButton a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+    background-color: #f1f1f1;
+    color: black;
+}
+/*------------------------------------------------*/
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #39393a;
+    background:#39393a;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.searchTerm {
+    width: 100%;
+    border: 2px solid #39393a;
+    padding: 5px;
+    height: 36px;
+    border-radius: 5px;
+    outline: none;
+    background-color: #39393a }
+  
+.searchTerm:focus{
+    color: whitesmoke;
+}
+
+.white{
+    color: whitesmoke;
+}
+
+.fullWidth{
+    width:100%;
+}
