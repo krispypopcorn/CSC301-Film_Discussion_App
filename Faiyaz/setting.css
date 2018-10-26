@@ -13,10 +13,12 @@ body {
     border-radius: 50%;
     font-size: 20px;
     font-family: 'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
-    color: #fff;
+    color: #212121;
     line-height: 85px;
     text-align: center;
-    background: #424242
+    background: #FAFAFA;
+    border-style: solid;
+    border-color: #BBDEFB;
 }
 
 .stats {
