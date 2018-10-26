@@ -6,6 +6,11 @@ body {
     float: right !important;
 }
 
+.piechart {
+    background-color: rgb(23, 23, 24);
+    align-content: center;
+}
+
 .dial {
     /*position: absolute;*/
     width: 200px;
