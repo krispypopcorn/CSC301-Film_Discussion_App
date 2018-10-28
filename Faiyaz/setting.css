@@ -8,6 +8,11 @@ body {
     background-color: rgb(23, 23, 24) !important;
 }
 
+.navbar {
+    background-color: rgba(66,66,66,0.7) !important;
+
+    }
+
 .formWrap .form-inline {
     float: right !important;
 }
