@@ -1,0 +1,75 @@
+/*.navi {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+*/
+body {
+    background-color: rgb(23, 23, 24) !important;
+}
+
+.navbar {
+    background-color: rgb(66,66,66) !important;*/
+    -webkit-box-shadow: 0px 6px 9px 0px rgba(54,53,54,1);
+    -moz-box-shadow: 0px 6px 9px 0px rgba(54,53,54,1);
+    box-shadow: 0px 6px 9px 0px rgba(54,53,54,1);
+
+    }
+
+.formWrap .form-inline {
+    float: right !important;
+}
+
+.piechart {
+    background-color: rgb(23, 23, 24);
+    align-content: center;
+}
+
+.dial {
+    /*position: absolute;*/
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-family: 'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    color: #212121;
+    line-height: 85px;
+    text-align: center;
+    background: #FAFAFA;
+    border-style: solid;
+    border-color: #BBDEFB;
+}
+
+.stats {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.table {
+    background-color: #FAFAFA !important;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+  max-height: 300px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.dialWrapper {
+    margin-left: 25%;
+    margin-right: 10%;
+    overflow: auto;
+}
+
+.icons {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+.NavIcon{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
