@@ -13,7 +13,6 @@
 
 div.stars{
     float: left;
-    width: 270px;
     right: 5%;
 }
    
@@ -24,7 +23,7 @@ input.star{
 label.star {
     float: right;
     padding: 10px;
-    font-size: 36px;
+    font-size: 2vw;
     color: #444;
     transition: all .2s;
 }
@@ -151,4 +150,8 @@ input.star:checked ~ .rev-box{
 
 .textCenter {
   text-align:center;
+}
+
+.topFont {
+  font-size: 1.8vw;
 }
