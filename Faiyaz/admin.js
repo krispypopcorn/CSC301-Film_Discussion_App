@@ -20,7 +20,7 @@ function drawChartView() {
                 'title': 'Average Viewing Genre',
                 'height':400,
                 'is3D': true,
-                'backgroundColor': '#171718', 
+                'backgroundColor': { 'fill':'transparent' }, 
                 'legendTextStyle': { 'color': '#FAFAFA' }          
               };
 
@@ -45,7 +45,7 @@ function drawChartUser() {
                 'title': 'Top Contributers',
                 'height':400,
                 'is3D': true,
-                'backgroundColor': '#171718', 
+                'backgroundColor': { 'fill':'transparent' }, 
                 'legendTextStyle': { 'color': '#FAFAFA' }          
               };
 
