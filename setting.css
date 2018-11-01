@@ -73,7 +73,8 @@
     height: 36px;
     border-radius: 5px;
     outline: none;
-    background-color: #39393a }
+    background-color: #39393a 
+}
   
 .searchTerm:focus{
     color: whitesmoke;

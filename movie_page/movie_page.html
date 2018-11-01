@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Bigshot One' rel='stylesheet'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="MoviePage.css" rel="stylesheet">
+    <link href="../setting.css" rel="stylesheet">
+    <script type="text/javascript" src="MoviePage.js"></script>
+</head>
+
+<body class="Background">
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
+            <h1 class="navbar-brand">WebsiteName</h1>
+            <ul class="navbar-nav  mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link white" href="../homepage/homepage.html">Home</a>
+                </li>
+            </ul>
+            
+            <!--User Icon-->>
+            <div>
+                <a href="UserProfile.html">
+                    <img class="NavIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg" >
+                </a>
+            </div>       
+        </nav>
+    </header>
+
+<!-- Banner -->
+<div class="container-fluid bannerHolder">
+    <img class="bannerPic" src="https://images.pexels.com/photos/390089/film-movie-motion-picture-390089.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
+</div>
+
+<div class="row">
+    <h1 class="p-2 col white titleBlock textCenter"><p class="movieTitle topFont">MOVIE TITLE</p></h1>
+    <div class="col white textCenter topFont">
+      <h2 class="topFont">Discussion Topics</h2>
+      <h2 class="topFont" id="discussionTopic">400</h2>
+    </div>
+    <div class="col white textCenter">
+      <h2 class="topFont">Discussion Comments</h2>
+      <h2 class="topFont" id="discussionComments">1232</h2>
+    </div>
+    
+    <div class="p-2 col mr-4">
+        <form class="float-right" action="">
+            <input class="star star-5" id="star-5" type="radio" name="star"/>
+            <label class="star star-5" for="star-5"></label>
+            <input class="star star-4" id="star-4" type="radio" name="star"/>
+            <label class="star star-4" for="star-4"></label>
+            <input class="star star-3" id="star-3" type="radio" name="star"/>
+            <label class="star star-3" for="star-3"></label>
+            <input class="star star-2" id="star-2" type="radio" name="star"/>
+            <label class="star star-2" for="star-2"></label>
+            <input class="star star-1" id="star-1" type="radio" name="star"/>
+            <label class="star star-1" for="star-1"></label>
+        </form>
+        <h1 class="white titleBlock float-right topFont" id="movieRating">7.5/10</h1>
+     </div>
+</div>
+ 
+<!--Post section-->
+<div class="container-fluid">
+
+    <div class="d-flex">
+        <h2 class="p-2 white">Posts</h2>
+        <div class="p-1 flex-grow-1">
+            <input type="text" class="searchTerm" placeholder="Search....">
+        </div>
+        <div class="p-1">
+            <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <!--Next page-->
+    <div class="d-flex justify-content-center PageButton">
+            <a href="#" class="previous roundButton">&#8249;</a>
+            <a href="#" class="next roundButton marginLeft">&#8250;</a>
+    </div>
+
+    <div class="postsContainer">
+     
+        <div class="d-flex myBox">
+            <div class="author p-2">
+                <img class="authorIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">
+                <p class="white">Authsadador</p>
+            </div>
+            
+            <div class="thumbsUp">
+                <h2 class="upVoteNumber">130</h2>
+                <i class="fa fa-thumbs-up thunbContainer"></i>
+            </div>
+
+            <div class="flex-grow-1 postContent d-flex align-content-center flex-wrap">
+                <div class="">
+                  <h3>Pashean Play</h3>
+                  <p>
+                    English language has a million words, but only one for the two kinds of forgiveness. This is a major failure. 
+                    The two kinds may be similar at the molecular level but they are far removed in magnitude. Like a candle flame...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex myBox">
+            <div class="author p-2">
+                <img class="authorIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">
+                <p class="white">Authsadador</p>
+            </div>
+            
+            <div class="thumbsUp">
+                <h2 class="upVoteNumber">130</h2>
+                <i class="fa fa-thumbs-up thunbContainer"></i>
+            </div>
+
+            <div class="flex-grow-1 postContent d-flex align-content-center flex-wrap">
+                <div class="">
+                  <h3>Pashean Play</h3>
+                  <p>
+                    English language has a million words, but only one for the two kinds of forgiveness. This is a major failure. 
+                    The two kinds may be similar at the molecular level but they are far removed in magnitude. Like a candle flame...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex myBox">
+            <div class="author p-2">
+                <img class="authorIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">
+                <p class="white">Authsadador</p>
+            </div>
+            
+            <div class="thumbsUp">
+                <h2 class="upVoteNumber">130</h2>
+                <i class="fa fa-thumbs-up thunbContainer"></i>
+            </div>
+
+            <div class="flex-grow-1 postContent d-flex align-content-center flex-wrap">
+                <div class="">
+                  <h3>Pashean Play</h3>
+                  <p>
+                    English language has a million words, but only one for the two kinds of forgiveness. This is a major failure. 
+                    The two kinds may be similar at the molecular level but they are far removed in magnitude. Like a candle flame...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex myBox">
+            <div class="author p-2">
+                <img class="authorIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">
+                <p class="white">Authsadador</p>
+            </div>
+            
+            <div class="thumbsUp">
+                <h2 class="upVoteNumber">130</h2>
+                <i class="fa fa-thumbs-up thunbContainer"></i>
+            </div>
+
+            <div class="flex-grow-1 postContent d-flex align-content-center flex-wrap">
+                <div class="">
+                  <h3>Pashean Play</h3>
+                  <p>
+                    English language has a million words, but only one for the two kinds of forgiveness. This is a major failure. 
+                    The two kinds may be similar at the molecular level but they are far removed in magnitude. Like a candle flame...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex myBox">
+            <div class="author p-2">
+                <img class="authorIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">
+                <p class="white">Authsadador</p>
+            </div>
+            
+            <div class="thumbsUp">
+                <h2 class="upVoteNumber">130</h2>
+                <i class="fa fa-thumbs-up thunbContainer"></i>
+            </div>
+
+            <div class="flex-grow-1 postContent d-flex align-content-center flex-wrap">
+                <div class="">
+                  <h3>Pashean Play</h3>
+                  <p>
+                    English language has a million words, but only one for the two kinds of forgiveness. This is a major failure. 
+                    The two kinds may be similar at the molecular level but they are far removed in magnitude. Like a candle flame...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex myBox">
+            <div class="author p-2">
+                <img class="authorIcon" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">
+                <p class="white">Authsadador</p>
+            </div>
+            
+            <div class="thumbsUp">
+                <h2 class="upVoteNumber">130</h2>
+                <i class="fa fa-thumbs-up thunbContainer"></i>
+            </div>
+
+            <div class="flex-grow-1 postContent d-flex align-content-center flex-wrap">
+                <div class="">
+                  <h3>Pashean Play</h3>
+                  <p>
+                    English language has a million words, but only one for the two kinds of forgiveness. This is a major failure. 
+                    The two kinds may be similar at the molecular level but they are far removed in magnitude. Like a candle flame...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!--Next page-->
+    <div class="d-flex justify-content-center PageButton">
+            <a href="#" class="previous roundButton">&#8249;</a>
+            <a href="#" class="next roundButton marginLeft">&#8250;</a>
+    </div>
+</div>
+
+<div id="newPost">
+    <button type="clik" class="plusButton roundButton">
+      <i class="fa fa-plus"></i>
+    </button>
+</div>
+
+<div id="popup1" class="overlay">
+	  <div class="container row">
+	    <label for="title" class="col-1"><b>Title</b></label>
+      <input class="col" type="text" placeholder="Enter Title" name="title" required>
+	  </div>
+	  
+	  <div = "inputForm">
+       <textarea name="message" class="textInput fullWidth">
+       </textarea> 
+    </div>
+  
+    <button type="submit" class="btn">Post</button>
+
+</div>
+
+
+</body>

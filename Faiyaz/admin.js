@@ -16,12 +16,12 @@ function drawChartView() {
   // Optional; add a title and set the width and height of the chart
   var options = {'width':500,
                 'legend':'left',
-                'titleTextStyle': {'color': '#FAFAFA', 'fontSize': 20},
-                'title': 'Average Viewing Genre',
+                'titleTextStyle': {'color': '#FAFAFA', 'fontSize': 30, 'fontName': "'Quicksand', sans-serif"},
+                'title': 'Genre Stats',
                 'height':400,
                 'is3D': true,
-                'backgroundColor': '#171718', 
-                'legendTextStyle': { 'color': '#FAFAFA' }          
+                'backgroundColor': { 'fill':'transparent' }, 
+                'legendTextStyle': { 'color': '#FAFAFA', 'fontName': "'Quicksand', sans-serif", 'fontSize': 15}          
               };
 
   // Display the chart inside the <div> element with id="piechart"
@@ -35,18 +35,19 @@ function drawChartUser() {
   ['Jennifer', 21],
   ['Faiyaz',54],
   ['Jane', 12],
-  ['Fionna', 68]
+  ['Fionna', 68],
+  ['Others', 75]
 ]);
 
   // Optional; add a title and set the width and height of the chart
   var options = {'width':500,
                 'legend':'left',
-                'titleTextStyle': {'color': '#FAFAFA', 'fontSize': 20},
+                'titleTextStyle': {'color': '#FAFAFA', 'fontSize': 30, 'fontName': "'Quicksand', sans-serif"},
                 'title': 'Top Contributers',
                 'height':400,
                 'is3D': true,
-                'backgroundColor': '#171718', 
-                'legendTextStyle': { 'color': '#FAFAFA' }          
+                'backgroundColor': { 'fill':'transparent' }, 
+                'legendTextStyle': { 'color': '#FAFAFA', 'fontName': "'Quicksand', sans-serif", 'fontSize': 15 }          
               };
 
   // Display the chart inside the <div> element with id="piechart"
