@@ -6,10 +6,13 @@
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
      	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
      	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		<link href="template_admin.css" rel="stylesheet">
+		<link href="name_click.css" rel="stylesheet">
 	</head>
 	<body>
 		<nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-md">
+			<a class="navbtn" href="admin.html">
+				<img class="back" src="back_nav.jpg">
+			</a>
             <a class="navbar-brand" href="#landing.html">
 		  	<img src="logo.png" width="40" height="40">
 		  ConspireView</a>
@@ -56,98 +59,16 @@
      	<br>
      	<div class="container">
      		<div class="row">
-     			<div class="col-md-3">
-					<div class="dial">
-						Total Users <br>
-						<span class="stats"><span id="totalUsers">200</span></span>
-					</div>
+     			<div class="col-md-6">
+     				<h1><span id="SearchName">Fionna</span></h1>
      			</div>
-     			<div class="col-md-3">
-     				<div class="dial">
-						Total Films <br>
-					<span class="stats"><span id="totalFilms">500</span></span>
-					</div>
-     			</div>
-     			<div class="col-md-3">
-     				<div class="dial">
-						Total Posts <br>
-					<span class="stats"><span id="totalPosts">1200</span></span>
-					</div>
-     			</div>
-     			<div class="col-md-3">
-     				<div class="dial">
-						Total Comments <br>
-					<span class="stats"><span id="totalComments">45</span></span>
-					</div>
-     			</div>
-			</div>
-		</div>
-			<br>
-			<br>
-			<br>
-		
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<div id="piechartV"></div>
-				</div>
-				<div class="col-md-6">
-					<div id="piechartU"></div>
-				</div>
-			</div>
-		</div>
-		<br><br>
-		<div class="container">
-			<form class="form-inline">
-    			<input class="form-control mr-sm-2" type="search" placeholder="Enter Username" aria-label="Search">
-    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class ="searchButton">Search</span></button>
-  			</form>
-  			<br>
-  			<div class="table-wrapper-scroll-y">
-				<table class="table table-hover">
-				  <thead>
-				    <tr>
-				      <th scope="col"></th>
-				      <th scope="col">Username</th>
-				      <th scope="col">Number of posts</th>
-				      <th scope="col">Options</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <th scope="row"><img class="icons" src=icon.jpg></th>
-				      <td>Jennifer</td>
-				      <td>21</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="#"><img class="icons" src="gear.jpg"></a></td>
-				    </tr>
-				    <tr> 
-				      <th scope="row"><img class="icons" src=me.png></th>
-				      <td>Faiyaz</td>
-				      <td>54</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="#"><img class="icons" src="gear.jpg"></a></td>
-				    </tr>
-				    <tr>
-				      <th scope="row"><img class="icons" src=icon.jpg></th>
-				      <td>Jane</td>
-				      <td>12</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="#"><img class="icons" src="gear.jpg"></a></td>
-				    </tr>
-				    <tr>
-				      <th scope="row"><img class="icons" src=icon.jpg></th>
-				      <td>Fionna</td>
-				      <td>68</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="name_click.html"><img class="icons" src="gear.jpg"></a></td>
-				    </tr>
-				  </tbody>
-				</table>
-			</div>
-		</div>
-		<br>
-		<br>
+     			<div class="col-md-6">
+     				<img class="profile" src="icon.jpg">
+     		</div>
+     	</div>
 
-		
-		
-		<script type="text/javascript" src="airport.js"></script>
+
+     	<script type="text/javascript" src="airport.js"></script>
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

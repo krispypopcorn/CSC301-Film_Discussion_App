@@ -1,0 +1,74 @@
+/*.navi {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+*/
+
+body {
+    background: #0f0c29 !important;
+    font-family: 'Quicksand', sans-serif !important;
+    background: -moz-linear-gradient(top, #0f0c29 0%, #302b63 52%, #24243e 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #0f0c29), color-stop(52%, #302b63), color-stop(100%, #24243e));
+    background: -webkit-linear-gradient(top, #0f0c29 0%, #302b63 52%, #24243e 100%);
+    background: -o-linear-gradient(top, #0f0c29 0%, #302b63 52%, #24243e 100%);
+    background: -ms-linear-gradient(top, #0f0c29 0%, #302b63 52%, #24243e 100%);
+    background: linear-gradient(to bottom, #0f0c29 0%, #302b63 52%, #24243e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0f0c29', endColorstr='#24243e', GradientType=0 );
+}
+
+.navbar {
+    background: #070512 !important;
+    background: -moz-linear-gradient(top, #070512 0%, #302b63 52%, #0c0c14 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #070512), color-stop(52%, #302b63), color-stop(100%, #0c0c14));
+    background: -webkit-linear-gradient(top, #070512 0%, #302b63 52%, #0c0c14 100%);
+    background: -o-linear-gradient(top, #070512 0%, #302b63 52%, #0c0c14 100%);
+    background: -ms-linear-gradient(top, #070512 0%, #302b63 52%, #0c0c14 100%);
+    background: linear-gradient(to bottom, #070512 0%, #302b63 52%, #0c0c14 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#070512', endColorstr='#0c0c14', GradientType=0 );
+    -webkit-box-shadow: 2px 9px 18px 0px rgba(0,0,0,0.68);
+    -moz-box-shadow: 2px 9px 18px 0px rgba(0,0,0,0.68);
+    box-shadow: 2px 9px 18px 0px rgba(0,0,0,0.68);
+
+    }
+
+#SearchName {
+    color: #FAFAFA;
+    font-size: 75px;
+    font-family: 'Quicksand', sans-serif !important;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+  max-height: 300px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.navbtn:hover {
+    border-style: solid;
+    border-color: #FAFAFA;
+    border-radius: 50%;
+    border-width: 1px;
+}
+
+
+.profile {
+    height: 350px;
+    width: 350px;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #FAFAFA;
+}
+
+.back {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.NavIcon{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
