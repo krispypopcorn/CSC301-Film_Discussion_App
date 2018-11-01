@@ -1,3 +1,12 @@
+/*
+Set up instructions
+
+Instructions for the font 
+add the following to the head of the html file
+<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+*/
+
 body {
     background: #0f0c29 !important;
     font-family: 'Quicksand', sans-serif !important;
