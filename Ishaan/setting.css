@@ -7,6 +7,48 @@
 body {
     background-color: rgb(23, 23, 24) !important;
 }
+
+#usn {
+    color: #FFC312;
+}
+
+#searchBar{
+    width: 99%;
+    margin: 10px;
+
+}
+
+.reply {
+    border: white;
+}
+hr {
+    margin-right: :-10px
+    margin-left:-10px;
+}
+.comment {  
+    background: rgb(46, 46, 46);
+    min-height: 100px;
+    min-width: 100%;
+}
+
+.panel p {
+    color: white;
+
+}
+
+
+.searchTerm:focus{
+    color: whitesmoke;
+}
+
+.white{
+    color: whitesmoke;
+}
+
+.fullWidth{
+    width:100%;
+}
+
 .carousel-item:after {
   content:"";
   display:block;
@@ -22,10 +64,9 @@ body {
   max-height: 450px;
   margin-top: 65px;
 }
-@media (max-width: 600px){
-    .carousel-caption{
-        display: none;
-    }
+
+
+#commentSearch{
     
 }
 
@@ -100,6 +141,8 @@ body {
     border-style: solid;
     border-color: #BBDEFB;
 }
+
+
 
 .stats {
     font-weight: bold;
