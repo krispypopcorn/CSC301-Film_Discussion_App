@@ -95,32 +95,25 @@ input.star:checked ~ .rev-box{
 
 .plusButton {
     cursor: pointer;
-    width: 36px;
-    height: 36px;
+    width: 4em;
+    height: 4em;
     border: 1px solid #39393a;
-    background:#39393a;
-    text-align: center;
+    background:#66a3ff;
     color: #fff;
-    cursor: pointer;
-    font-size: 20px;
 }
 
 #newPost {
     position: fixed;
     right: 2%;
-    top: 95%;
-    width: 8em;
+    top: 92%;
+    width: 4em;
     height: 4em;
-    margin-top: -2.5em;
-    background: grey;
-    border-radius: 3px/6px;
     text-align: center;
-    padding-top:0.9em;
 }
 
 
-.active, .plusButton:hover {
-    background-color: #555;
+ .plusButton:hover {
+    background-color:#00b8e6;
 }
 
 .button:hover {
