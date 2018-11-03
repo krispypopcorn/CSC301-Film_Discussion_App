@@ -69,20 +69,3 @@
   left:0;
   right:0;
 }
-
-#myCarousel {
-  width: auto;
-  max-height: 450px;
-  margin-top: 65px;
-}
-
-.carousel-inner{
-    height:50%;
-    width: 100%;
-}
-
-.carousel-item{
-    overflow: hidden;
-    width: 100%;
-    height: 50vw;
-}
