@@ -1,0 +1,29 @@
+.UserPic{
+	border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container{
+	margin-bottom: 0px;
+}
+
+.Username{
+	color: white;
+	font-size: 30px;
+	
+}
+
+.UserStats{
+	color: white;
+	font-size: 25px;
+}
+
+
+.UserStats tr td{
+    padding:0 15px 0 15px;
+    text-align: center;
+}
