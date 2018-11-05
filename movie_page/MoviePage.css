@@ -7,6 +7,13 @@
     color: cornflowerblue;
 }
 
+.thumbContainer{
+    width:10px;
+    height: 10px;
+    font-size: 25px;
+}
+
+
 .roundButton {
   border-radius: 50%;
 }
@@ -87,6 +94,7 @@ input.star:checked ~ .rev-box{
 
 .upVoteNumber{
   margin: 0;
+  font-size: 15px;
 }
 
 .marginLeft{
