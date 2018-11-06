@@ -10,11 +10,13 @@ function checkPremission(e){
 
     if (userName=="MyUserName" && passWord=="password"){
         let queryString = "?para1=user"
-        window.location.href = "../Homepage/homepage.html" + queryString;
+        //window.location.href = "../Homepage/homepage.html" + queryString;
+        window.open("../Homepage/homepage.html" + queryString);
     }
     else if (userName=="AdminUserName" && passWord=="password"){
         let queryString = "?para1=admin"
-        window.location.href = "../AdminDash/admin.html" + queryString;
+        //window.location.href = "../AdminDash/admin.html" + queryString;
+        window.open("../Homepage/homepage.html" + queryString);
     }
     else{
         notUser();
