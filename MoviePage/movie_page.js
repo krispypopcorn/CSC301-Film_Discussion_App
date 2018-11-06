@@ -1,14 +1,16 @@
 "use strict"
 
-let acc = document.querySelector('#newPost');
-console.log(acc)
-
-acc[0].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
+$(document).ready(
+  
+  function hide_show(){
+    $("#newPost").click(function(){
+        $("#popup1").toggle(200);
+    });
+    
+  function new_post(){
+    $("#subButton").click(function(){
+        $("#postsContainer").prepend("<li>Prepended item</li>");
+    });
+  }
+    
+});

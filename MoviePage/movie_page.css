@@ -76,7 +76,7 @@ input.star:checked ~ .rev-box{
     margin-left: 30px;
 }
 
-.postsContainer{
+#postsContainer{
     min-height: 100px;
     width: 100%;
     overflow:hidden;
@@ -129,18 +129,18 @@ input.star:checked ~ .rev-box{
 
 .overlay{
     position: fixed;
-    right: 10%;
-    top: 48%;
-    width:50%;
-    height: 50%;
+    right: 7%;
+    top: 8%;
+    width:90%;
+    height: 90%;
     margin: 0 auto;
-    background: rgb(84, 84, 87,0.5);
+    background: rgb(84, 84, 87,0.7);
     padding: 35px;
     border: 2px solid #fff;
     border-radius: 20px/50px;
     background-clip: padding-box;
-    overflow: hidden;
-    display: none;
+    overflow:hidden;
+    display:none;
 }
 
 .inputForm{
@@ -149,13 +149,27 @@ input.star:checked ~ .rev-box{
 }
 
 .textCenter {
-  text-align:center;
+    text-align:center;
+}
+
+.textInput {
+  height:75vh;
 }
 
 .topFont {
-  font-size: 1.8vw;
+    font-size: 1.8vw;
 }
 
+#subButton {
+    margin-top:15px;
+    cursor: pointer;
+    border: 1px solid #39393a;
+    background:#66a3ff;
+    color: #fff;
+    border-radius: 20px/50px;
+    width: 7em;
+    height: 2.5em;
+}
 
 .card {
     background: rgb(46, 46, 46);

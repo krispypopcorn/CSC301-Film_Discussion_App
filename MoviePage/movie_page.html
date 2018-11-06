@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <link href="movie_page.css" rel="stylesheet">
     <link href="../nav&body.css" rel="stylesheet">
-    <script type="text/javascript" src="MoviePage.js"></script>
 </head>
 
 <body>
@@ -105,7 +104,7 @@
         </div>
     </div>
 
-    <div class="postsContainer">
+    <div id="postsContainer">
         <div class="card">
                 <div class="row no-gutters">
                     <div class="col-auto">
@@ -190,10 +189,7 @@
                     </div>
 
                 </div>
-        
           </div>
-     
-       
     </div>
 
     <br>
@@ -215,19 +211,23 @@
 </div>
 
 <div id="popup1" class="overlay">
-	  <div class="container row">
-	    <label for="title" class="col-1"><b>Title</b></label>
-      <input class="col" type="text" placeholder="Enter Title" name="title" required>
+	  <div class="row">
+	    <h2 for="title" class="col-1 text-white"><b>Title</b></h2>
+      <input class="col-11 w-100" type="text" placeholder="Enter Title" name="title" required>
 	  </div>
 	  
-	  <div = "inputForm">
-       <textarea name="message" class="textInput fullWidth">
+	  <div class="row">
+       <textarea name="message" class="textInput col">
        </textarea> 
     </div>
-  
-    <button type="submit" class="btn">Post</button>
+    
+    <div class="float-right">
+      <button type="submit" id="subButton">Post</button>
+    </div>
 
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="movie_page.js"></script>
 
 </body>
