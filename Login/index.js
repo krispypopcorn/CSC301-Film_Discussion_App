@@ -1,13 +1,12 @@
 "use strict"
 
-//Add event-listener
-window.location.href="index.html#";
 $(".login_btn").click(checkPremission);
 
 function checkPremission(e){
+    e.preventDefault()
+
     const userName = $('#username').val();
     const passWord = $('#password').val();
-	  console.log("userName")
 
     if (userName=="MyUserName" && passWord=="password"){
         let queryString = "?para1=user"
@@ -25,5 +24,4 @@ function checkPremission(e){
 function notUser(){
     
 }
-
 
