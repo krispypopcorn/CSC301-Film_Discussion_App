@@ -18,10 +18,10 @@ let userSet = []
 //Entering dummy userSet data
 // would normally pull data from the database
 
-userSet.push(new User("icon.jpg", "Jennifer", 21))
-userSet.push(new User("me.png", "Faiyaz", 54))
-userSet.push(new User("icon.jpg", "Jane", 12))
-userSet.push(new User("icon.jpg", "Fionna", 68))
+userSet.push(new User("../Pictures/icon.jpg", "Jennifer", 21))
+userSet.push(new User("../Pictures/me.png", "Faiyaz", 54))
+userSet.push(new User("../Pictures/icon.jpg", "Jane", 12))
+userSet.push(new User("../Pictures/icon.jpg", "Fionna", 68))
 
 
 showAllButton.addEventListener('click', showAllData)
@@ -137,7 +137,7 @@ function createDataRow(currentUser) {
 	deleteIcon.href = "#"
 	let deleteImg = document.createElement('img')
 	deleteImg.className = "icons"
-	deleteImg.setAttribute("src", "deleteIcon.png")
+	deleteImg.setAttribute("src", "../Pictures/deleteIcon.png")
 	deleteIcon.appendChild(deleteImg)
 	options.appendChild(deleteIcon)
 
