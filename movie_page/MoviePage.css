@@ -119,8 +119,7 @@ input.star:checked ~ .rev-box{
     text-align: center;
 }
 
-
- .plusButton:hover {
+.plusButton:hover {
     background-color:#00b8e6;
 }
 
@@ -158,16 +157,24 @@ input.star:checked ~ .rev-box{
 }
 
 
-.myBox{
-    height: 135px;
+.card {
     background: rgb(46, 46, 46);
-    border: 1px solid rgb(90, 90, 90);
-    box-shadow: 1px 1px 2px rgb(41, 39, 39) inset,
-                -1px -1px 2px rgb(41, 39, 39) inset;
-    border-radius: 3px/6px;  
-    margin-bottom: 6px;
-    margin-top: 6px;
+    margin: 10px;
 }
+
+.card p, h4 {
+    color: white;
+}
+
+.postImg {
+    max-width: 275px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 4px;
+    border-radius: 3.5%;
+}
+
 
 /*This part is for the previous/next page button*/ 
 .PageButton a {
