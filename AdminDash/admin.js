@@ -1,9 +1,9 @@
 "use strict";
 
-/*-------------Premission check-------------*/
-/*----get premission from previous page----*/
+/*-------------permission check-------------*/
+/*----get permission from previous page----*/
 /*------should be done through server-----*/
-let premission = "none";
+let permission = "none";
 
 let queryString = decodeURIComponent(window.location.search);
 queryString = queryString.substring(1);
@@ -16,12 +16,12 @@ if(premission=="none" || premission=="user"){
    window.location.href = "../Login/index.html";
 }
 
-/*----Premission check----*/
+/*----permission check----*/
 
-/*----How to check premission----*/
-// premission == user: user mode 
-// premission == admin: admin mode
-// premission == none: won't happen. Page will automatically change back to login page
+/*----How to check permission----*/
+// permission == user: user mode 
+// permission == admin: admin mode
+// permission == none: won't happen. Page will automatically change back to login page
 // delete this part after you are done!
 /*----How to check premission----*/
 
