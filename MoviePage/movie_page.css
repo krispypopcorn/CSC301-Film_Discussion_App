@@ -102,8 +102,8 @@ input.star:checked ~ .rev-box{
 
 .plusButton {
     cursor: pointer;
-    width: 4em;
-    height: 4em;
+    width: 3vw;
+    height: 3vw;
     border: 1px solid #39393a;
     background:#66a3ff;
     color: #fff;
@@ -111,10 +111,10 @@ input.star:checked ~ .rev-box{
 
 #newPost {
     position: fixed;
-    right: 2%;
-    top: 92%;
-    width: 4em;
-    height: 4em;
+    right: 3vw;
+    top: 92vh;
+    width: 3vw;
+    height: 3vw;
     text-align: center;
 }
 
@@ -128,16 +128,16 @@ input.star:checked ~ .rev-box{
 
 .overlay{
     position: fixed;
-    right: 7%;
+    left: 0;
+    right: 0;
     top: 8%;
-    width:90%;
-    height: 90%;
+    width:85vw;
+    height: 85vh;
     margin: 0 auto;
     background: rgb(84, 84, 87,0.7);
     padding: 2%;
     border: 2px solid #fff;
     border-radius: 20px/50px;
-    background-clip: padding-box;
     overflow:hidden;
     display:none;
 }
@@ -152,27 +152,37 @@ input.star:checked ~ .rev-box{
 }
 
 .textInput {
-  margin-top:5px;
-  height:73vh;
+    margin-top:1vh;
+    height:65vh;
 }
 
-.titleInput {
-
+.title #inputTitle{
+    height:4vh;
 }
 
+.indivTitle{
+   height:4vh;
+   font-size:4vh;
+}
+  
 .topFont {
     font-size: 1.8vw;
 }
 
 #subButton {
-    margin-top:15px;
     cursor: pointer;
     border: 1px solid #39393a;
     background:#66a3ff;
     color: #fff;
     border-radius: 20px/50px;
-    width: 7em;
-    height: 2.5em;
+    width: 7vw;
+    height: 5vh;
+}
+
+.submitButtonHolder {
+    margin-top:0.5vh;
+    width: 7vw;
+    height: 5vh;
 }
 
 .searchButton {
@@ -201,7 +211,6 @@ input.star:checked ~ .rev-box{
     color: whitesmoke;
 }
 
-.submitButton {
-  display:inline-block;
-  position:relative;
+.submitButtonHolder {
+  height:5vh;
 }

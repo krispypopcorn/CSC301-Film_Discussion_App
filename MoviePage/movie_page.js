@@ -47,7 +47,11 @@ $("#subButton").click(addNewDiscussion);
 
 
 function addNewDiscussion(e){
-  const newDiscussion = new Discussion("New Discussion", DummyUser, "This is a new Discussion topic you created!")
+  
+  const inputTitle = $('#inputTitle').val();
+  const inputText = $('#content').val();
+  
+  const newDiscussion = new Discussion(inputTitle, DummyUser, inputText)
   discussions.push(newDiscussion);
   addDiscussionToDom(newDiscussion);
 }
