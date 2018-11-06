@@ -28,6 +28,30 @@ showAllButton.addEventListener('click', showAllData)
 
 searchButton.addEventListener('submit', showSelected)
 
+dataTable.addEventListener('click', editUser)
+
+
+function editUser(e) {
+	if (e.target.classList.contains('edit')) {
+
+
+		let targetRow = e.target.parentElement.parentElement
+		let usernameForm = document.querySelector('#editUsername')
+		let name = targetRow.firstElementChild.nextElementSibling.innerText
+		usernameForm.setAttribute("placeholder", name)
+
+		let title = document.querySelector("#editTitle")
+		title.innerText = name;
+
+		//Will pull user password from the database
+
+		let passwordForm = document.querySelector("#editPassword")
+		passwordForm.setAttribute("placeholder", "UserPassword")
+
+	}
+}
+
+
 function showSelected(e) {
 
 	e.preventDefault();
@@ -71,7 +95,6 @@ function removeData() {
 	resetError.innerText = ""
 
 	let currentRow = dataTable.firstElementChild
-	console.log(currentRow);
 
 	while (currentRow !== null) {
 		temp = currentRow.nextElementSibling
@@ -118,13 +141,12 @@ function createDataRow(currentUser) {
 	deleteIcon.appendChild(deleteImg)
 	options.appendChild(deleteIcon)
 
-	let GearIcon = document.createElement('a')
-	GearIcon.href = "#"
-	let GearImg = document.createElement('img')
-	GearImg.className = "icons"
-	GearImg.setAttribute("src", "gear.jpg")
-	GearIcon.appendChild(GearImg)
-	options.appendChild(GearIcon)	
+	let editButton = document.createElement('button')
+	editButton.className = "btn btn-outline-success my-2 ml-sm-2 edit"
+	editButton.setAttribute("data-toggle", "modal")
+	editButton.setAttribute("data-target", "#exampleModal")
+	editButton.innerText = "Edit User"
+	options.appendChild(editButton);
 
 	newRow.appendChild(dataTh)
 	newRow.appendChild(dataName)

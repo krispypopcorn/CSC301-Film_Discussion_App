@@ -120,25 +120,29 @@
 				      <th scope="row"><img class="icons" src=icon.jpg></th>
 				      <td>Jennifer</td>
 				      <td>21</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="#"><img class="icons" src="gear.jpg"></a></td>
+					  <td><a href="#"><img class="icons" src="deleteIcon.png"></a><button type="button" class="btn btn-outline-success my-2 ml-sm-2 edit" data-toggle="modal" data-target="#exampleModal">Edit User</button>
+				      </td>
 				    </tr>
 				    <tr> 
 				      <th scope="row"><img class="icons" src=me.png></th>
 				      <td>Faiyaz</td>
 				      <td>54</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="#"><img class="icons" src="gear.jpg"></a></td>
+						<td><a href="#"><img class="icons" src="deleteIcon.png"></a><button type="button" class="btn btn-outline-success my-2 ml-sm-2 edit" data-toggle="modal" data-target="#exampleModal">Edit User</button>
+				    </td>
 				    </tr>
 				    <tr>
 				      <th scope="row"><img class="icons" src=icon.jpg></th>
 				      <td>Jane</td>
 				      <td>12</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="#"><img class="icons" src="gear.jpg"></a></td>
+				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><button type="button" class="btn btn-outline-success my-2 ml-sm-2 edit" data-toggle="modal" data-target="#exampleModal">Edit User</button>
+				      </td>
 				    </tr>
 				    <tr>
 				      <th scope="row"><img class="icons" src=icon.jpg></th>
 				      <td>Fionna</td>
 				      <td>68</td>
-				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><a href="name_click.html"><img class="icons" src="gear.jpg"></a></td>
+				      <td><a href="#"><img class="icons" src="deleteIcon.png"></a><button type="button" class="btn btn-outline-success my-2 ml-sm-2 edit" data-toggle="modal" data-target="#exampleModal">Edit User</button>
+				      </td>
 				    </tr>
 				  </tbody>
 				</table>
@@ -147,6 +151,48 @@
 		<br>
 		<br>
 
+		<!-- Button trigger modal -->
+		<!-- <button type="button" class="btn btn-outline-success my-2 ml-sm-2" data-toggle="modal" data-target="#exampleModal">
+		  Launch demo modal
+		</button> -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="editTitle">Edit User</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		         <div class="container-fluid">
+				    <div class="row">
+				      <div class="col-md-6">
+				      	<span id="currentUserName">Username</span>
+				      </div>
+				      <div class="col-md-6 ml-auto">
+				      	<input id="editUsername" class="form-control mr-sm-2" placeholder="Enter Username">
+				  		</div>
+				    </div>
+				    <div class="row">
+				      <div class="col-md-6">
+				      	Password
+				      </div>
+				      <div class="col-md-6 ml-auto">
+				      	<input id="editPassword" class="form-control mr-sm-2" placeholder="Modify Password">
+				  		</div>
+				    </div>
+				  </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-outline-success my-2 ml-sm-2" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-outline-success my-2 ml-sm-2">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
