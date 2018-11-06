@@ -134,7 +134,7 @@ input.star:checked ~ .rev-box{
     height: 90%;
     margin: 0 auto;
     background: rgb(84, 84, 87,0.7);
-    padding: 35px;
+    padding: 2%;
     border: 2px solid #fff;
     border-radius: 20px/50px;
     background-clip: padding-box;
@@ -152,7 +152,12 @@ input.star:checked ~ .rev-box{
 }
 
 .textInput {
-  height:75vh;
+  margin-top:5px;
+  height:73vh;
+}
+
+.titleInput {
+
 }
 
 .topFont {
@@ -196,3 +201,7 @@ input.star:checked ~ .rev-box{
     color: whitesmoke;
 }
 
+.submitButton {
+  display:inline-block;
+  position:relative;
+}
