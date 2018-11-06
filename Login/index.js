@@ -2,22 +2,19 @@
 
 $("#login_btn").click(checkPremission);
 
-const username = $('#username');
-const password = $('#password');
 let invalid_msg_on_screen = false
 
 function checkPremission(e){
     e.preventDefault()
-
+    const username = $('#username');
+    const password = $('#password');
     if (username.val()=="james" && password.val()=="jamespassword"){
         let queryString = "?para1=user"
-        //window.location.href = "../Homepage/homepage.html" + queryString;
-        window.open("../Homepage/homepage.html" + queryString);
+        window.location.href = "../Homepage/homepage.html" + queryString;
     }
     else if (username.val()=="admin" && password.val()=="adminpassword"){
         let queryString = "?para1=admin"
-        //window.location.href = "../AdminDash/admin.html" + queryString;
-        window.open("../Homepage/homepage.html" + queryString);
+        window.location.href = "../AdminDash/admin.html" + queryString;
     }
 
     else{
