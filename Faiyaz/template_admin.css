@@ -4,6 +4,11 @@
     width: 100%;
 }
 */
+.searchError {
+    color: red !important;
+}
+
+
 
 #filterSearch {
     width: 40% !important;
