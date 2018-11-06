@@ -93,3 +93,19 @@ body {
     background-color: #f1f1f1;
     color: black;
 }
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #39393a;
+    background:#39393a;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.searchButton:hover{
+    background:#3973ac;
+}

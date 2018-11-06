@@ -174,18 +174,6 @@ input.star:checked ~ .rev-box{
     height: 5vh;
 }
 
-.searchButton {
-    width: 40px;
-    height: 36px;
-    border: 1px solid #39393a;
-    background:#39393a;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
 #searchTerm {
     width: 100%;
     border: 2px solid #39393a;

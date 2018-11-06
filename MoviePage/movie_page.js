@@ -27,7 +27,7 @@ class Discussion {
         this.title = title;
         this.author = author;
         this.content = content;
-        this.thumbsUp = 0;
+        this.thumbsUp = 130;
 
         //user can upload pic, hard code source link for now
         this.image = '../Pictures/post.png'
@@ -74,6 +74,7 @@ function addNewDiscussion(e) {
 
     const newDiscussion = new Discussion(inputTitle, DummyUser, inputText);
     newDiscussion.image = "../Pictures/new_discussion.jpg";
+    newDiscussion.thumbsUp=0;
     discussions.push(newDiscussion);
     numberOfDiscusstions++;
     updateTopicNum();

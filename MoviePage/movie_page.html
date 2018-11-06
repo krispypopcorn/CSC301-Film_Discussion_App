@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Movie Page</title>
     <meta charset="utf-8">
@@ -14,104 +15,108 @@
 
 <body>
 
-     <!-- Navbar -->
- 		<nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-md">
-            <a class="navbar-brand" href="#landing.html">
-		  	<img src="../Pictures/logo.png" width="40" height="40">
-		  ConspireView</a>
-		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="navbar-toggler-icon"></span>
-		  </button>
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-md">
+        <a class="navbar-brand" href="#landing.html">
+            <img src="../Pictures/logo.png" width="40" height="40">
+            ConspireView</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		    <ul class="navbar-nav">
-		      <li class="nav-item">
-		        <a class="nav-link" href="../Homepage/homepage.html">Home</a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="#">Admin Dash</a>
-		      </li>
-		  	</ul>
-			<div class="formWrap">
-			    <form class="form-inline">
-	    			<input class="form-control mr-sm-2" type="search" placeholder="Search Movies" aria-label="Search">
-	    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class ="searchButton">Search</span></button>
-	  				</form>
-	  			</div>
-			  <ul class="nav navbar-nav ml-auto">
-			  	<li class ="nav-item mr-auto">
-			      <a class="nav-link" href="#">Sign Out</a>
-			  	</li>
-			  	<li class ="nav-item">
-			  		<div class="nav-item">
-	            		<a href="../UserProfile/user_profile.html">
-	                	<img class="NavIcon" src="../Pictures/adminpic.png" >
-	            		</a>
-		    		</div>
-		    	</li>   
-			  </ul>            
-	    </div>    
-     	</nav>
-
-<!-- End of Navbar -->
-
-<!-- Banner -->
-<div class="carousel slide carousel-inner bannerSize">
-    <img class="w-100" src="../Pictures/movie_pic.jpg">
-</div>
-<!-- End of Banner -->
-
-<div class="row">
-    <h1 class="p-2 col text-white titleBlock textCenter"><p class="movieTitle topFont">MOVIE TITLE</p></h1>
-    <div class="col text-white textCenter topFont">
-      <h2 class="topFont">Discussion Topics</h2>
-      <h2 class="topFont" id="discussionTopic">4</h2>
-    </div>
-    <div class="col text-white textCenter">
-      <h2 class="topFont">Discussion Comments</h2>
-      <h2 class="topFont" id="discussionComments">1232</h2>
-    </div>
-    
-    <div class="p-2 col mr-4">
-        <form class="float-right" action="">
-            <input class="star star-5" id="star-5" type="radio" name="star"/>
-            <label class="star star-5" for="star-5"></label>
-            <input class="star star-4" id="star-4" type="radio" name="star"/>
-            <label class="star star-4" for="star-4"></label>
-            <input class="star star-3" id="star-3" type="radio" name="star"/>
-            <label class="star star-3" for="star-3"></label>
-            <input class="star star-2" id="star-2" type="radio" name="star"/>
-            <label class="star star-2" for="star-2"></label>
-            <input class="star star-1" id="star-1" type="radio" name="star"/>
-            <label class="star star-1" for="star-1"></label>
-        </form>
-        <h1 class="text-white titleBlock float-right topFont" id="movieRating">7.5/10</h1>
-     </div>
-</div>
- 
-<!--Post section-->
-<div class="container-fluid">
-
-    <div class="d-flex">
-        <h2 class="p-2 text-white">Posts</h2>
-        <div class="p-1 flex-grow-1">
-            <input type="text" class="text-white" id="searchTerm" placeholder="Search....">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Homepage/homepage.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Admin Dash</a>
+                </li>
+            </ul>
+            <div class="formWrap">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Movies" aria-label="Search">
+                    <button class="my-2 my-sm-0 searchButton" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item mr-auto">
+                    <a class="nav-link" href="#">Sign Out</a>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-item">
+                        <a href="../UserProfile/user_profile.html">
+                            <img class="NavIcon" src="../Pictures/adminpic.png">
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="p-1">
-            <button type="submit" id="discussionSearch" class="searchButton">
-                <i class="fa fa-search"></i>
-            </button>
+    </nav>
+
+    <!-- End of Navbar -->
+
+    <!-- Banner -->
+    <div class="carousel slide carousel-inner bannerSize">
+        <img class="w-100" src="../Pictures/movie_pic.jpg">
+    </div>
+    <!-- End of Banner -->
+
+    <div class="row">
+        <h1 class="p-2 col text-white titleBlock textCenter">
+            <p class="movieTitle topFont">MOVIE TITLE</p>
+        </h1>
+        <div class="col text-white textCenter topFont">
+            <h2 class="topFont">Discussion Topics</h2>
+            <h2 class="topFont" id="discussionTopic">4</h2>
         </div>
-        <div class="p-1">
-            <button type="submit" id="cleanSearch" class="searchButton">
-                <i class="fa fa-close"></i>
-            </button>
+        <div class="col text-white textCenter">
+            <h2 class="topFont">Discussion Comments</h2>
+            <h2 class="topFont" id="discussionComments">1232</h2>
+        </div>
+
+        <div class="p-2 col mr-4">
+            <form class="float-right" action="">
+                <input class="star star-5" id="star-5" type="radio" name="star" />
+                <label class="star star-5" for="star-5"></label>
+                <input class="star star-4" id="star-4" type="radio" name="star" />
+                <label class="star star-4" for="star-4"></label>
+                <input class="star star-3" id="star-3" type="radio" name="star" />
+                <label class="star star-3" for="star-3"></label>
+                <input class="star star-2" id="star-2" type="radio" name="star" />
+                <label class="star star-2" for="star-2"></label>
+                <input class="star star-1" id="star-1" type="radio" name="star" />
+                <label class="star star-1" for="star-1"></label>
+            </form>
+            <h1 class="text-white titleBlock float-right topFont" id="movieRating">7.5/10</h1>
         </div>
     </div>
 
-    <div id="postsContainer">
-       
-        <div class="card">
+    <!--Post section-->
+    <div class="container-fluid">
+
+        <div class="d-flex">
+            <h2 class="p-2 text-white">Posts</h2>
+            <div class="p-1 flex-grow-1">
+                <input type="text" class="text-white" id="searchTerm" placeholder="Search....">
+            </div>
+            <div class="p-1">
+                <button type="submit" id="discussionSearch" class="searchButton">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+            <div class="p-1">
+                <button type="submit" id="cleanSearch" class="searchButton">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="postsContainer">
+
+            <div class="card">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         <img class="postImg" src="../Pictures/post.png" alt="">
@@ -120,7 +125,7 @@
                         <div class="card-block px-2">
                             <h4 class="card-title">Title 1</h4>
                             <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            
+
                         </div>
                     </div>
                     <div class="thumbsUp">
@@ -129,9 +134,9 @@
                         <h2 class="upVoteNumber">130</h2>
                     </div>
                 </div>
-          </div>
+            </div>
 
-        <div class="card">
+            <div class="card">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         <img class="postImg" src="../Pictures/post.png" alt="">
@@ -140,7 +145,7 @@
                         <div class="card-block px-2">
                             <h4 class="card-title">Title 2</h4>
                             <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            
+
                         </div>
                     </div>
                     <div class="thumbsUp">
@@ -150,10 +155,10 @@
                     </div>
 
                 </div>
-        
-          </div>
 
-                  <div class="card">
+            </div>
+
+            <div class="card">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         <img class="postImg" src="../Pictures/post.png" alt="">
@@ -162,7 +167,7 @@
                         <div class="card-block px-2">
                             <h4 class="card-title">Title 3</h4>
                             <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            
+
                         </div>
                     </div>
                     <div class="thumbsUp">
@@ -172,10 +177,10 @@
                     </div>
 
                 </div>
-        
-          </div>
 
-                  <div class="card">
+            </div>
+
+            <div class="card">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         <img class="postImg" src="../Pictures/post.png" alt="">
@@ -184,7 +189,7 @@
                         <div class="card-block px-2">
                             <h4 class="card-title">Title 4</h4>
                             <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            
+
                         </div>
                     </div>
                     <div class="thumbsUp">
@@ -194,46 +199,46 @@
                     </div>
 
                 </div>
-          </div>
-    </div>
+            </div>
+        </div>
 
-    <br>
-    
-     <!--Next page-->
-    <div class="d-flex justify-content-center PageButton">
+        <br>
+
+        <!--Next page-->
+        <div class="d-flex justify-content-center PageButton">
             <a href="#" class="previous roundButton">&#8249;</a>
             <a href="#" class="next roundButton marginLeft">&#8250;</a>
-    </div>
-    <br>
+        </div>
+        <br>
 
-</div>
-
-
-<div id="newPost">
-    <button type="clik" class="plusButton roundButton">
-      <i class="fa fa-plus"></i>
-    </button>
-</div>
-
-<div id="popup1" class="overlay container-fluid">
-	 
-	  <div class="row title">
-	    <h2 class="col-1 text-white indivTitle">Title</h2>
-      <input class="col-11 w-100" id ="inputTitle" type="text" placeholder="Enter Title" name="title" required>
-	  </div>
-	  
-	  <div class="row">
-       <textarea name="message" id="content" class="textInput col">
-       </textarea> 
-    </div>
-    
-    <div class="float-right row submitButtonHolder">
-      <button type="submit" id="subButton">Post</button>
     </div>
 
-</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="movie_page.js"></script>
+    <div id="newPost">
+        <button type="clik" class="plusButton roundButton">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+
+    <div id="popup1" class="overlay container-fluid">
+
+        <div class="row title">
+            <h2 class="col-1 text-white indivTitle">Title</h2>
+            <input class="col-11 w-100" id="inputTitle" type="text" placeholder="Enter Title" name="title" required>
+        </div>
+
+        <div class="row">
+            <textarea name="message" id="content" class="textInput col">
+       </textarea>
+        </div>
+
+        <div class="float-right row submitButtonHolder">
+            <button type="submit" id="subButton">Post</button>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="movie_page.js"></script>
 
 </body>
