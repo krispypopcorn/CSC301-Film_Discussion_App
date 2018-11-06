@@ -13,7 +13,7 @@ class Discussion {
     this.thumbsUp = 0;
     
     //user can upload pic, hard code source link for now
-    this.image = '../Pictures/new_discussion.jpg'
+    this.image = '../Pictures/post.png'
   }
 }
 
@@ -44,22 +44,45 @@ $("#newPost").click(function(){
         $("#popup1").toggle(200);
     });
 $("#subButton").click(addNewDiscussion);
-
+$("#discussionSearch").click(displaySearch);
+$("#searchTerm").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#discussionSearch").click();
+    }
+});
 
 function addNewDiscussion(e){
   
   const inputTitle = $('#inputTitle').val();
   const inputText = $('#content').val();
   
-  const newDiscussion = new Discussion(inputTitle, DummyUser, inputText)
+  const newDiscussion = new Discussion(inputTitle, DummyUser, inputText);
+  newDiscussion.image = "../Pictures/new_discussion.jpg";
   discussions.push(newDiscussion);
   addDiscussionToDom(newDiscussion);
+
 }
 
-function addDiscussionToDom(discussion){
-    
-    $('.card').last().remove();
-    
+function displaySearch(e){
+  const inputTitle = $("#searchTerm").val();
+  const output = [];
+  
+  let i;
+  //we should pull the list from server
+  for (i = 0; i < discussions.length; i++){
+    let cur = discussions[i];
+    if (cur.title.includes(inputTitle)){
+      output.push(cur);
+    }
+  }
+  addMultiplyDiscussion(output);
+}
+
+
+// Helper function
+// Creates a discussion div based on given discussion object
+function createDiscussion(discussion){
+
     const newPost = $(".card:first").clone();
     const target = newPost.children().children();
     
@@ -73,5 +96,38 @@ function addDiscussionToDom(discussion){
     newTitle.innerHTML = discussion.title;
     upVote.innerHTML = discussion.thumbsUp.toString();
     
+    return newPost;
+  
+}
+
+/*-------------------------------------------------------*/
+/*Dom function below*/
+/*-------------------------------------------------------*/
+
+function addDiscussionToDom(discussion){
+    
+    $('.card').last().remove();
+    
+    const newPost = createDiscussion(discussion);
     $("#postsContainer").prepend(newPost);
+  
+}
+
+function addMultiplyDiscussion(discussionList){
+  let i;
+  const targetList = [];
+  for (i = 0; i < discussionList.length; i++){
+    newPost = createDiscussion(discussionList[i]);
+    targetList.push(newPost);
   }
+  
+  $('#postsContainer .card').remove();
+  
+  for (i = 0; i < discussionList.length; i++){
+     $("#postsContainer").append(targetList[i]);
+  }
+}
+
+function restoreDiscusstion(){
+  
+}

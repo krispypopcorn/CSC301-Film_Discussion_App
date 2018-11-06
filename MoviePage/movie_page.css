@@ -142,7 +142,7 @@ input.star:checked ~ .rev-box{
 
 .textInput {
     margin-top:1vh;
-    height:65vh;
+    height:68vh;
 }
 
 .title #inputTitle{
@@ -186,7 +186,7 @@ input.star:checked ~ .rev-box{
     font-size: 20px;
 }
 
-.searchTerm {
+#searchTerm {
     width: 100%;
     border: 2px solid #39393a;
     padding: 5px;
@@ -196,7 +196,7 @@ input.star:checked ~ .rev-box{
     background-color: #39393a 
 }
   
-.searchTerm:focus{
+#searchTerm:focus{
     color: whitesmoke;
 }
 
