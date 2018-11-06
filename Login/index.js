@@ -1,10 +1,10 @@
 "use strict"
 
-$("#login_btn").click(checkPremission);
+$("#login_btn").click(checkPermission);
 
 let invalid_msg_on_screen = false
 
-function checkPremission(e){
+function checkPermission(e){
     e.preventDefault()
     const username = $('#username');
     const password = $('#password');
