@@ -6,13 +6,14 @@ let numberOfDiscusstions = 4;
 
 class Discussion {
   constructor(title,author,content){
-    //read from user input
+    //read from user input or pull from server
     this.title = title;
-    this author = author;
+    this.author = author;
     this.content=content;
+    this.thumbsUp = 0;
     
     //user can upload pic, hard code source link for now
-    this.image = '../Pictures/post.png'
+    this.image = '../Pictures/new_discussion.jpg'
   }
 }
 
@@ -38,22 +39,33 @@ discussions.push(new Discussion("Title 3", DummyUser, DummyText));
 discussions.push(new Discussion("Title 4", DummyUser, DummyText));
 
 
-
-
-$(document).ready(
-  function hide_show(){
-    $("#newPost").click(function(){
+//Add eventlistner
+$("#newPost").click(function(){
         $("#popup1").toggle(200);
     });
-  }
-);
+$("#subButton").click(addNewDiscussion);
 
-$(document).ready(
-    function new_post(){
-    newPost = $("#template").clone();
-    console.log(newPost);
-    $("#subButton").click(function(){
-        $("#postsContainer").prepend("<li>Prepended item</li>");
-    });
+
+function addNewDiscussion(e){
+  const newDiscussion = new Discussion("New Discussion", DummyUser, "This is a new Discussion topic you created!")
+  discussions.push(newDiscussion);
+  addDiscussionToDom(newDiscussion);
+}
+
+function addDiscussionToDom(discussion){
+    
+    const newPost = $("#template").clone();
+    const target = newPost.children().children();
+    
+    let img = target[0].children[0];
+    let text = target[1].children[0].children[1];
+    let upVote = target[2].children[2];
+    
+    img.src = discussion.image;
+    text.innerHTML = discussion.content;
+    upVote.innerHTML = discussion.thumbsUp.toString();
+    
+    console.log(upVote);
+    
+    $("#postsContainer").prepend(newPost);
   }
-);

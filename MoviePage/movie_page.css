@@ -180,14 +180,15 @@ input.star:checked ~ .rev-box{
 }
 
 .postImg {
-    max-width: 275px;
+    width: 275px;
+    height: 172px;
     margin-left: auto;
     margin-right: auto;
     display: block;
     padding: 4px;
     border-radius: 3.5%;
+    object-fit: cover;
 }
-
 
 /*This part is for the previous/next page button*/ 
 .PageButton a {
