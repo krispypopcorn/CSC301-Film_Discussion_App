@@ -1,29 +1,21 @@
 "use strict"
 
-class User{
-    constructor(username, password, permission) {
-        this.username=username;
-        this.password=password;
-        this.permission=permission;
-    }
-}
-
-const user = new User("MyUserName","password","user");
-const admin = new User("AdminUserName","password","admin");
-
 //Add event-listener
-$("#login").click(checkPremission);
+window.location.href="index.html#";
+$(".login_btn").click(checkPremission);
 
 function checkPremission(e){
     const userName = $('#username').val();
     const passWord = $('#password').val();
 	  console.log("userName")
 
-    if (userName==user.username && passWord==user.password){
-        window.location.href = "../Homepage/homepage.html";
+    if (userName=="MyUserName" && passWord=="password"){
+        let queryString = "?para1=user"
+        window.location.href = "../Homepage/homepage.html" + queryString;
     }
-    else if (userName==admin.username && passWord==admin.password){
-        window.location.href = "../AdminDash/admin.html";
+    else if (userName=="AdminUserName" && passWord=="password"){
+        let queryString = "?para1=admin"
+        window.location.href = "../AdminDash/admin.html" + queryString;
     }
     else{
         notUser();
