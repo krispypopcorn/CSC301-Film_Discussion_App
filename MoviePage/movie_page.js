@@ -104,7 +104,7 @@ function displaySearch(e) {
 // Creates a discussion div based on given discussion object
 function createDiscussion(discussion) {
 
-    newPost = template.clone();
+    let newPost = template.clone();
     const target = newPost.children().children();
 
     let img = target[0].children[0];
@@ -194,6 +194,7 @@ function addDiscussionToDom(discussion) {
 function addMultiplyDiscussion(discussionList) {
     let i;
     const targetList = [];
+    let newPost;
     for (i = 0; i < discussionList.length && i < 4; i++) {
         newPost = createDiscussion(discussionList[i]);
         targetList.push(newPost);
