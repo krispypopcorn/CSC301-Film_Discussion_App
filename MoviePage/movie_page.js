@@ -54,18 +54,20 @@ function addNewDiscussion(e){
 
 function addDiscussionToDom(discussion){
     
-    const newPost = $("#template").clone();
+    $('.card').last().remove();
+    
+    const newPost = $(".card:first").clone();
     const target = newPost.children().children();
     
     let img = target[0].children[0];
     let text = target[1].children[0].children[1];
+    let newTitle = target[1].children[0].children[0];
     let upVote = target[2].children[2];
     
     img.src = discussion.image;
     text.innerHTML = discussion.content;
+    newTitle.innerHTML = discussion.title;
     upVote.innerHTML = discussion.thumbsUp.toString();
-    
-    console.log(upVote);
     
     $("#postsContainer").prepend(newPost);
   }
