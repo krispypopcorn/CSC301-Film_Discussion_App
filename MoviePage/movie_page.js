@@ -52,7 +52,7 @@ discussions.push(new Discussion("Title 3", DummyUser, DummyText));
 discussions.push(new Discussion("Title 4", DummyUser, DummyText));
 
 
-//Add eventlistner
+//Add eventlistener
 $("#newPost").click(function() {
     $("#popup1").toggle(200);
 });
