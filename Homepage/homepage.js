@@ -19,7 +19,7 @@ if(premission=="none"){
 }
 /*----Premission check----*/
 
-
+//Add event-listner
 $("#Latest .column").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ premission;});
 $("#MostPopular .column").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ premission;});
 $("#Movie .column").on('click', function(event) {window.location.href = "../MoviePage/movie_page.html" + "?para1="+ premission;});

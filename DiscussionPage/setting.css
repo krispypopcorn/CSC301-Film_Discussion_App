@@ -5,8 +5,9 @@
 }
 */
 
-#usn {
-    color: #FFC312;
+#yellow {
+  color: #FFC312;
+  cursor:pointer;
 }
 
 #searchBar{
