@@ -109,3 +109,7 @@ body {
 .searchButton:hover{
     background:#3973ac;
 }
+
+.nav-item {
+  cursor:pointer;
+}
