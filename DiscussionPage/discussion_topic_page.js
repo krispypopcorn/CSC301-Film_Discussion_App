@@ -27,6 +27,7 @@ if(premission=="none"){
 /*----How to check premission----*/
 
 //Add event-listner
+$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ premission;});
 $("#homeLink").on('click', function(event) {console.log("HI");window.location.href = "../Homepage/homepage.html" + "?para1="+ premission;});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ premission;});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
