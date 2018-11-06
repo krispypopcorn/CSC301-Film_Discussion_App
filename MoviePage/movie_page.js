@@ -8,6 +8,7 @@ $(document).ready(
     });
     
   function new_post(){
+    
     $("#subButton").click(function(){
         $("#postsContainer").prepend("<li>Prepended item</li>");
     });
