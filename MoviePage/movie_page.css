@@ -13,7 +13,6 @@
     font-size: 25px;
 }
 
-
 .roundButton {
   border-radius: 50%;
 }
@@ -64,18 +63,6 @@ input.star:checked ~ .rev-box{
     overflow: visible;
 }
 
-.authorIcon {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;   
-}
-
-.author{
-    margin-top: 10px;
-    width: 100px;
-    margin-left: 30px;
-}
-
 #postsContainer{
     min-height: 100px;
     width: 100%;
@@ -102,21 +89,22 @@ input.star:checked ~ .rev-box{
 }
 
 .plusButton {
-    cursor: pointer;
-    width: 4em;
-    height: 4em;
+    width: 100%;
+    height: 100%;
     border: 1px solid #39393a;
     background:#66a3ff;
+    text-align: center;
     color: #fff;
+    cursor: pointer;
+    font-size: 2vw;
 }
 
 #newPost {
     position: fixed;
-    right: 2%;
-    top: 92%;
-    width: 4em;
-    height: 4em;
-    text-align: center;
+    right: 3vw;
+    top: 90vh;
+    width: 3vw;
+    height: 3vw;
 }
 
 .plusButton:hover {
@@ -129,16 +117,16 @@ input.star:checked ~ .rev-box{
 
 .overlay{
     position: fixed;
-    right: 7%;
+    left: 0;
+    right: 0;
     top: 8%;
-    width:90%;
-    height: 90%;
+    width:85vw;
+    height: 85vh;
     margin: 0 auto;
     background: rgb(84, 84, 87,0.7);
-    padding: 35px;
+    padding: 2%;
     border: 2px solid #fff;
     border-radius: 20px/50px;
-    background-clip: padding-box;
     overflow:hidden;
     display:none;
 }
@@ -153,79 +141,40 @@ input.star:checked ~ .rev-box{
 }
 
 .textInput {
-  height:75vh;
+    margin-top:1vh;
+    height:68vh;
 }
 
+.title #inputTitle{
+    height:4vh;
+}
+
+.indivTitle{
+   height:4vh;
+   font-size:4vh;
+}
+  
 .topFont {
     font-size: 1.8vw;
 }
 
 #subButton {
-    margin-top:15px;
     cursor: pointer;
     border: 1px solid #39393a;
     background:#66a3ff;
     color: #fff;
     border-radius: 20px/50px;
-    width: 7em;
-    height: 2.5em;
+    width: 7vw;
+    height: 5vh;
 }
 
-.card {
-    background: rgb(46, 46, 46);
-    margin: 10px;
+.submitButtonHolder {
+    margin-top:0.5vh;
+    width: 7vw;
+    height: 5vh;
 }
 
-.card p, h4 {
-    color: white;
-}
-
-.postImg {
-    max-width: 275px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    padding: 4px;
-    border-radius: 3.5%;
-}
-
-
-/*This part is for the previous/next page button*/ 
-.PageButton a {
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-}
-
-.PageButton a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-.previous {
-    background-color: #f1f1f1;
-    color: black;
-}
-
-.next {
-    background-color: #f1f1f1;
-    color: black;
-}
-/*------------------------------------------------*/
-
-.searchButton {
-    width: 40px;
-    height: 36px;
-    border: 1px solid #39393a;
-    background:#39393a;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.searchTerm {
+#searchTerm {
     width: 100%;
     border: 2px solid #39393a;
     padding: 5px;
@@ -235,7 +184,10 @@ input.star:checked ~ .rev-box{
     background-color: #39393a 
 }
   
-.searchTerm:focus{
+#searchTerm:focus{
     color: whitesmoke;
 }
 
+.submitButtonHolder {
+  height:5vh;
+}
