@@ -212,6 +212,7 @@ function restoreDiscussion(e) {
     currentPage = 1;
     searchMode = 0;
     let i = 0;
+    let newPost;
     const targetList = [];
     for (i = 0; i < discussions.length && i < 4; i++) {
         newPost = createDiscussion(discussions[i]);
