@@ -4,29 +4,42 @@
 // we should pull this from server
 let numberOfDiscusstions = 4;
 
-class Discussion {
-  constructor(title,author,content){
-    //read from user input or pull from server
-    this.title = title;
-    this.author = author;
-    this.content=content;
-    this.thumbsUp = 0;
-    
-    //user can upload pic, hard code source link for now
-    this.image = '../Pictures/post.png'
-  }
-}
-
-class User{
-  constructor(username, password){
-    this.username = username;
-    this.password = password;
-  }
-}
-
 //array of discussions posted by user
 //we should pull this from server
-const discussions = []
+const discussions = [];
+
+//store search result
+let search = [];
+
+//1 if in search mode, 0 otherwise
+let searchMode = 0;
+
+//store current page
+let currentPage = 1;
+
+//keep a copy of the discussion div as template
+const template = $(".card:first").clone();
+
+
+class Discussion {
+    constructor(title, author, content) {
+        //read from user input or pull from server
+        this.title = title;
+        this.author = author;
+        this.content = content;
+        this.thumbsUp = 0;
+
+        //user can upload pic, hard code source link for now
+        this.image = '../Pictures/post.png'
+    }
+}
+
+class User {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
+    }
+}
 
 // Dummy user
 const DummyUser = new User("Dummy", "123")
@@ -40,9 +53,9 @@ discussions.push(new Discussion("Title 4", DummyUser, DummyText));
 
 
 //Add eventlistner
-$("#newPost").click(function(){
-        $("#popup1").toggle(200);
-    });
+$("#newPost").click(function() {
+    $("#popup1").toggle(200);
+});
 $("#subButton").click(addNewDiscussion);
 $("#discussionSearch").click(displaySearch);
 $("#searchTerm").keyup(function(event) {
@@ -50,84 +63,165 @@ $("#searchTerm").keyup(function(event) {
         $("#discussionSearch").click();
     }
 });
+$("#cleanSearch").click(restoreDiscussion);
+$(".previous").click(loadPreviousPage);
+$(".next").click(loadNextPage);
 
-function addNewDiscussion(e){
-  
-  const inputTitle = $('#inputTitle').val();
-  const inputText = $('#content').val();
-  
-  const newDiscussion = new Discussion(inputTitle, DummyUser, inputText);
-  newDiscussion.image = "../Pictures/new_discussion.jpg";
-  discussions.push(newDiscussion);
-  addDiscussionToDom(newDiscussion);
+function addNewDiscussion(e) {
+
+    const inputTitle = $('#inputTitle').val();
+    const inputText = $('#content').val();
+
+    const newDiscussion = new Discussion(inputTitle, DummyUser, inputText);
+    newDiscussion.image = "../Pictures/new_discussion.jpg";
+    discussions.push(newDiscussion);
+    numberOfDiscusstions++;
+    updateTopicNum();
+    addDiscussionToDom(newDiscussion);
+    $("#popup1").toggle(200);
 
 }
 
-function displaySearch(e){
-  const inputTitle = $("#searchTerm").val();
-  const output = [];
-  
-  let i;
-  //we should pull the list from server
-  for (i = 0; i < discussions.length; i++){
-    let cur = discussions[i];
-    if (cur.title.includes(inputTitle)){
-      output.push(cur);
+function displaySearch(e) {
+    search = [];
+    currentPage = 1;
+    searchMode = 1;
+    const inputTitle = $("#searchTerm").val();
+
+    let i;
+    //we should pull the list from server
+    for (i = 0; i < discussions.length; i++) {
+        let cur = discussions[i];
+        if (cur.title.includes(inputTitle)) {
+            search.push(cur)
+        }
     }
-  }
-  addMultiplyDiscussion(output);
+    addMultiplyDiscussion(search);
 }
-
 
 // Helper function
 // Creates a discussion div based on given discussion object
-function createDiscussion(discussion){
+function createDiscussion(discussion) {
 
-    const newPost = $(".card:first").clone();
+    newPost = template.clone();
     const target = newPost.children().children();
-    
+
     let img = target[0].children[0];
     let text = target[1].children[0].children[1];
     let newTitle = target[1].children[0].children[0];
     let upVote = target[2].children[2];
-    
+
     img.src = discussion.image;
     text.innerHTML = discussion.content;
     newTitle.innerHTML = discussion.title;
     upVote.innerHTML = discussion.thumbsUp.toString();
-    
+
     return newPost;
-  
+}
+
+function loadPreviousPage() {
+
+    if (currentPage != 1) {
+
+        let index = currentPage - 1;
+        currentPage--;
+        index = index * 4 - 4;
+        const targetList = [];
+
+        let max = 4;
+        let i = 0;
+
+        //if we are in searchMode
+        let mainList = discussions;
+        if (searchMode == 1) {
+            mainList = search;
+        }
+
+        for (i = index; i < mainList.length && max != 0; i++) {
+            targetList.push(mainList[i]);
+            max--;
+        }
+
+        addMultiplyDiscussion(targetList);
+    }
+}
+
+function loadNextPage() {
+    let total = numberOfDiscusstions;
+    let mainList = discussions;
+
+    //if we are in searchMode
+    if (searchMode == 1) {
+        total = search.length;
+        mainList = search;
+    }
+
+
+    const maxPage = Math.ceil(total / 4);
+
+    if (currentPage != maxPage) {
+        let index = currentPage + 1;
+        currentPage++;
+        index = index * 4 - 4;
+        const targetList = [];
+
+        let max = 4;
+        let i = 0;
+
+        for (i = index; i < mainList.length && max != 0; i++) {
+            targetList.push(mainList[i]);
+            max--;
+        }
+
+        addMultiplyDiscussion(targetList);
+    }
 }
 
 /*-------------------------------------------------------*/
 /*Dom function below*/
 /*-------------------------------------------------------*/
 
-function addDiscussionToDom(discussion){
-    
+function addDiscussionToDom(discussion) {
+
     $('.card').last().remove();
-    
+
     const newPost = createDiscussion(discussion);
     $("#postsContainer").prepend(newPost);
-  
+
 }
 
-function addMultiplyDiscussion(discussionList){
-  let i;
-  const targetList = [];
-  for (i = 0; i < discussionList.length; i++){
-    newPost = createDiscussion(discussionList[i]);
-    targetList.push(newPost);
-  }
-  
-  $('#postsContainer .card').remove();
-  
-  for (i = 0; i < discussionList.length; i++){
-     $("#postsContainer").append(targetList[i]);
-  }
+function addMultiplyDiscussion(discussionList) {
+    let i;
+    const targetList = [];
+    for (i = 0; i < discussionList.length && i < 4; i++) {
+        newPost = createDiscussion(discussionList[i]);
+        targetList.push(newPost);
+    }
+
+    $('#postsContainer .card').remove();
+
+    for (i = 0; i < discussionList.length; i++) {
+        $("#postsContainer").append(targetList[i]);
+    }
 }
 
-function restoreDiscusstion(){
-  
+function restoreDiscussion(e) {
+    search = [];
+    currentPage = 1;
+    searchMode = 0;
+    let i = 0;
+    const targetList = [];
+    for (i = 0; i < discussions.length && i < 4; i++) {
+        newPost = createDiscussion(discussions[i]);
+        targetList.push(newPost);
+    }
+    $('#postsContainer .card').remove();
+
+    for (i = 0; i < targetList.length; i++) {
+        $("#postsContainer").append(targetList[i]);
+    }
+}
+
+function updateTopicNum() {
+    $("#discussionTopic")[0].innerHTML = numberOfDiscusstions;
 }
