@@ -16,6 +16,7 @@ let userSet = []
 // console.log("pressed")
 
 //Entering dummy userSet data
+// would normally pull data from the database
 
 userSet.push(new User("icon.jpg", "Jennifer", 21))
 userSet.push(new User("me.png", "Faiyaz", 54))
@@ -53,10 +54,6 @@ function showSelected(e) {
 
 
 }
-
-
-
-
 
 function showAllData(e) {
 
