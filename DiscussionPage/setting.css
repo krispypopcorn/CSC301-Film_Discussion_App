@@ -29,6 +29,18 @@ hr {
     min-width: 100%;
 }
 
+textarea {
+  width: 100%;
+  min-height: 100px;
+  background: rgb(46, 46, 46);
+  padding: 10px;
+  border: none;
+  color: #fff;
+
+
+
+}
+
 .carousel-item:after {
   content:"";
   display:block;

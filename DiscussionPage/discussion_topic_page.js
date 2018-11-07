@@ -66,7 +66,13 @@ function fillBanner(){
 	//pop the fields
 
 
-}fillBanner();
+};
+
+function replyToPost(postToReplyTo){
+	
+
+
+}
 
 
 
