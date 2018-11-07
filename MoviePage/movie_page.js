@@ -16,6 +16,7 @@ if(permission=="none"){
   window.location.href = "../Login/index.html";
 } else if(permission=="user"){
  $("#adminLink").hide();
+ $(".delete").hide();
 }
 /*----permission check----*/
 
@@ -47,7 +48,7 @@ class Discussion {
        this.author = author;
        this.content = content;
        this.thumbsUp = 130;
-
+ 
        //user can upload pic, hard code source link for now
        this.image = '../Pictures/iron_man.jpg'
    }
@@ -65,10 +66,10 @@ const DummyUser = new User("Dummy", "123")
 
 const DummyText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
-discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger 1", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger 2", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger 3", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger 4", DummyUser, DummyText));
 
 
 //Add eventlistener
@@ -83,13 +84,15 @@ $("#searchTerm").keyup(function(event) {
    }
 });
 $("#cleanSearch").click(restoreDiscussion);
-$(".previous").click(loadPreviousPage);
-$(".next").click(loadNextPage);
+$(".previous").on('click',loadPreviousPage);
+$(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
+$(".delete").on('click', deletePost);
+
 
 function addNewDiscussion(e) {
-
+   e.preventDefault();
    const inputTitle = $('#inputTitle').val();
    const inputText = $('#content').val();
 
@@ -101,10 +104,26 @@ function addNewDiscussion(e) {
    updateTopicNum();
    addDiscussionToDom(newDiscussion);
    $("#popup1").toggle(200);
-
 }
 
+function deletePost(e) {
+  e.preventDefault();
+  const targetDiv = e.target.parentNode.parentNode.parentNode;
+  const container = $("#postsContainer").children()
+  const targetTitle = targetDiv.children[0].children[1].children[0].children[0].innerHTML
+  
+  // discussions list should be pulled from server
+  let index=0;
+  while(discussions[index].title != targetTitle){index++;}
+  discussions.splice(index,1);
+  
+  currentPage++;
+  loadPreviousPage();
+}
+
+
 function displaySearch(e) {
+   e.preventDefault()
    search = [];
    currentPage = 1;
    searchMode = 1;
@@ -132,6 +151,8 @@ function createDiscussion(discussion) {
    let text = target[1].children[0].children[1];
    let newTitle = target[1].children[0].children[0];
    let upVote = target[2].children[2];
+   
+   target[3].addEventListener('click',deletePost);
 
    img.src = discussion.image;
    text.innerHTML = discussion.content;
@@ -142,17 +163,15 @@ function createDiscussion(discussion) {
 }
 
 function loadPreviousPage() {
-
    if (currentPage != 1) {
 
        let index = currentPage - 1;
        currentPage--;
        index = index * 4 - 4;
        const targetList = [];
-
+       
        let max = 4;
        let i = 0;
-
        //if we are in searchMode
        let mainList = discussions;
        if (searchMode == 1) {
@@ -171,7 +190,7 @@ function loadPreviousPage() {
 function loadNextPage() {
    let total = numberOfDiscusstions;
    let mainList = discussions;
-
+   
    //if we are in searchMode
    if (searchMode == 1) {
        total = search.length;
@@ -204,12 +223,10 @@ function loadNextPage() {
 /*-------------------------------------------------------*/
 
 function addDiscussionToDom(discussion) {
-
-   $('.card').last().remove();
-
-   const newPost = createDiscussion(discussion);
-   $("#postsContainer").prepend(newPost);
-
+  console.log("here")
+  if($("#postsContainer").children().length==4){$('.card').last().remove();}
+  const newPost = createDiscussion(discussion);
+  $("#postsContainer").prepend(newPost);
 }
 
 function addMultiplyDiscussion(discussionList) {

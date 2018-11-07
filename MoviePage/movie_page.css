@@ -196,3 +196,21 @@ input.star:checked ~ .rev-box{
     width: 270px;
     height: 175px;
 }
+
+.delete{
+  position:absolute; 
+  top:0; 
+  right:0.5vw;
+  font-size: 20px;
+  color: whitesmoke;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.delete:hover {
+  opacity: 1;
+}
+
+.previous .next {
+  cursor:pointer;
+}
