@@ -65,6 +65,8 @@ function display_category(index){
 		}
 	}
 
+
+	// the following would actually be calls to the server
 	if(index == 0){
 		change_content_title("Discussion Topic")
 	}
