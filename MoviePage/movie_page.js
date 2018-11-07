@@ -49,7 +49,7 @@ class Discussion {
        this.thumbsUp = 130;
 
        //user can upload pic, hard code source link for now
-       this.image = '../Pictures/post.png'
+       this.image = '../Pictures/iron_man.jpg'
    }
 }
 
@@ -65,10 +65,10 @@ const DummyUser = new User("Dummy", "123")
 
 const DummyText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
-discussions.push(new Discussion("Title 1", DummyUser, DummyText));
-discussions.push(new Discussion("Title 2", DummyUser, DummyText));
-discussions.push(new Discussion("Title 3", DummyUser, DummyText));
-discussions.push(new Discussion("Title 4", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger", DummyUser, DummyText));
 
 
 //Add eventlistener
