@@ -37,10 +37,10 @@ hr {
   bottom:0;
   left:0;
   right:0;
-  background:rgba(0,0,0,0.45);
+  background:rgba(0,0,0,0.47);
 }
 
-#myCarousel {
+#myBanner {
   width: auto;
   max-height: 450px;
   margin-top: 65px;
@@ -78,22 +78,21 @@ hr {
     border-radius: 3.5%;
 }
 
+
 .carousel-caption  {
     top: 150px;
     bottom: auto;
+    text-shadow: 1px 2px #000000;
 }
 .carousel-caption h5 {
     text-transform: uppercase;
+    text-shadow: 2px 2px #000000;
 }
+
 .carousel-inner{
     max-height: 450px;
 }
 
 .formWrap .form-inline {
     float: right !important;
-}
-
-.piechart {
-    background-color: rgb(23, 23, 24);
-    align-content: center;
 }

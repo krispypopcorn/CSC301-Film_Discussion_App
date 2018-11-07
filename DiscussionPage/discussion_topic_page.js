@@ -12,11 +12,11 @@ queryString = queryString.split("?")[0];
 const index = queryString.indexOf("=");
 if(index!=-1){permission = queryString.substring(index+1);}
 
-if(permission=="none"){
-   window.location.href = "../Login/index.html";
-} else if(permission=="user"){
-  $("#adminLink").hide();
-}
+// if(permission=="none"){
+//    window.location.href = "../Login/index.html";
+// } else if(permission=="user"){
+//   $("#adminLink").hide();
+// }
 /*----permission check----*/
 
 /*----How to check permission----*/
@@ -37,3 +37,90 @@ $(".usn").on('click', function(event) {window.location.href = "../UserProfile/us
 // you need to pass your permission to the next page
 // window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission
 /*----navigate to another page----*/
+
+
+function fillDiscussionPost(){
+
+	//accessing Discussion Post elements (img, title, text) 
+
+	let disc = document.getElementById('discussion');
+	let disc_img = disc.firstElementChild.firstElementChild;
+	let disc_post = disc.firstElementChild.nextElementSibling.firstElementChild;
+	let disc_post_title = disc_post.firstElementChild;
+	let disc_post_text = disc_post_title.nextElementSibling;
+
+	//Then populate fields!
+
+
+
+};
+
+
+function fillBanner(){
+
+	//access banner
+	let bannerImg = document.getElementById('bannerImg');
+	let bannerTitle = document.getElementById('bannerTitle');
+	let bannerText = document.getElementById('bannerText');
+
+	//pop the fields
+
+
+}fillBanner();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

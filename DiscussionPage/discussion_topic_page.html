@@ -61,41 +61,27 @@
 
     <!------------Carousel--------->
 
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="myBanner" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="centre-block w-100" src="../Pictures/mountains.jpg" alt="First slide">
+                <img id='bannerImg' class="centre-block w-100" src="../Pictures/mountains.jpg">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Take The Ball Pass The Ball</h5>
-                    <p>Take the Ball, Pass the Ball is the definitive story of the greatest football team ever assembled. For four explosive years Pep Guardiola's Barça produced the greatest football in history, seducing fans around the world.</p>
+                    <h4 id="bannerTitle">Take The Ball Pass The Ball</h5>
+                    <p id="bannerText">Take the Ball, Pass the Ball is the definitive story of the greatest football team ever assembled. For four explosive years Pep Guardiola's Barça produced the greatest football in history, seducing fans around the world.</p>
                 </div>
             </div>
-            <div class="carousel-item">
-                <img class="centre-block w-100" src="https://images.pexels.com/photos/1151067/pexels-photo-1151067.jpeg?cs=srgb&dl=canada-close-up-fashion-1151067.jpg&fm=jpg">" alt="Second slide">
-            </div>
-            <div class="carousel-item">
-                <img class="centre-block w-100" src="https://images.pexels.com/photos/390089/film-movie-motion-picture-390089.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Third slide">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        </div> 
     </div>
     <!------------End of Carousel--------->
     
     
     <!------Post + comments-------->
     <div class="card">
-        <div class="row no-gutters">
+        <div id=discussion class="row no-gutters">
             <div class="col-auto">
                 <img id="postImg" src="../Pictures/post.png" alt="">
             </div>
-            <div class="col">
+            <div class="col-md-10">
                 <div class="card-block px-2">
                     <h4 class="card-title">Title</h4>
                     <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
@@ -103,7 +89,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!----Comments---->

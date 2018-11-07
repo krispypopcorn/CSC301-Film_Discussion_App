@@ -12,11 +12,11 @@ queryString = queryString.split("?")[0];
 const index = queryString.indexOf("=");
 if(index!=-1){permission = queryString.substring(index+1);}
 
-if(permission=="none"){
-   window.location.href = "../Login/index.html";
-} else if(permission=="user"){
-  $("#adminLink").hide();
-}
+// if(permission=="none"){
+//    window.location.href = "../Login/index.html";
+// } else if(permission=="user"){
+//   $("#adminLink").hide();
+// }
 /*----permission check----*/
 
 //Add event-listner
