@@ -99,7 +99,7 @@ function addNewDiscussion(e) {
    const newDiscussion = new Discussion(inputTitle, DummyUser, inputText);
    newDiscussion.image = "../Pictures/new_discussion.jpg";
    newDiscussion.thumbsUp=0;
-   discussions.push(newDiscussion);
+   discussions.unshift(newDiscussion);
    numberOfDiscusstions++;
    updateTopicNum();
    addDiscussionToDom(newDiscussion);
