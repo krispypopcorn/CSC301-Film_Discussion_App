@@ -24,3 +24,46 @@ $("#profilePic").on('click', function(event) {window.location.href = "../UserPro
 $("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
+
+
+
+
+const html_categories = $('#Categories').children()
+
+var categories = {"discussion_topics":0, "posts":1, "replies":2}
+
+display_category(categories.discussion_topics)
+
+$('#DiscussionTopics').click(display_discussion_topics)
+$('#Posts').click(display_posts)
+$('#Replies').click(display_replies)
+
+
+
+function display_discussion_topics(e){
+	e.preventDefault();
+	display_category(categories.discussion_topics)
+}
+
+function display_posts(e){
+	e.preventDefault();
+	display_category(categories.posts)
+}
+
+function display_replies(e){
+	e.preventDefault();
+	display_category(categories.replies)
+}
+
+function display_category(index){
+	if(0 <= index && index <= html_categories.length - 1){
+		html_categories[index].style.color = '#3366cc';
+		for(let i = 0; i < html_categories.length; i++){
+			if(i!== index){
+				html_categories[i].style.color = 'white';
+			}
+		}
+	}
+
+}
+
