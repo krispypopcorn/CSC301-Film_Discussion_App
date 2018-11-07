@@ -13,17 +13,26 @@
 
 .Username{
 	color: white;
-	font-size: 30px;
+	font-size: 25px;
 	
 }
 
-.UserStats{
+#SecondNavBar {
+	background-color: black;
+	margin-bottom: 10px;
 	color: white;
-	font-size: 25px;
+	font-size: 15px;
 }
 
+#SecondNavBar ul {
+	padding: 5px;
+	margin: 0px;
+	text-align: center;
+}
 
-.UserStats tr td{
-    padding:0 15px 0 15px;
-    text-align: center;
+#SecondNavBar ul li {
+	list-style: none; /* No bullet points */
+	display: inline;
+	 padding-left:30px;
+  	padding-right:30px;
 }
