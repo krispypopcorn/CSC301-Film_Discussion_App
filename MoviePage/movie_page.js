@@ -88,6 +88,7 @@ $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
+$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 $(".delete").on('click', deletePost);
 
 
@@ -153,6 +154,7 @@ function createDiscussion(discussion) {
    let upVote = target[2].children[2];
    
    target[3].addEventListener('click',deletePost);
+   newTitle.addEventListener('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 
    img.src = discussion.image;
    text.innerHTML = discussion.content;
@@ -223,7 +225,6 @@ function loadNextPage() {
 /*-------------------------------------------------------*/
 
 function addDiscussionToDom(discussion) {
-  console.log("here")
   if($("#postsContainer").children().length==4){$('.card').last().remove();}
   const newPost = createDiscussion(discussion);
   $("#postsContainer").prepend(newPost);
