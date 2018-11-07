@@ -65,5 +65,23 @@ function display_category(index){
 		}
 	}
 
+	if(index == 0){
+		change_content_title("Discussion Topic")
+	}
+	else if (index == 1){
+		change_content_title("Posts")
+	}
+	else if(index == 2){
+		change_content_title("Replies")
+	}
+
+
+
 }
 
+function change_content_title(new_title){
+	const content_titles = document.getElementsByClassName("card-title")
+	for(let i = 0; i < content_titles.length; i++){
+		content_titles[i].innerText = new_title
+	}
+}
