@@ -24,13 +24,13 @@
 	font-size: 15px;
 }
 
-#SecondNavBar ul {
+#Categories{
 	padding: 5px;
 	margin: 0px;
 	text-align: center;
 }
 
-#SecondNavBar ul li {
+#Categories li {
 	list-style: none; /* No bullet points */
 	display: inline;
 	 padding-left:30px;
