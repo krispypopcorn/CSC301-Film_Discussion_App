@@ -191,3 +191,8 @@ input.star:checked ~ .rev-box{
 .submitButtonHolder {
   height:5vh;
 }
+
+.postImg{
+    width: 270px;
+    height: 175px;
+}
