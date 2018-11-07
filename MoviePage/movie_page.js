@@ -117,7 +117,8 @@ function deletePost(e) {
   let index=0;
   while(discussions[index].title != targetTitle){index++;}
   discussions.splice(index,1);
-  
+  numberOfDiscusstions--;
+  updateTopicNum();
   currentPage++;
   loadPreviousPage();
 }
@@ -135,7 +136,7 @@ function displaySearch(e) {
    for (i = 0; i < discussions.length; i++) {
        let cur = discussions[i];
        if (cur.title.includes(inputTitle)) {
-           search.push(cur)
+           search.push(cur);
        }
    }
    addMultiplyDiscussion(search);
