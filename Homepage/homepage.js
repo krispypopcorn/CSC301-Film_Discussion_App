@@ -13,11 +13,18 @@ const index = queryString.indexOf("=");
 if(index!=-1){permission = queryString.substring(index+1);}
 
 if(permission=="none"){
+<<<<<<< HEAD
     window.location.href = "../Login/index.html";
 } else if(permission=="user"){
    $("#adminLink").hide();
 }
 
+=======
+   window.location.href = "../Login/index.html";
+} else if(permission=="user"){
+  $("#adminLink").hide();
+}
+>>>>>>> 32702996161265b3a1b390ab6e6215825c302544
 /*----permission check----*/
 
 //Add event-listner
