@@ -16,19 +16,18 @@ A user can do the following, by pages:
 
 - Common to all pages (through navbar):
 	- Search for a movie e.g. 'Avengers', 'Halloween', 'Life of Pi' (currently there is only a view for 'Avengers', so other titles would take you to this view)
-
-	- Navigate to user's profile by clickin on user's icon (top-left corner)
-	- Sign out from platform
+	- Navigate to the user's profile by clicking on user's icon (top-left corner)
+	- Sign out of platform
 
 - Homepage:
 	- See the most popular discussion topics
 	- See the latest  discussion topics
 	- See the top rated movies
-	* Navigate to the corresponding page by clickin on a discussion topic or movie
+	* Navigate to the corresponding page by clicking on a discussion topic or movie
 
 - Movie page:
 	- Rate a movie by clicking on stars
-	- See the discussion topics about that movie on the current page and on next page
+	- See the discussion topics about the movie (next page available)
 	- Navigate to a discussion topic by cliking on its title
 	- Search for a discussion topic
 	- Add a new discussion topic by clicking on blue 'plus' sign at the bottom-right corner
