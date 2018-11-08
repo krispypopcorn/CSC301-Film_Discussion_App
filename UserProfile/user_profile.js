@@ -24,18 +24,17 @@ $("#profilePic").on('click', function(event) {window.location.href = "../UserPro
 $("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
-
-
+$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 
 
 const html_categories = $('#Categories').children()
 
-var categories = {"discussion_topics":0, "posts":1, "replies":2}
+var categories = {"discussion_topics":0, "comments":1, "replies":2}
 
 display_category(categories.discussion_topics)
 
 $('#DiscussionTopics').click(display_discussion_topics)
-$('#Posts').click(display_posts)
+$('#Comments').click(display_comments)
 $('#Replies').click(display_replies)
 
 
@@ -45,9 +44,9 @@ function display_discussion_topics(e){
 	display_category(categories.discussion_topics)
 }
 
-function display_posts(e){
+function display_comments(e){
 	e.preventDefault();
-	display_category(categories.posts)
+	display_category(categories.comments)
 }
 
 function display_replies(e){
@@ -71,10 +70,10 @@ function display_category(index){
 		change_content_title("Discussion Topic")
 	}
 	else if (index == 1){
-		change_content_title("Posts")
+		change_content_title("Comment")
 	}
 	else if(index == 2){
-		change_content_title("Replies")
+		change_content_title("Reply")
 	}
 
 
