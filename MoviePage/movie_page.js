@@ -90,6 +90,7 @@ $("#homeLink").on('click', function(event) {window.location.href = "../Homepage/
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 $(".delete").on('click', deletePost);
+$("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
 /*-------------Add Event-listener-------------*/
 
 function addNewDiscussion(e) {
