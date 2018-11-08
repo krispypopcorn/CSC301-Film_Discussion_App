@@ -36,3 +36,16 @@
 	 padding-left:30px;
   	padding-right:30px;
 }
+
+
+.ChangePasswordRow{
+	margin-bottom: 5px;
+}
+
+#ChangePasswordButton{
+	height:30px;
+	width: 130px;
+	font-size:13px;
+	color: grey;
+	border-color: grey;
+}
