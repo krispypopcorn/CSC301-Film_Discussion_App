@@ -1,8 +1,12 @@
+// Getting reference to relavant DOM elements
+
 const searchButton = document.querySelector('#dataForm');
 
 const showAllButton = document.querySelector('#showAllQuery');
 
 const dataTable = document.querySelector("#dataTable");
+
+const saveButton = document.querySelector("#SaveButton")
 
 class User {
 	constructor(image, username, numPost) {
@@ -15,7 +19,7 @@ class User {
 let userSet = []
 // console.log("pressed")
 
-//Entering dummy userSet data
+// Entering dummy userSet data
 // would normally pull data from the database
 
 userSet.push(new User("../Pictures/icon.jpg", "Jennifer", 21))
@@ -28,25 +32,80 @@ showAllButton.addEventListener('click', showAllData)
 
 searchButton.addEventListener('submit', showSelected)
 
-dataTable.addEventListener('click', editUser)
+dataTable.addEventListener('click', editUserOrDelete)
 
+saveButton.addEventListener('click', saveUser)
+
+function saveUser(e) {
+
+	// console.log('Clicked')
+	// Get User to modify data
+
+	let currentUser = document.querySelector('#editTitle').innerText
+	let userToModify;
+
+	// Would normally do a database call
+
+	for (let i = 0; i < userSet.length; i++) {
+		if (userSet[i].username === currentUser) {
+			userToModify = userSet[i]
+			break;
+		}
+	}
+
+	// Get new username
+
+	let newUserName = document.querySelector('#editUsername').value
+	userToModify.username = newUserName;
+
+	removeData()
+	addAvailableData()
+
+	// Would also modify the password in this function 
+
+
+}
 
 function editUser(e) {
+
+	let targetRow = e.target.parentElement.parentElement
+	let usernameForm = document.querySelector('#editUsername')
+	let name = targetRow.firstElementChild.nextElementSibling.innerText
+	usernameForm.setAttribute("placeholder", name)
+
+	let title = document.querySelector("#editTitle")
+	title.innerText = name;
+
+	//Will pull user password from the database
+
+	let passwordForm = document.querySelector("#editPassword")
+	passwordForm.setAttribute("placeholder", "UserPassword")
+}
+
+
+
+function deleteUser(e) {
+
+	// Dom manipulation to delete user
+
+	e.preventDefault()
+	let targetRow = e.target.parentElement.parentElement.parentElement
+	dataTable.removeChild(targetRow);
+
+	// Would delete user from the database server as well
+
+}
+
+
+function editUserOrDelete(e) {
 	if (e.target.classList.contains('edit')) {
 
+		editUser(e);
 
-		let targetRow = e.target.parentElement.parentElement
-		let usernameForm = document.querySelector('#editUsername')
-		let name = targetRow.firstElementChild.nextElementSibling.innerText
-		usernameForm.setAttribute("placeholder", name)
+	}
+	if (e.target.classList.contains('delete')) {
 
-		let title = document.querySelector("#editTitle")
-		title.innerText = name;
-
-		//Will pull user password from the database
-
-		let passwordForm = document.querySelector("#editPassword")
-		passwordForm.setAttribute("placeholder", "UserPassword")
+		deleteUser(e);
 
 	}
 }
@@ -136,7 +195,7 @@ function createDataRow(currentUser) {
 	let deleteIcon = document.createElement('a')
 	deleteIcon.href = "#"
 	let deleteImg = document.createElement('img')
-	deleteImg.className = "icons"
+	deleteImg.className = "icons delete"
 	deleteImg.setAttribute("src", "../Pictures/deleteIcon.png")
 	deleteIcon.appendChild(deleteImg)
 	options.appendChild(deleteIcon)
