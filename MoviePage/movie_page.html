@@ -66,16 +66,17 @@
     <!-- End of Navbar -->
     
     <!-- Banner -->
-    <div class="carousel slide carousel-inner bannerSize">
+    <div id="banner" class="carousel slide carousel-inner bannerSize">
         <img class="w-100" src="../Pictures/movie_pic.jpg">
+         <div class="carousel-caption d-none d-md-block">
+                    <h4 id="bannerTitle">Avengers</h5>
+                    <p id="bannerText"></p>
+        </div>
     </div>
     <!-- End of Banner -->
 
     <div class="row">
-        <h1 class="p-2 col text-white titleBlock textCenter">
-            <p class="movieTitle topFont">Avengers</p>
-        </h1>
-        <div class="col text-white textCenter topFont">
+            <div class="col text-white textCenter topFont">
             <h2 class="topFont">Discussion Topics</h2>
             <h2 class="topFont" id="discussionTopic">6</h2>
         </div>
@@ -105,7 +106,7 @@
     <div class="container-fluid">
 
         <div class="d-flex">
-            <h2 class="p-2 text-white">Discussion Topics</h2>
+            <h2 class="topFont p-2 text-white">Discussion Topics</h2>
             <div class="p-1 flex-grow-1">
                 <input type="text" class="text-white" id="searchTerm" placeholder="Search....">
             </div>

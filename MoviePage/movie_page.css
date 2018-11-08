@@ -219,3 +219,12 @@ input.star:checked ~ .rev-box{
   text-decoration: underline;
   cursor: pointer; 
 }
+
+#banner{
+    height:400px;
+}
+
+#bannerTitle{
+    position: relative;
+    bottom: 200px
+}
