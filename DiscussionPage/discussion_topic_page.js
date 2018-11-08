@@ -41,7 +41,7 @@ $("#bannerText").on('click', function(event) {window.location.href = "../MoviePa
 
 $("#replyPost").on('click', replyToDiscussion);
 $(".reply").on('click', replyToPost);
-
+$(".close").on('click', deleteComment);
 
 
 function fillDiscussionPost(){
@@ -73,16 +73,108 @@ function fillBanner(){
 
 };
 
-function replyToPost(e){
+function deleteComment(e){
 	e.preventDefault();
-	$("#myModal").modal();
-	let a = document.getElementById("#myBanner");
-	
-	$(".confirmReply").on('click', console.log(a));
 
+	//required: PERMISSION CHECK
+	let comments = e.target.parentElement.parentElement.parentElement;
 
+	let postToRemove = e.target.parentElement.parentElement;
+	comments.removeChild(postToRemove);
 
 }
+
+
+function replyToPost(e){
+	e.preventDefault();
+	if ((e.target.nodeName == 'A') & (e.target.className == "btn btn-primary col-sm-1 offset-sm-9 reply")){
+
+
+		$("#myModal").modal();
+		let head = e.target.parentElement.parentElement;
+		
+		$("#confirmReply").on('click', f(){ $('#myModal').modal('hide');let text = document.getElementById('modalText');
+			console.log(text);});
+	}
+}
+
+
+function createPost(text){
+
+	if (text){
+		let reply = document.createElement("div");
+		reply.className = "card border-dark";
+
+		let row = document.createElement("div");
+		row.className = "row no-gutters";
+
+		let col = document.createElement("div");
+		col.className = "col";
+
+		let card_block = document.createElement("div");
+		card_block.className = "card-block px-2";
+
+		let card_text = document.createElement("p");
+		card_text.className = "card-text";
+		let in_text = document.createTextNode(text);
+		
+
+		card_text.append(in_text);
+		card_block.append(card_text);
+		col.append(card_block);
+
+
+		let row_footer = document.createElement('div');
+		row_footer.className = "row card-footer w-100 text-muted";
+
+
+		let footer_text_div = document.createElement("p");
+		let footer_text = document.createTextNode("Post by ");
+		let usn = document.createElement("a");
+		usn.className = 'usn';
+		usn.id = "yellow";
+		let usn_text = document.createTextNode("USERNAME"); //get usn from server
+		usn.append(usn_text);
+
+		footer_text_div.append(footer_text);
+		footer_text_div.append(usn);
+
+
+		let reply_footer_btn = document.createElement('a');
+		reply_footer_btn.href = "#";
+		reply_footer_btn.className = "btn btn-primary col-sm-1 offset-sm-9 reply";
+		
+
+		let strong = document.createElement('strong');
+		let button_text = document.createTextNode("Reply");
+		strong.append(button_text);
+		reply_footer_btn.append(strong)
+
+		
+		row_footer.append(footer_text_div)
+		row_footer.append(reply_footer_btn)
+
+
+		row.append(col);
+
+	
+		let close_button = document.createElement('button')
+		close_button.type = 'button';
+		close_button.className = "close col-sm-1 offset-sm-11"	
+		let close_span = document.createElement('span')
+		close_span.setAttribute('aria-hidden', 'true');
+		close_span.innerHTML = '&times;';
+		close_button.append(close_span)
+
+		reply.append(close_button);
+		reply.append(row);
+		reply.append(row_footer);
+
+		return reply;
+	}
+
+}
+
 
 
 
@@ -162,6 +254,16 @@ function createReply(){
 
 		row.append(col);
 
+	
+		let close_button = document.createElement('button')
+		close_button.type = 'button';
+		close_button.className = "close col-sm-1 offset-sm-11"	
+		let close_span = document.createElement('span')
+		close_span.setAttribute('aria-hidden', 'true');
+		close_span.innerHTML = '&times;';
+		close_button.append(close_span)
+
+		reply.append(close_button);
 		reply.append(row);
 		reply.append(row_footer);
 
