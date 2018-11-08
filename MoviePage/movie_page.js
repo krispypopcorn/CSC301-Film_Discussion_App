@@ -72,7 +72,7 @@ discussions.push(new Discussion("Iron Man is the Coolest Avenger 3", DummyUser, 
 discussions.push(new Discussion("Iron Man is the Coolest Avenger 4", DummyUser, DummyText));
 
 
-//Add eventlistener
+/*-------------Add Event-listener-------------*/
 $("#newPost").click(function() {
    $("#popup1").toggle(200);
 });
@@ -90,7 +90,7 @@ $("#homeLink").on('click', function(event) {window.location.href = "../Homepage/
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 $(".delete").on('click', deletePost);
-
+/*-------------Add Event-listener-------------*/
 
 function addNewDiscussion(e) {
    e.preventDefault();
@@ -132,7 +132,7 @@ function displaySearch(e) {
    const inputTitle = $("#searchTerm").val();
 
    let i;
-   //we should pull the list from server
+   //we should pull the discussions list from server
    for (i = 0; i < discussions.length; i++) {
        let cur = discussions[i];
        if (cur.title.includes(inputTitle)) {
