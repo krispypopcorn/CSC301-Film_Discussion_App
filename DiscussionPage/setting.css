@@ -15,10 +15,6 @@
     margin: 10px;
 }
 
-.reply {
-    border: white;
-}
-
 hr {
     margin-right: :-10px
     margin-left:-10px;
@@ -27,6 +23,10 @@ hr {
     background: rgb(46, 46, 46);
     min-height: 100px;
     min-width: 100%;
+}
+
+.modal-content {
+  background-color: rgb(46, 46, 46) ;
 }
 
 textarea {
@@ -66,12 +66,12 @@ textarea {
     
 }
 
-#reply:hover {   
+.reply:hover, #replyPost:hover, #confirmReply:hover, #cancelReply:hover {   
 
     background-color: #555;
 }
 
-#reply {
+.reply, #replyPost, #confirmReply, #cancelReply{
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;

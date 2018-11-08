@@ -39,7 +39,8 @@ $("#bannerText").on('click', function(event) {window.location.href = "../MoviePa
 /*----navigate to another page----*/
 
 
-$("#replyPost").on('click', createReply);
+$("#replyPost").on('click', replyToDiscussion);
+$(".reply").on('click', replyToPost);
 
 
 
@@ -72,34 +73,19 @@ function fillBanner(){
 
 };
 
-function replyToPost(postToReplyTo){
+function replyToPost(e){
+	e.preventDefault();
+	$("#myModal").modal();
+	let a = document.getElementById("#myBanner");
 	
+	$(".confirmReply").on('click', console.log(a));
+
 
 
 }
 
 
 
-
-function createPost(){
-
-	let text = document.getElementById('postText');
-
-	let post = document.createElement('div');
-	post.className("card reply");
-	innerDiv1 = document.createElement('div');
-	innerDiv1.className("row no-gutters");
-	innerDiv2 = document.createElement('div');
-	innerDiv2.className("col");
-
-
-
-
-
-
-	return post;
-
-}
 
 // <div class="card border-dark">
 //         <div class="row no-gutters">
@@ -117,75 +103,87 @@ function createPost(){
 //     </div>
 
 
+function createReply(){
+	let text = document.getElementById("postText").value;
 
-function createReply(e){
+	if (text){
+		let reply = document.createElement("div");
+		reply.className = "card border-dark";
+
+		let row = document.createElement("div");
+		row.className = "row no-gutters";
+
+		let col = document.createElement("div");
+		col.className = "col";
+
+		let card_block = document.createElement("div");
+		card_block.className = "card-block px-2";
+
+		let card_text = document.createElement("p");
+		card_text.className = "card-text";
+		let in_text = document.createTextNode(text);
+		
+
+		card_text.append(in_text);
+		card_block.append(card_text);
+		col.append(card_block);
+
+
+		let row_footer = document.createElement('div');
+		row_footer.className = "row card-footer w-100 text-muted";
+
+
+		let footer_text_div = document.createElement("p");
+		let footer_text = document.createTextNode("Post by ");
+		let usn = document.createElement("a");
+		usn.className = 'usn';
+		usn.id = "yellow";
+		let usn_text = document.createTextNode("USERNAME"); //get usn from server
+		usn.append(usn_text);
+
+		footer_text_div.append(footer_text);
+		footer_text_div.append(usn);
+
+
+		let reply_footer_btn = document.createElement('a');
+		reply_footer_btn.href = "#";
+		reply_footer_btn.className = "btn btn-primary col-sm-1 offset-sm-9 reply";
+		
+
+		let strong = document.createElement('strong');
+		let button_text = document.createTextNode("Reply");
+		strong.append(button_text);
+		reply_footer_btn.append(strong)
+
+		
+		row_footer.append(footer_text_div)
+		row_footer.append(reply_footer_btn)
+
+
+		row.append(col);
+
+		reply.append(row);
+		reply.append(row_footer);
+
+		return reply;
+	}
+
+}
+
+
+
+//reply to main discussion-post
+function replyToDiscussion(e){
+	e.preventDefault();
 
 	let comments = document.getElementById("comments");
 
-	e.preventDefault();
-	let text = document.getElementById("postText").value;
-
-
-	let reply = document.createElement("div");
-	reply.classList.add("card");
-	reply.classList.add("border-dark");
-
-	let row = document.createElement("div");
-	row.classList.add("row"); 
-	row.classList.add("no-gutters");
-
-	let col = document.createElement("div");
-	col.classList.add("col");
-
-	let card_block = document.createElement("div");
-	card_block.classList.add("card-block"); 
-	card_block.classList.add("px-2");
-
-	let card_text = document.createElement("p");
-	card_text.classList.add("card-text");
-	let in_text = document.createTextNode(text);
+	let reply = createReply();
 	
-
-	card_text.append(in_text);
-	card_block.append(card_text);
-	col.append(card_block);
-
-
-	let row_footer = document.createElement('div');
-	row_footer.classList.add("row");
-	row_footer.classList.add("card-footer");
-	row_footer.classList.add("w-100");
-	row_footer.classList.add("text-muted");
-
-	let footer_text_div = document.createElement("p");
-	let footer_text = document.createTextNode("Post by USERNAME");
-	footer_text_div.append(footer_text)
-
-
-	let reply_footer_btn = document.createElement('a');
-	reply_footer_btn.classList.add("btn");
-	reply_footer_btn.classList.add("btn-primary");
-	reply_footer_btn.classList.add("col-sm-1");
-	reply_footer_btn.classList.add("offset-sm-9");
-
-
-	let strong = document.createElement('strong');
-	let button_text = document.createTextNode("Reply");
-	strong.append(button_text);
-	reply_footer_btn.append(strong)
-
 	
-	row_footer.append(footer_text_div)
-	row_footer.append(reply_footer_btn)
-
-
-
-	row.append(col);
-
-	reply.append(row);
-	reply.append(row_footer)
-
-	comments.append(reply);
+	if (reply){
+		comments.insertBefore(reply, comments.firstElementChild);
+	}
 }
 
 
