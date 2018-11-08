@@ -35,13 +35,13 @@ function displaySearch(e){
    e.preventDefault()
    results = [];
    curPage = 1;
-   const inputTitle = $("#movieSearch").val();
+   const inputTitle = $("#movieSearch").val().toLowerCase();
    if(inputTitle!=''){
       let i;
       //we should pull the movie list from server
       for (i = 0; i < movies.length; i++) {
            let cur = movies[i];
-          if (cur.title.includes(inputTitle)) {
+          if (cur.title.toLowerCase().includes(inputTitle)) {
                results.push(cur);
           }
       }
