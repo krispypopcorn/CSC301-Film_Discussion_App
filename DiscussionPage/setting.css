@@ -107,7 +107,3 @@ textarea {
 .carousel-inner{
     max-height: 450px;
 }
-
-.formWrap .form-inline {
-    float: right !important;
-}
