@@ -42,6 +42,7 @@ google.charts.setOnLoadCallback(drawChartView);
 google.charts.setOnLoadCallback(drawChartUser);
 
 // Draw the chart and set the chart values
+// Will pull chart value count from database
 function drawChartView() {
   var data = google.visualization.arrayToDataTable([
   ['Genre', 'Hours per Day'],

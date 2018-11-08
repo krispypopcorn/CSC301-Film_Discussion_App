@@ -8,6 +8,7 @@ const dataTable = document.querySelector("#dataTable");
 
 const saveButton = document.querySelector("#SaveButton")
 
+
 class User {
 	constructor(image, username, numPost) {
 		this.image = image;
@@ -35,6 +36,8 @@ searchButton.addEventListener('submit', showSelected)
 dataTable.addEventListener('click', editUserOrDelete)
 
 saveButton.addEventListener('click', saveUser)
+
+
 
 function saveUser(e) {
 
@@ -91,6 +94,7 @@ function deleteUser(e) {
 	e.preventDefault()
 	let targetRow = e.target.parentElement.parentElement.parentElement
 	dataTable.removeChild(targetRow);
+	
 
 	// Would delete user from the database server as well
 
@@ -203,7 +207,7 @@ function createDataRow(currentUser) {
 	let editButton = document.createElement('button')
 	editButton.className = "btn btn-outline-success my-2 ml-sm-2 edit"
 	editButton.setAttribute("data-toggle", "modal")
-	editButton.setAttribute("data-target", "#exampleModal")
+	editButton.setAttribute("data-target", "#EditUserModal")
 	editButton.innerText = "Edit User"
 	options.appendChild(editButton);
 
