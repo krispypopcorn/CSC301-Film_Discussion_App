@@ -82,21 +82,27 @@ function deleteComment(e){
 	let postToRemove = e.target.parentElement.parentElement;
 	comments.removeChild(postToRemove);
 
+	$("#replyPost").on('click', replyToDiscussion);
+	$(".reply").on('click', replyToPost);
+	$(".close").on('click', deleteComment);
 }
+
 
 
 function replyToPost(e){
 	e.preventDefault();
-	if ((e.target.nodeName == 'A') & (e.target.className == "btn btn-primary col-sm-1 offset-sm-9 reply")){
+	if (e.target.nodeName == 'A'){
+	let postToreplyTo = e.target.parentElement.parentElement;
 
+	let text = prompt("Reply to Post", );
 
-		$("#myModal").modal();
-		let head = e.target.parentElement.parentElement;
-		
-		$("#confirmReply").on('click', function(){ $('#myModal').modal('hide');
-		let text = document.getElementById('modalText');
-			console.log(text);});
+	postToreplyTo.appendChild(createPost(text));
+
+	$("#replyPost").on('click', replyToDiscussion);
+	$(".reply").on('click', replyToPost);
+	$(".close").on('click', deleteComment);
 	}
+
 }
 
 
@@ -143,7 +149,7 @@ function createPost(text){
 
 		let reply_footer_btn = document.createElement('a');
 		reply_footer_btn.href = "#";
-		reply_footer_btn.className = "btn btn-primary col-sm-1 offset-sm-9 reply";
+		reply_footer_btn.className = "reply btn btn-primary col-sm-1 offset-sm-9";
 		
 
 		let strong = document.createElement('strong');
@@ -170,6 +176,7 @@ function createPost(text){
 		reply.append(close_button);
 		reply.append(row);
 		reply.append(row_footer);
+
 
 		return reply;
 	}
@@ -201,7 +208,7 @@ function createReply(){
 
 	if (text){
 		let reply = document.createElement("div");
-		reply.className = "card border-dark";
+		reply.className = "card";
 
 		let row = document.createElement("div");
 		row.className = "row no-gutters";
@@ -231,7 +238,7 @@ function createReply(){
 		let usn = document.createElement("a");
 		usn.className = 'usn';
 		usn.id = "yellow";
-		let usn_text = document.createTextNode("USERNAME"); //get usn from server
+		let usn_text = document.createTextNode("James"); //get usn from server
 		usn.append(usn_text);
 
 		footer_text_div.append(footer_text);
@@ -240,7 +247,7 @@ function createReply(){
 
 		let reply_footer_btn = document.createElement('a');
 		reply_footer_btn.href = "#";
-		reply_footer_btn.className = "btn btn-primary col-sm-1 offset-sm-9 reply";
+		reply_footer_btn.className = "reply btn btn-primary col-sm-1 offset-sm-9";
 		
 
 		let strong = document.createElement('strong');
@@ -268,6 +275,7 @@ function createReply(){
 		reply.append(row);
 		reply.append(row_footer);
 
+
 		return reply;
 	}
 
@@ -283,66 +291,9 @@ function replyToDiscussion(e){
 
 	let reply = createReply();
 	
+	comments.insertBefore(reply, comments.firstElementChild);
 	
-	if (reply){
-		comments.insertBefore(reply, comments.firstElementChild);
-	}
+	$("#replyPost").on('click', replyToDiscussion);
+	$(".reply").on('click', replyToPost);
+	$(".close").on('click', deleteComment);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
