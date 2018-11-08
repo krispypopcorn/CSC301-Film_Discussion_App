@@ -200,7 +200,7 @@ function createDataRow(currentUser) {
 	let deleteIcon = document.createElement('a')
 	deleteIcon.href = "#"
 	let deleteImg = document.createElement('img')
-	deleteImg.className = "icons delete"
+	deleteImg.className = "delete"
 	deleteImg.setAttribute("src", "../Pictures/deleteIcon.png")
 	deleteIcon.appendChild(deleteImg)
 	options.appendChild(deleteIcon)
