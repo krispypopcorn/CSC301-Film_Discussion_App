@@ -80,7 +80,7 @@ class Discussion {
 }
 
 // Dummy user
-const DummyUser = new User("Dummy", "123")
+const DummyUser = new User("author", "123")
 
 const DummyText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
@@ -221,9 +221,11 @@ function loadNextPage(e) {
 
 
 function createDiscussion(discussion) {
-
    let newPost = discussionDiv.clone();
-   const target = newPost.children().children();
+   newPost.find(".backGroundImage").attr('src',discussion.image);
+   newPost.find(".disTitle").html(discussion.title);
+   newPost.find(".author").html(discussion.author.username);
+   newPost.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;})
    return newPost;
 }
 
@@ -232,13 +234,30 @@ function createMovie(movie) {
    newPost.find(".backGroundImage").attr('src',movie.image);
    newPost.find(".movieTitle").html(movie.title);
    newPost.find(".point").html(movie.point.toString());
+   newPost.on('click',function(event) {window.location.href = "../MoviePage/movie_page.html" + "?para1="+ permission;})
    return newPost;
 }
 
 
+function changeDiscussions(DisList,id){
+  let i;
+   const targetList = [];
+   let newPost;
+   for (i = 0; i < DisList.length && i < 4; i++) {
+       newPost = createDiscussion(DisList[i]);
+       targetList.push(newPost);
+   }
+   if(id=='Latest'){
+       $('#latestSlider .column').remove();
 
-function changeDiscussions(targetList,id){
-  
+      for (i = 0; i < targetList.length; i++) {
+          $("#latestSlider").append(targetList[i]);}
+   }
+   else{
+       $('#popularSlider .column').remove();
+       for (i = 0; i < targetList.length; i++) {
+          $("#popularSlider").append(targetList[i]);}
+   }
 }
 
 function changeMovies(movieList){
