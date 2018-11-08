@@ -14,7 +14,7 @@ const movies = [];
 //store search result
 let results = [];
 
-//keep a copy of the discussion div as template
+//keep a copy of the movie div as template
 const temp = $(".result:first").clone();
 
 
@@ -74,11 +74,9 @@ function addSearchToDom(searchList){
 function createSearchResult(movie) {
   //      <hr class="w3-white m-0">
    let newPost = temp.clone();
-   let movieTitle = newPost.children()[1].children[0];
-   let movieImg=newPost.children()[0].children[0];
-   movieTitle.innerHTML=movie.title;
-   movieTitle.addEventListener('click',function(e){window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;})
-   movieImg.src=movie.image;
+   newPost.find(".searchTitle").html(movie.title);
+   newPost.find(".resultImg").attr('src',movie.image);
+   newPost.find(".searchTitle").on('click',function(e){window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;})
    return newPost;
    
 }

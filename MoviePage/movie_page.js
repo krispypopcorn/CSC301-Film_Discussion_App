@@ -22,7 +22,7 @@ if(permission=="none"){
 
 // number of total discussions under a movie
 // we should pull this from server
-let numberOfDiscusstions = 4;
+let numberOfDiscusstions = 6;
 
 //array of discussions posted by user
 //we should pull this from server
@@ -70,6 +70,8 @@ discussions.push(new Discussion("Iron Man is the Coolest Avenger 1", DummyUser, 
 discussions.push(new Discussion("Iron Man is the Coolest Avenger 2", DummyUser, DummyText));
 discussions.push(new Discussion("Iron Man is the Coolest Avenger 3", DummyUser, DummyText));
 discussions.push(new Discussion("Iron Man is the Coolest Avenger 4", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger 5", DummyUser, DummyText));
+discussions.push(new Discussion("Iron Man is the Coolest Avenger 6", DummyUser, DummyText));
 
 
 /*-------------Add Event-listener-------------*/
@@ -149,24 +151,25 @@ function createDiscussion(discussion) {
 
    let newPost = template.clone();
    const target = newPost.children().children();
-
-   let img = target[0].children[0];
-   let text = target[1].children[0].children[1];
-   let newTitle = target[1].children[0].children[0];
-   let upVote = target[2].children[2];
+   
+   let img = target.find(".postImg");
+   let text = target.find(".card-text");
+   let newTitle = target.find(".card-title");
+   let upVote = target.find(".upVoteNumber");
    
    target[3].addEventListener('click',deletePost);
-   newTitle.addEventListener('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
+   newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 
-   img.src = discussion.image;
-   text.innerHTML = discussion.content;
-   newTitle.innerHTML = discussion.title;
-   upVote.innerHTML = discussion.thumbsUp.toString();
+   img.attr('src',discussion.image);
+   text.html(discussion.content);
+   newTitle.html(discussion.title);
+   upVote.html(discussion.thumbsUp.toString());
 
    return newPost;
 }
 
-function loadPreviousPage() {
+function loadPreviousPage(e) {
+  e.preventDefault();
    if (currentPage != 1) {
 
        let index = currentPage - 1;
@@ -191,7 +194,8 @@ function loadPreviousPage() {
    }
 }
 
-function loadNextPage() {
+function loadNextPage(e) {
+   e.preventDefault()
    let total = numberOfDiscusstions;
    let mainList = discussions;
    
@@ -243,7 +247,7 @@ function addMultiplyDiscussion(discussionList) {
 
    $('#postsContainer .card').remove();
 
-   for (i = 0; i < discussionList.length; i++) {
+   for (i = 0; i < targetList.length; i++) {
        $("#postsContainer").append(targetList[i]);
    }
 }
