@@ -93,6 +93,7 @@ $("#adminLink").on('click', function(event) {window.location.href = "../AdminDas
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 $(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
+$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission;});
 /*-------------Add Event-listener-------------*/
 
 function addNewDiscussion(e) {
@@ -123,7 +124,7 @@ function deletePost(e) {
   numberOfDiscusstions--;
   updateTopicNum();
   currentPage++;
-  loadPreviousPage();
+  loadPreviousPage(e);
 }
 
 
@@ -169,7 +170,7 @@ function createDiscussion(discussion) {
 }
 
 function loadPreviousPage(e) {
-  e.preventDefault();
+   e.preventDefault();
    if (currentPage != 1) {
 
        let index = currentPage - 1;
@@ -195,7 +196,7 @@ function loadPreviousPage(e) {
 }
 
 function loadNextPage(e) {
-   e.preventDefault()
+   e.preventDefault();
    let total = numberOfDiscusstions;
    let mainList = discussions;
    
