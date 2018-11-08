@@ -42,6 +42,8 @@ const movieDiv = $("#movieSlider .column:first").clone();
 //we should pull this from server
 const homeMovies = [];
 
+//store the total number of discussions and movies
+//we should pull this from server
 let numberOfDiscusstions = 6;
 let numberOfMovies = 5;
 
