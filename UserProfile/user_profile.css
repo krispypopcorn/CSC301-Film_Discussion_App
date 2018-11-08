@@ -49,3 +49,7 @@
 	color: grey;
 	border-color: grey;
 }
+
+.modal-content{
+	background-color:white !important;
+}
