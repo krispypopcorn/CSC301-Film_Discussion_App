@@ -1,4 +1,4 @@
-
+"use strict"
 $("#movieSearchButton").on('click',displaySearch);
 $("#movieSearch").keyup(function(event) {
   $("#movieSearchButton").click();
