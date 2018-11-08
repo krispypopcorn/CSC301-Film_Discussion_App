@@ -136,3 +136,8 @@ body {
     border-radius: 3.5%;
     object-fit: cover;
 }
+
+.searchTitle:hover{
+  text-decoration: underline;
+  cursor: pointer; 
+}

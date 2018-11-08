@@ -31,7 +31,6 @@ movies.push(new Movie("The Dark Knight", "../Pictures/thedarkknight.jpg"));
 movies.push(new Movie("Venom", "../Pictures/venom.jpeg"));
 movies.push(new Movie("Life of Pi", "../Pictures/lifeofpi.jpg"));
 
-
 function displaySearch(e){
    e.preventDefault()
    results = [];
@@ -78,6 +77,7 @@ function createSearchResult(movie) {
    let movieTitle = newPost.children()[1].children[0];
    let movieImg=newPost.children()[0].children[0];
    movieTitle.innerHTML=movie.title;
+   movieTitle.addEventListener('click',function(e){window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;})
    movieImg.src=movie.image;
    return newPost;
    
