@@ -78,5 +78,5 @@ function createSearchResult(movie) {
    newPost.find(".resultImg").attr('src',movie.image);
    newPost.find(".searchTitle").on('click',function(e){window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;})
    return newPost;
-   
+
 }
