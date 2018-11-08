@@ -1,4 +1,5 @@
 // Getting reference to relavant DOM elements
+"use strict"
 
 const searchButton = document.querySelector('#dataForm');
 
@@ -94,7 +95,7 @@ function deleteUser(e) {
 	e.preventDefault()
 	let targetRow = e.target.parentElement.parentElement.parentElement
 	dataTable.removeChild(targetRow);
-	
+
 
 	// Would delete user from the database server as well
 
@@ -123,7 +124,7 @@ function showSelected(e) {
 	let flag = 0;
 
 	for (let i = 0; i < userSet.length; i++) {
-		currentUser = userSet[i]
+		let currentUser = userSet[i]
 
 		if (currentUser.username === nameToSearch) {
 			flag = 1;
@@ -160,7 +161,7 @@ function removeData() {
 	let currentRow = dataTable.firstElementChild
 
 	while (currentRow !== null) {
-		temp = currentRow.nextElementSibling
+		let temp = currentRow.nextElementSibling
 		console.log()
 		dataTable.removeChild(currentRow)
 		currentRow = temp
@@ -171,7 +172,7 @@ function addAvailableData() {
 
 	for (let i = 0; i < userSet.length; i++) {
 
-		currentUser = userSet[i];
+		let currentUser = userSet[i];
 		let newRow = createDataRow(currentUser)
 		dataTable.appendChild(newRow);
 	}
