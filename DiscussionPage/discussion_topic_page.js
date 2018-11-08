@@ -93,7 +93,8 @@ function replyToPost(e){
 		$("#myModal").modal();
 		let head = e.target.parentElement.parentElement;
 		
-		$("#confirmReply").on('click', f(){ $('#myModal').modal('hide');let text = document.getElementById('modalText');
+		$("#confirmReply").on('click', function(){ $('#myModal').modal('hide');
+		let text = document.getElementById('modalText');
 			console.log(text);});
 	}
 }
