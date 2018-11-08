@@ -5,17 +5,17 @@ $("#movieSearch").keyup(function(event) {
 });
 
 //store current page
-let currentPage = 1;
+let curPage = 1;
 
 //array of movies
 //we should pull this from server
 const movies = [];
 
 //store search result
-let search = [];
+let results = [];
 
 //keep a copy of the discussion div as template
-const template = $(".result:first").clone();
+const temp = $(".result:first").clone();
 
 
 class Movie {
@@ -34,8 +34,8 @@ movies.push(new Movie("Life of Pi", "../Pictures/lifeofpi.jpg"));
 
 function displaySearch(e){
    e.preventDefault()
-   search = [];
-   currentPage = 1;
+   results = [];
+   curPage = 1;
    const inputTitle = $("#movieSearch").val();
    if(inputTitle!=''){
       let i;
@@ -43,10 +43,10 @@ function displaySearch(e){
       for (i = 0; i < movies.length; i++) {
            let cur = movies[i];
           if (cur.title.includes(inputTitle)) {
-               search.push(cur);
+               results.push(cur);
           }
       }
-      addSearchToDom(search);
+      addSearchToDom(results);
       $("#searchResult").show();
    }
    else{
@@ -74,7 +74,7 @@ function addSearchToDom(searchList){
 
 function createSearchResult(movie) {
   //      <hr class="w3-white m-0">
-   let newPost = template.clone();
+   let newPost = temp.clone();
    let movieTitle = newPost.children()[1].children[0];
    let movieImg=newPost.children()[0].children[0];
    movieTitle.innerHTML=movie.title;

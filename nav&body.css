@@ -113,3 +113,26 @@ body {
 .nav-item {
   cursor:pointer;
 }
+
+#searchResult {
+  position:fixed;
+  margin-top:1vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding:10px;
+  padding-bottom: 3px;
+  width:100%;
+  left:0;
+  box-shadow: 2px 2px 5px;
+  display:none;
+}
+
+.resultImg {
+    width: 3.5vw;
+    height: 3.5vw;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 4px;
+    border-radius: 3.5%;
+    object-fit: cover;
+}
