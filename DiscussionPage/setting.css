@@ -58,6 +58,9 @@ textarea {
   margin-top: 65px;
 }
 
+#bannerText {
+   cursor: pointer;
+}
 
 #commentSearch{
     

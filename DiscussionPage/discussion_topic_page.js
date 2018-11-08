@@ -32,7 +32,7 @@ $("#homeLink").on('click', function(event) {console.log("HI");window.location.hr
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
 $(".usn").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission;});
-
+$("#bannerText").on('click', function(event) {window.location.href = "../MoviePage/movie_page.html" + "?para1="+ permission;});
 /*----navigate to another page----*/
 // you need to pass your permission to the next page
 // window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission
