@@ -74,13 +74,24 @@ textarea {
     background-color: #555;
 }
 
-.reply, #replyPost, #confirmReply, #cancelReply{
+#confirmReply, #cancelReply{
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
     cursor:pointer;
     overflow: hidden;
     outline:none;
+}
+
+.reply, #replyPost {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: white;
+
 }
 
 .card-block{

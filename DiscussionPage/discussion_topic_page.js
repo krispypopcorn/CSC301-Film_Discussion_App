@@ -44,6 +44,9 @@ $(".reply").on('click', replyToPost);
 $(".close").on('click', deleteComment);
 
 
+
+
+
 function fillDiscussionPost(){
 
 	//accessing Discussion Post elements (img, title, text) 
@@ -91,19 +94,17 @@ function deleteComment(e){
 
 function replyToPost(e){
 	e.preventDefault();
-	if (e.target.nodeName == 'A'){
 	let postToreplyTo = e.target.parentElement.parentElement;
 
 	let text = prompt("Reply to Post", );
 
+	if (text){
+
 	postToreplyTo.appendChild(createPost(text));
 
-	$("#replyPost").on('click', replyToDiscussion);
-	$(".reply").on('click', replyToPost);
-	$(".close").on('click', deleteComment);
 	}
-
 }
+
 
 
 function createPost(text){
@@ -136,27 +137,27 @@ function createPost(text){
 
 
 		let footer_text_div = document.createElement("p");
-		let footer_text = document.createTextNode("Post by ");
+		let footer_text = document.createTextNode("Reply by ");
 		let usn = document.createElement("a");
 		usn.className = 'usn';
 		usn.id = "yellow";
-		let usn_text = document.createTextNode("USERNAME"); //get usn from server
+		let usn_text = null;
+		if (permission == 'user'){
+			usn_text = document.createTextNode("James"); //get usn from server
+		}else{usn_text = document.createTextNode("Admin");} //get usn from server}
 		usn.append(usn_text);
 
 		footer_text_div.append(footer_text);
 		footer_text_div.append(usn);
 
 
-		let reply_footer_btn = document.createElement('a');
-		reply_footer_btn.href = "#";
-		reply_footer_btn.className = "reply btn btn-primary col-sm-1 offset-sm-9";
-		
-
-		let strong = document.createElement('strong');
+		let reply_footer_btn = document.createElement('button');
+		reply_footer_btn.type = "button";
+		reply_footer_btn.className = 'reply col-md-1 offset-md-9'
 		let button_text = document.createTextNode("Reply");
-		strong.append(button_text);
-		reply_footer_btn.append(strong)
+		reply_footer_btn.append(button_text)
 
+		$(reply_footer_btn).on('click', replyToPost);
 		
 		row_footer.append(footer_text_div)
 		row_footer.append(reply_footer_btn)
@@ -172,6 +173,8 @@ function createPost(text){
 		close_span.setAttribute('aria-hidden', 'true');
 		close_span.innerHTML = '&times;';
 		close_button.append(close_span)
+
+		$(close_button).on('click', deleteComment);
 
 		reply.append(close_button);
 		reply.append(row);
@@ -234,27 +237,28 @@ function createReply(){
 
 
 		let footer_text_div = document.createElement("p");
-		let footer_text = document.createTextNode("Post by ");
+		let footer_text = document.createTextNode("Comment by ");
 		let usn = document.createElement("a");
 		usn.className = 'usn';
 		usn.id = "yellow";
-		let usn_text = document.createTextNode("James"); //get usn from server
+		let usn_text = null;
+		if (permission == 'user'){
+			 usn_text = document.createTextNode("James"); //get usn from server
+		}else{ usn_text = document.createTextNode("Admin");}
 		usn.append(usn_text);
 
 		footer_text_div.append(footer_text);
 		footer_text_div.append(usn);
 
 
-		let reply_footer_btn = document.createElement('a');
-		reply_footer_btn.href = "#";
-		reply_footer_btn.className = "reply btn btn-primary col-sm-1 offset-sm-9";
-		
-
-		let strong = document.createElement('strong');
+//<button type=button class='reply col-md-1 offset-md-9 '>Reply</button>
+		let reply_footer_btn = document.createElement('button');
+		reply_footer_btn.type = "button";
+		reply_footer_btn.className = 'reply col-md-1 offset-md-9'
 		let button_text = document.createTextNode("Reply");
-		strong.append(button_text);
-		reply_footer_btn.append(strong)
+		reply_footer_btn.append(button_text)
 
+		$(reply_footer_btn).on('click', replyToPost);
 		
 		row_footer.append(footer_text_div)
 		row_footer.append(reply_footer_btn)
@@ -270,6 +274,8 @@ function createReply(){
 		close_span.setAttribute('aria-hidden', 'true');
 		close_span.innerHTML = '&times;';
 		close_button.append(close_span)
+
+		$(close_button).on('click', deleteComment);
 
 		reply.append(close_button);
 		reply.append(row);
@@ -290,10 +296,12 @@ function replyToDiscussion(e){
 	let comments = document.getElementById("comments");
 
 	let reply = createReply();
+	if (reply){
+		if (comments.firstElementChild){
+		comments.insertBefore(reply, comments.firstElementChild);
+		}else {
+			comments.append(reply);
+		}
+	}
 	
-	comments.insertBefore(reply, comments.firstElementChild);
-	
-	$("#replyPost").on('click', replyToDiscussion);
-	$(".reply").on('click', replyToPost);
-	$(".close").on('click', deleteComment);
 }
