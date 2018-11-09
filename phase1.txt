@@ -1,1 +1,76 @@
 # team03 phase1.txt
+
+## Summary
+
+Initially, our team was going to build a movie review site. Based on the feedback from the TA, we realized this would be quite similar to IMDb or Rotten Tomatoes, which is why we decided to make something more original. This is how we decided to do a movie discussion site instead, which we called "Conspire View". In this platform, users can create a discussion around a specific topic about a movie. For instance, they could discuss about a weird ending of a movie, or how a character is suspicious and may have killed the protagonist, among other topics. This way, users can still engage in the film community while interacting in a unique way through the site!
+
+## Suggested starting view
+
+It is suggested to start from the Login/index.html page and navigate from there using the following credentials:
+	Normal User
+	username: james
+	password: jamespassword
+
+	Admin mode
+	username: admin
+	password: adminpassword
+
+
+## User features / instructions
+
+A user can do the following, by pages:
+
+- Login page
+	- username: james
+	- password: jamespassword
+
+
+- Common to all pages (through navbar):
+	- Search for a movie e.g. 'Avengers', 'Halloween', 'Life of Pi' (currently there is only a view for 'Avengers', so other titles would take you to this view)
+	- Navigate to the user's profile by clicking on user's icon (top-left corner)
+	- Sign out of platform
+
+- Homepage:
+	- See the most popular discussion topics
+	- See the latest  discussion topics
+	- See the top rated movies
+	* Navigate to the corresponding page by clicking on a discussion topic or movie
+
+- Movie page:
+	- Rate a movie by clicking on stars
+	- See the discussion topics about the movie (next page available)
+	- Navigate to a discussion topic by cliking on its title
+	- Search for a discussion topic
+	- Add a new discussion topic by clicking on blue 'plus' sign at the bottom-right corner
+
+- Discussion page:
+	- See the discussion topic (title on banner)
+	- See which movie the discussion topic is about (film title on banner)
+	- Navigate to the movie by cliking on film title
+	- Read the discussion topic description
+	- See the different posts and replies on that topic 
+	- Write a new post 
+	- Leave a reply on a post or other replies
+	- Delete their own posts and replies 
+
+
+- User profile page:
+	- See the number of discussion topics, comments and replies the user has written
+	- See the actual discussion topics, comments and replies the user has written
+	- Change password
+
+- Admin view page
+	- See the total number of users, films, posts and comments in dial form
+	- See visual aspects of popular genre and top contributors in the site (we may change the visual charts later on phase 2 depending on data stored in server
+	- Able to view all users in database
+	- Able to search for individual users
+	- Able to change username and password for individual users
+	- Able to delete users.
+	- Additionally, the admin is allowed to do all the functionalities as a normal user
+	- login details of admin is as follows:
+		username: admin
+		password: adminpassword
+
+
+
+
