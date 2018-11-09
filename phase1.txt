@@ -2,13 +2,22 @@
 
 ## Summary
 
-Initially, our team was going to build a movie review site. Based on the feedback from the TA, we realized this would be quite similar to IMDb or Rotten Tomatoes, which is why we decided to make something more original. This is how we decided to do a movie discussion site instead, which we called "Conspire View". In this platform, users can create a discussion around a specific topic about a movie. For instance, they could discuss about a weird ending of a movie, or how a character is suspicious and may have killed the protagonist, among other topics. This way, users can still engage in the film community while interacting in a unique way through the site!
+Initially, our team was going to build a movie review site. Based on the feedback from the TA, we
+realized this would be quite similar to IMDb or Rotten Tomatoes, which is why we decided to make
+something more original. This is how we decided to do a movie discussion site instead, which we
+called "Conspire View". In this platform, users can create a discussion around a specific topic 
+about a movie. For instance, they could discuss about a weird ending of a movie, or how a character
+is suspicious and may have killed the protagonist, among other topics. This way, users can still
+engage in the film community while interacting in a unique way through the site!
 
 ## Suggested starting view
 
 It is suggested to start from the Login/index.html page and navigate from there.
 
-NOTE: across the site there is only one movie page, for the movie "Avengers", and one discussion page, for the topic "Iron Man is the coolest Avenger". All other movies and discussion topics simulate dummy data and will redirect the user/admin to the the only currently existing movie page and discussion page.
+NOTE: across the site there is only one movie page, for the movie "Avengers", and one discussion
+page, for the topic "Iron Man is the coolest Avenger". All other movies and discussion topics 
+simulate dummy data and will redirect the user/admin to the the only currently existing movie page 
+and discussion page.
 
 ## User features / instructions
 
@@ -76,12 +85,9 @@ The admin can do all the things that a regular user can do. Additionally, the ad
 
 - Admin Dash page
 	- See the total number of users, films, discussion topics and comments in dial form
-	- See visual aspects of popular genre and top contributors in the site (we may change the visual charts later on phase 2 depending on data stored in server
+	- See visual aspects of popular genre and top contributors in the site (we may change the visual 
+	charts later on phase 2 depending on data stored in server
 	- Able to view all users in database
 	- Able to search for individual users
 	- Able to change username and password for individual users
 	- Able to delete users.
-
-
-
-
