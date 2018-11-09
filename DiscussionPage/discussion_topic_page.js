@@ -84,10 +84,6 @@ function deleteComment(e){
 
 	let postToRemove = e.target.parentElement.parentElement;
 	comments.removeChild(postToRemove);
-
-	$("#replyPost").on('click', replyToDiscussion);
-	$(".reply").on('click', replyToPost);
-	$(".close").on('click', deleteComment);
 }
 
 
@@ -300,7 +296,7 @@ function replyToDiscussion(e){
 		if (comments.firstElementChild){
 		comments.insertBefore(reply, comments.firstElementChild);
 		}else {
-			comments.append(reply);
+			comments.appendChild(reply);
 		}
 	}
 	
