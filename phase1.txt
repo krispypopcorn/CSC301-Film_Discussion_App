@@ -30,7 +30,7 @@ A user can do the following, by pages:
 
 - Common to all pages (through navbar):
 	- Search for a movie e.g. 'Avengers', 'Halloween', 'Life of Pi' 
-	- Navigate to the user's profile by clicking on user's icon (top-left corner)
+	- Navigate to the user's profile by clicking on user's icon (top-right corner)
 	- Sign out of platform
 
 - Homepage:
@@ -49,7 +49,7 @@ A user can do the following, by pages:
 - Discussion page:
 	- See the discussion topic (title on banner)
 	- See which movie the discussion topic is about (film title on banner)
-	- Navigate to the movie by cliking on film title
+	- Navigate to the movie by clicking on film title
 	- Read the discussion topic description
 	- See the different comments and replies on that topic 
 	- Add a new comment 
@@ -63,7 +63,7 @@ A user can do the following, by pages:
 	- Change password
 
 
-## Admin featues / Instructions
+## Admin features / Instructions
 
 - Login page
 	- username: admin

@@ -1,0 +1,3 @@
+I think the discussion area needs some refinement. It is a bit difficult to see the breaks between a comment and its corresponding replies.
+
+I also didnt see anything related to the APIs you mentioned in your proposal. I know that I was cautioning you on the use of APIs but you seem skilled enough to use them and the related features tied to the APIs that you mention in the proposal seem like things that should make it into your final product.
