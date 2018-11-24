@@ -9,7 +9,7 @@ const { Movie } = require('./model/Movie')
 // const { mongoose } = require('../Database/db/mongoose');
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/ConspireView', { useNewUrlParser: true});
-
+// mongoose.connect('mongodb+srv://admin:admin@cluster0-6kdjm.mongodb.net/admin')
 
 const app = express()
 
@@ -23,27 +23,40 @@ app.get('/getNowPlaying', (req, res) => {
 
 app.get('/getTrending', (req, res) => {
 
+    let count = 0;
+    let data = []
     movieServer.getTrending().then((result) => {
-        log("works")
         for(let i = 0; i < result.length; i++) {
-            // log('works2')
+            count++;
             let movie = new Movie({
                 name: result[i].title,
                 year: result[i].release_date,
                 poster: 'https://image.tmdb.org/t/p/original/' + result[i].poster_path,
-                banner: 'https://image.tmdb.org/t/p/original/' + result[i].backdrop_path
+                banner: 'https://image.tmdb.org/t/p/original/' + result[i].backdrop_path,
+                numOfDiscussions: 0,
+                numOfComments: 0,
+                vote_average: 0
             })
-            // log('works2')
-            movie.save().catch((error) => {
-                res.status(400).send(error)
-            })
-            // log('works2')
-
+            data.push(movie)
+            // log('works2')    
         }
+        return count
+    }).then((result) => {
+        Movie.insertMany(data).then((result) => {
+            res.send(result)
+        })
+        log(`${result} movies were added`)
     }).catch((error) => {
         console.log(error)
     })
-    log('works2')
+
+    
+
+    // Movie.find().then((movies) => {
+	// 	res.send({ movies }) 
+	// }, (error) => {
+	// 	res.status(400).send(error)
+	// })
     
 })
 
@@ -57,34 +70,39 @@ app.get('/movies', (req, res) => {
 app.get('/movie/:name/:year', (req, res) => {
     const name = req.params.name
     const year = req.params.year
-    let movieObject
+    // let movieObject
     movieServer.getMovie(name, year).then((result) => {
-            movieObject = new Movie({
-            name: result.title,
-            year: result.release_date,
-            poster: result.poster_path,
-            banner: result.backdrop_path,
-            numOfDiscussions: 0,
-            numOfComments: 0,
-            vote_average: 0
+
+        new Movie({
+        name: result.title,
+        year: result.release_date,
+        poster: result.poster_path,
+        banner: result.backdrop_path,
+        numOfDiscussions: 0,
+        numOfComments: 0,
+        vote_average: 0
             // discussions: null
-        })
-        // movieObject.save().then((result) => {
-        //     res.send(result)
-        // })
-        movieObject.save()
-        res.send(movieObject)
+        }).save().then(result => {
+            res.send(result)
+        })        
     }).catch((error) => {
         log(error)
     })
 })
 
-app.get('/', (req, res) => {
+app.get('/findAll', (req, res) => {
+    log('found me')
     Movie.find().then((movies) => {
 		res.send({ movies }) 
 	}, (error) => {
 		res.status(400).send(error)
 	})
+})
+
+app.get('/delete', (req, res) => {
+    Movie.deleteMany({ }).then((result) => {
+        res.send(result)
+    })
 })
 
 app.listen(port, () => {
