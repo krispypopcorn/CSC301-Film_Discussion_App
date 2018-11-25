@@ -1,9 +1,13 @@
+OUR DATABASE: const databaselink='mongodb://Micari:password1@ds021681.mlab.com:21681/conspire_db'
+
 Responsibilities 
 
 Mark(
     Ask mark for storing tuples?
     Isolate server so not big file
 )
+
+create buffer for default icon
 
 Micari(
     Homepage - route for each discussion click, fetching data
@@ -20,13 +24,19 @@ Faiyaz(
 
 Fernanda(
     sign up page (Need place to upload icon, convert to buffer)
+    
     modify user profile
+     - password
+     - delete replies
+     - comments doesn't need image.
+    
     change password page - javascript
     routes to server
 )
 
 Ishaan(
     discussion page
+     - Add the discussion image back
     routes to server 
     (If need help, ask anyone of us)
 )
