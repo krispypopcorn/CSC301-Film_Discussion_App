@@ -11,7 +11,7 @@ const Discussion = mongoose.model('Discussion',{
     },
 
     date: {
-        type: Date,
+        type: String,
     },
 
     discussion_content: {
@@ -32,11 +32,11 @@ const Discussion = mongoose.model('Discussion',{
         default: 0
     },
 
-    // img: {
-    //     data: Buffer,
-    //     contentType: String,
-    //     required: true
-    // },
+     img: {
+         data: Buffer,
+         contentType: String,
+         required: true
+     },
 
     comments: {
         type: Array,

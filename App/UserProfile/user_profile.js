@@ -55,11 +55,11 @@ discussions.push(new Discussion("Discussion Topic", DummyUser, DummyText));
 
 
 /*-------------Add Event-listener-------------*/
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission;});
-$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
-$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
+$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html";});
+$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
+$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
-$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
+$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $('#DiscussionTopics').click(display_discussion_topics)
