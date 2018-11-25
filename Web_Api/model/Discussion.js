@@ -20,11 +20,11 @@ const Discussion = mongoose.model('Discussion',{
     },
 
     user: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.Mixed
     },
 
     movie: {
-        type: Schema.Types.Mixed,
+        type: Schema.Types.Mixed
     },
 
     likes: {
@@ -32,11 +32,11 @@ const Discussion = mongoose.model('Discussion',{
         default: 0
     },
 
-    // img: {
-    //     data: Buffer,
-    //     contentType: String,
-    //     required: true
-    // },
+    img: {
+        data: Buffer,
+        contentType: String,
+        required: true
+    },
 
     comments: {
         type: Array,

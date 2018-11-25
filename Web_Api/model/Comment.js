@@ -10,25 +10,21 @@ const Comment =  mongoose.model('Comment',{
     },
 
     user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+        type: Schema.Types.Mixed
     },
 
     discussion: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'Discussion'
+        type: Schema.Types.Mixed,
+        required: true
     },
 
     comment: {
-        type: Schema.Types.ObjectId,
-        default: null,
-        ref: 'Comment'
+        type: Schema.Types.Mixed,
+        default: null
     },
 
     date: {
-        type: Date,
-        default: Date.now
+        type: Date
     },
 
     replies: {
