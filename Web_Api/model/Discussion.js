@@ -1,0 +1,49 @@
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
+
+const Discussion = mongoose.model('Discussion',{
+    title: {
+        type: String,
+        trim: true,
+        unique: true,
+        minlength: 1,
+        required: true
+    },
+
+    // date: {
+    //     type: Date,
+    // },
+
+    discussion_content: {
+        type: String,
+        required: true
+    },
+
+    // user: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'User'
+    // },
+
+    // movie: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Movie'
+    // },
+
+    likes: {
+        type: Number,
+        default: 0
+    },
+
+    // img: {
+    //     data: Buffer,
+    //     contentType: String,
+    //     required: true
+    // },
+
+    comments: {
+        type: Array,
+        default: []
+    }
+})
+
+module.exports = {Discussion}

@@ -1,17 +1,66 @@
 'use strict'
 const log = console.log;
 
+const databaselink='mongodb://Micari:password1@ds021681.mlab.com:21681/conspire_db'
 const express = require('express')
 const port = process.env.PORT || 8000
 const movieServer = require('./movie-getter')
+const path = require('path')
 // const { Movie } = require('../Models/./Movie')
 const { Movie } = require('./model/Movie')
 // const { mongoose } = require('../Database/db/mongoose');
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/ConspireView', { useNewUrlParser: true});
+const mongo = require('mongodb')
+mongoose.connect(databaselink, { useNewUrlParser: true});
 // mongoose.connect('mongodb+srv://admin:admin@cluster0-6kdjm.mongodb.net/admin')
 
 const app = express()
+
+app.use( express.static( path.join(__dirname, '../App') ));
+
+/* 
+*get Login page
+ */
+app.get('/', (req, res) => {
+
+    res.sendFile(path.join(__dirname, '../App/Login/index.html'))   
+})
+
+/* 
+*get Home page
+ */
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, '../App/Homepage/homepage.html'))   
+})
+
+/* 
+*get discussion page
+ */
+app.get('/discussionPage', (req, res) => {
+    res.sendFile(path.join(__dirname, '../App/DiscussionPage/discussion_topic_page.html'))   
+})
+
+/* 
+*get profile page
+ */
+app.get('/profilePage', (req, res) => {
+    res.sendFile(path.join(__dirname, '../App/UserProfile/user_profile.html'))   
+})
+
+/* 
+*get movie page
+ */
+app.get('/moviePage', (req, res) => {
+    res.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html'))   
+})
+
+/* 
+*get admin dash
+ */
+app.get('/adminDash', (req, res) => {
+    res.sendFile(path.join(__dirname, '../App/AdminDash/admin.html'))   
+})
+
 
 app.get('/getNowPlaying', (req, res) => {
 
@@ -32,10 +81,7 @@ app.get('/getTrending', (req, res) => {
                 name: result[i].title,
                 year: result[i].release_date,
                 poster: 'https://image.tmdb.org/t/p/original/' + result[i].poster_path,
-                banner: 'https://image.tmdb.org/t/p/original/' + result[i].backdrop_path,
-                numOfDiscussions: 0,
-                numOfComments: 0,
-                vote_average: 0
+                banner: 'https://image.tmdb.org/t/p/original/' + result[i].backdrop_path
             })
             data.push(movie)
             // log('works2')    
@@ -65,11 +111,9 @@ app.get('/getTrending', (req, res) => {
 	// })
     
 
-
 app.get('/movies', (req, res) => {
-    
     Movie.find().then((movies) => {
-        res.send({movies})
+        res.send(movies)
     })
 })
 
@@ -121,6 +165,19 @@ app.get('/delete', (req, res) => {
     })
 })
 
+
+/*
+    get all discussions in the database
+*/
+
+app.get('/discussions', (req, res) => {
+    Discussion.find().then((discussions) => {
+        res.send(discussions)
+    })
+})
+
+
 app.listen(port, () => {
     log(`Listening on port ${port}...`)
 })
+
