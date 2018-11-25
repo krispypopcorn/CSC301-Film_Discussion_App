@@ -10,24 +10,22 @@ const Discussion = mongoose.model('Discussion',{
         required: true
     },
 
-    // date: {
-    //     type: Date,
-    // },
+    date: {
+        type: Date,
+    },
 
     discussion_content: {
         type: String,
         required: true
     },
 
-    // user: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User'
-    // },
+    user: {
+        type: Schema.Types.ObjectId,
+    },
 
-    // movie: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Movie'
-    // },
+    movie: {
+        type: Schema.Types.Mixed,
+    },
 
     likes: {
         type: Number,

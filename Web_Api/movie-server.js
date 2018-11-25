@@ -8,6 +8,7 @@ const movieServer = require('./movie-getter')
 const path = require('path')
 // const { Movie } = require('../Models/./Movie')
 const { Movie } = require('./model/Movie')
+const { Discussion } = require('./model/Discussion')
 // const { mongoose } = require('../Database/db/mongoose');
 const mongoose = require('mongoose')
 const mongo = require('mongodb')

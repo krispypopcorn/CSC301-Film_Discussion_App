@@ -21,10 +21,11 @@ const movieDiv = $("#movieSlider .column:first").clone();
 let homeMovies = [];
 
 
-fetch('http://localhost:8000/movies').then(res => { 
+fetch('http://localhost:8000/discussions').then(res => { 
   return res.json()
 }).then(data=>{
   //array of movies
+  console.log(data)
   homeMovies = data;
   
   //store the total number of discussions and movie
