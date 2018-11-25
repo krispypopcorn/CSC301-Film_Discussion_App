@@ -40,15 +40,21 @@ app.get('/getTrending', (req, res) => {
             data.push(movie)
             // log('works2')    
         }
-        return count
+        return data
     }).then((result) => {
-        Movie.insertMany(data).then((result) => {
-            res.send(result)
+    Movie.insertMany(result).then((dataInserted) => {
+        res.send(dataInserted)
         })
-        log(`${result} movies were added`)
-    }).catch((error) => {
-        console.log(error)
+
     })
+})
+    // Movie.insertMany(data).then((result) => {
+    //     res.send(result)
+    //     log(`${result} movies were added`)
+    // })
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
 
     
 
@@ -58,7 +64,7 @@ app.get('/getTrending', (req, res) => {
 	// 	res.status(400).send(error)
 	// })
     
-})
+
 
 app.get('/movies', (req, res) => {
     
@@ -67,6 +73,10 @@ app.get('/movies', (req, res) => {
     })
 })
 
+/*
+    Adds a single movie given a name and release
+    year
+*/
 app.get('/movie/:name/:year', (req, res) => {
     const name = req.params.name
     const year = req.params.year
@@ -90,15 +100,21 @@ app.get('/movie/:name/:year', (req, res) => {
     })
 })
 
+/*
+    Returns all the current movies in the database
+*/
 app.get('/findAll', (req, res) => {
     log('found me')
-    Movie.find().then((movies) => {
+    Movie.find({}).then((movies) => {
 		res.send({ movies }) 
 	}, (error) => {
 		res.status(400).send(error)
 	})
 })
 
+/*
+    Deletes all movies in the database
+*/
 app.get('/delete', (req, res) => {
     Movie.deleteMany({ }).then((result) => {
         res.send(result)
