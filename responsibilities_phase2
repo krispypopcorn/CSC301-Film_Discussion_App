@@ -1,0 +1,32 @@
+Responsibilities 
+
+Mark(
+    Ask mark for storing tuples?
+    Isolate server so not big file
+)
+
+Micari(
+    Homepage - route for each discussion click, fetching data
+    Upload picture for movie page
+    upload
+    routes to server
+)
+
+Faiyaz(
+    Add admin dash functionalities - add 
+    queries to fetch data from server
+    routes to server
+)
+
+Fernanda(
+    sign up page (Need place to upload icon, convert to buffer)
+    modify user profile
+    change password page - javascript
+    routes to server
+)
+
+Ishaan(
+    discussion page
+    routes to server 
+    (If need help, ask anyone of us)
+)

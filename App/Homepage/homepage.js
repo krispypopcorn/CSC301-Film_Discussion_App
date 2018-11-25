@@ -21,7 +21,7 @@ const movieDiv = $("#movieSlider .column:first").clone();
 let homeMovies = [];
 
 
-fetch('http://localhost:8000/discussions').then(res => { 
+fetch('http://localhost:8000/movies').then(res => { 
   return res.json()
 }).then(data=>{
   //array of movies
