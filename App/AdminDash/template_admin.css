@@ -38,7 +38,7 @@
 
 .table-wrapper-scroll-y {
   display: block;
-  max-height: 300px;
+  max-height: 500px;
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
@@ -59,4 +59,9 @@
     border-radius: 50%;
     width: 50px;
     height: 50px;
+}
+
+.moviePoster{
+
+    width: 70px;
 }

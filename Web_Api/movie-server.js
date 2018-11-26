@@ -145,6 +145,30 @@ app.get('/movie/:name/:year', (req, res) => {
     })
 })
 
+app.get('/search/:name/:year', (req, res) => {
+    const name = req.params.name
+    const year = req.params.year
+    // let movieObject
+    movieServer.getMovie(name, year).then((result) => {
+
+        let data = {
+        name: result.title,
+        year: result.release_date,
+        poster: result.poster_path,
+        banner: result.backdrop_path,
+        numOfDiscussions: 0,
+        numOfComments: 0,
+        vote_average: 0
+            // discussions: null
+        }
+        return data;
+    }).then((result) => {
+        res.send(result)
+    }).catch((error) => {
+        log(error)
+    })
+})
+
 /*
     Returns all the current movies in the database
 */
