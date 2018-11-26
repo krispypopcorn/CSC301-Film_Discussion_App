@@ -15,6 +15,8 @@ const searchNewMovie = document.querySelector('#verifyMovie')
 
 const movieDataTable = document.querySelector('#movieDataTable')
 
+const formMovieAdd = document.querySelector('#addNewMovie')
+
 class User {
 	constructor(image, username, numPost) {
 		this.image = image;
@@ -45,20 +47,23 @@ saveButton.addEventListener('click', saveUser)
 
 searchNewMovie.addEventListener('click', verifyMovie)
 
-// addMovieButton.addEventListener('click', addNewMovie)
+formMovieAdd.addEventListener('click', openForm)
+
+
+addMovieButton.addEventListener('click', addNewMovie)
 
 
 /* Populating movieDataTable with existing movies in 
 	database 	*/
 populateMovieTable();
-addMovieButton.disabled = 'true'
 
+function openForm() {
+	addMovieButton.disabled = 'true'
+}
 
 function verifyMovie() {
 
-
 	console.log('reached')
-	let search_success = 0;
 	
 	// Get requested movie name
 	const movieName = document.querySelector('#movieName').value
@@ -75,15 +80,27 @@ function verifyMovie() {
 		moviePoster.setAttribute('src', data.poster)
 
 		const placement = document.querySelector('#addMovieImagePlace')
-		placement.appendChild(moviePoster)
-		search_success = 1
-		return search_success
-	}).then((result) => {
-		if (result === 1) {
-			addMovieButton.disabled = 'false'
+		if (placement.firstElementChild !== null) {
+			placement.removeChild(placement.firstElementChild)
 		}
+		placement.appendChild(moviePoster)
+		addMovieButton.removeAttribute('disabled')
 	}).catch((error) => {
 		console.log(error)
+	})
+
+}
+
+function addNewMovie() {
+
+	const movieName = document.querySelector('#movieName').value
+	const movieYear = document.querySelector('#movieYear').value
+	
+	fetch(`http://localhost:8000/movie/${movieName}/${movieYear}`).then(res => {
+		return res.json()
+	}).then((result) => {
+		removeData(movieDataTable)
+		populateMovieTable()
 	})
 
 }
