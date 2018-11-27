@@ -2,57 +2,140 @@
 const log = console.log;
 
 const databaselink='mongodb://Micari:password1@ds021681.mlab.com:21681/conspire_db'
+
 const express = require('express')
 const port = process.env.PORT || 8000
 const movieServer = require('./movie-getter')
 const path = require('path')
-// const { Movie } = require('../Models/./Movie')
+var session = require('express-session')
 const { Movie } = require('./model/Movie')
-const { Discussion } = require('./model/Discussion')
-// const { mongoose } = require('../Database/db/mongoose');
+const User = require('./model/User')
+//const { Discussion } = require('./model/Discussion')
 const mongoose = require('mongoose')
-const mongo = require('mongodb')
+var bodyParser = require('body-parser');
 mongoose.connect(databaselink, { useNewUrlParser: true});
-// mongoose.connect('mongodb+srv://admin:admin@cluster0-6kdjm.mongodb.net/admin')
-
 const app = express()
-
 app.use( express.static( path.join(__dirname, '../App') ));
+app.use(session({
+	secret: 'somesecret',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		expires: 60000,
+        httpOnly: true
+	}
+}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const sessionChecker = (req, res, next)=>{
+    if(req.session.user) {
+        res.redirect('/home')
+    }else{
+        next()
+    }
+}
 
 /* 
 *get Login page
  */
-app.get('/', (req, res) => {
+app.get('/',sessionChecker, (req, res) => {
+    res.redirect('/login')
+})
 
+app.get('/login', sessionChecker,(req,res) => {
+    console.log(res.session.user)
     res.sendFile(path.join(__dirname, '../App/Login/index.html'))   
+});
+
+app.post('/users/login', (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+    User.authenticate(username, password).then((user) => {
+		if (!user) {
+            res.status(400).send("invalid user")
+		} else {
+            req.session.user = user._id
+			res.redirect('/home')
+		}
+	}).catch((error) => {
+		res.status(400).send("invalid user")
+	})  
+});
+
+app.post('/creatUser',(req, res)=>{
+    const userData = new User({
+        username: req.body.username,
+        password: req.body.password,
+        admin: false,
+        icon: "temp",
+        like:0,
+        discussion:[],
+        comments:[]
+      })
+      userData.save(function (error, user) {
+        if (error) {
+            res.send(error)
+        } else {
+          req.session.userId = user._id;
+          return res.redirect('/home');
+        }
+      });
+})
+
+app.get('/logout', (req, res)=>{
+    req.session.destroy((error)=>{
+        if(error){
+            res.status(500).send(error)
+        }else{
+            res.redirect('/login')
+        }
+    })
 })
 
 /* 
 *get Home page
  */
 app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, '../App/Homepage/homepage.html'))   
+    //check if we have active session cookie
+    if(req.session.user){
+        res.sendFile(path.join(__dirname, '../App/Homepage/homepage.html')) 
+    }else{
+        res.redirect('/login')
+    }
 })
 
 /* 
 *get discussion page
  */
 app.get('/discussionPage', (req, res) => {
-    res.sendFile(path.join(__dirname, '../App/DiscussionPage/discussion_topic_page.html'))   
+    if(req.session.user){
+        res.sendFile(path.join(__dirname, '../App/DiscussionPage/discussion_topic_page.html')) 
+    }else{
+        res.redirect('login')
+    }
 })
 
 /* 
 *get profile page
  */
 app.get('/profilePage', (req, res) => {
-    res.sendFile(path.join(__dirname, '../App/UserProfile/user_profile.html'))   
+    if(req.session.user){
+        res.sendFile(path.join(__dirname, '../App/UserProfile/user_profile.html'))   
+    }else{
+        res.redirect('login')
+    }
 })
 
 /* 
 *get movie page
  */
 app.get('/moviePage', (req, res) => {
-    res.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html'))   
+    if(req.session.user){
+        es.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html')) 
+    }else{
+        res.redirect('login')
+    } 
 })
 
 /* 
@@ -62,13 +145,10 @@ app.get('/adminDash', (req, res) => {
     res.sendFile(path.join(__dirname, '../App/AdminDash/admin.html'))   
 })
 
-
 app.get('/getNowPlaying', (req, res) => {
-
     movieServer.getNowPlaying().then((result)=> {
         res.send(result)
     })
-    
 })
 
 app.get('/getTrending', (req, res) => {
@@ -94,25 +174,12 @@ app.get('/getTrending', (req, res) => {
         })
 
     })
-})
-    // Movie.insertMany(data).then((result) => {
-    //     res.send(result)
-    //     log(`${result} movies were added`)
-    // })
-    // }).catch((error) => {
-    //     console.log(error)
-    // })
-
+});
     
-
-    // Movie.find().then((movies) => {
-	// 	res.send({ movies }) 
-	// }, (error) => {
-	// 	res.status(400).send(error)
-	// })
-    
-
-app.get('/movies', (req, res) => {
+/*
+    Returns all the current movies in the database
+*/
+app.get('/findAllMovies', (req, res) => {
     Movie.find().then((movies) => {
         res.send(movies)
     })
@@ -143,40 +210,26 @@ app.get('/movie/:name/:year', (req, res) => {
     }).catch((error) => {
         log(error)
     })
-})
-
-/*
-    Returns all the current movies in the database
-*/
-app.get('/findAll', (req, res) => {
-    log('found me')
-    Movie.find({}).then((movies) => {
-		res.send({ movies }) 
-	}, (error) => {
-		res.status(400).send(error)
-	})
-})
+});
 
 /*
     Deletes all movies in the database
 */
-app.get('/delete', (req, res) => {
+app.get('/deleteAllMovies', (req, res) => {
     Movie.deleteMany({ }).then((result) => {
         res.send(result)
     })
 })
 
-
 /*
     get all discussions in the database
 */
 
-app.get('/discussions', (req, res) => {
-    Discussion.find().then((discussions) => {
-        res.send(discussions)
-    })
-})
-
+// app.get('/getAllDiscussions', (req, res) => {
+//     Discussion.find().then((discussions) => {
+//         res.send(discussions)
+//     })
+// })
 
 app.listen(port, () => {
     log(`Listening on port ${port}...`)
