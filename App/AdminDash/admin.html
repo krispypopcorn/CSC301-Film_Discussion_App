@@ -167,10 +167,87 @@
     <br>
     <br>
 
-    <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-outline-success my-2 ml-sm-2" data-toggle="modal" data-target="#exampleModal">
-		  Launch demo modal
-		</button> -->
+
+    <div class="container">
+        <form class="form-inline" id="dataForm">
+            <input id="MovieSearch" class="form-control mr-sm-2" type="search" placeholder="Enter Movie" aria-label="Search">
+            <input id="MovieQuery" class="btn btn-outline-success my-2 ml-sm-2" type="submit" value="Search">
+        </form>
+        <div class="searchError"></div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <button id="showAllMovies" class="btn btn-outline-success my-2 ml-sm-2" type="button">Show All</button>
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-3">
+                    <button id="addNewMovie" class="btn btn-outline-success my-2 ml-sm-2" type="button" data-toggle="modal" data-target="#AddMovieModal">Add New Movie</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-wrapper-scroll-y">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date of Release</th>
+                        <th scope="col">Number of Discussions</th>
+                    </tr>
+                </thead>
+                <tbody id="movieDataTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<!-- Add Movie Pop up -->
+<div class="modal fade" id="AddMovieModal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Movie</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Movie Name
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                    <input id="movieName" class="form-control mr-sm-2" placeholder="Enter Movie">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Year Released
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                    <input id="movieYear" class="form-control mr-sm-2" placeholder="Enter Year">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6" id="addMovieImagePlace">
+                                    <!-- Image will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success my-2 ml-sm-2" data-dismiss="modal">Close</button>
+                        <button id="verifyMovie" type="button" class="btn btn-outline-success my-2 ml-sm-2">Search</button>
+                        <button id="addMovieButton" type="button" class="btn btn-outline-success my-2 ml-sm-2" data-dismiss="modal">Add Movie</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- Edit User Pop up -->
     <div class="modal fade" id="EditUserModal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
@@ -209,7 +286,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

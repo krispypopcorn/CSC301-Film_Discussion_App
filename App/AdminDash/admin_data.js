@@ -9,6 +9,13 @@ const dataTable = document.querySelector("#dataTable");
 
 const saveButton = document.querySelector("#SaveButton")
 
+const addMovieButton = document.querySelector('#addMovieButton')
+
+const searchNewMovie = document.querySelector('#verifyMovie')
+
+const movieDataTable = document.querySelector('#movieDataTable')
+
+const formMovieAdd = document.querySelector('#addNewMovie')
 
 class User {
 	constructor(image, username, numPost) {
@@ -38,6 +45,118 @@ dataTable.addEventListener('click', editUserOrDelete)
 
 saveButton.addEventListener('click', saveUser)
 
+searchNewMovie.addEventListener('click', verifyMovie)
+
+formMovieAdd.addEventListener('click', openForm)
+
+
+addMovieButton.addEventListener('click', addNewMovie)
+
+
+/* Populating movieDataTable with existing movies in 
+	database 	*/
+populateMovieTable();
+
+function openForm() {
+	addMovieButton.disabled = 'true'
+}
+
+function verifyMovie() {
+
+	console.log('reached')
+	
+	// Get requested movie name
+	const movieName = document.querySelector('#movieName').value
+	const movieYear = document.querySelector('#movieYear').value
+	// console.log(`${movieName} ${movieYear}`)
+
+	// Search, Save and get data from movie
+
+	fetch(`http://localhost:8000/search/${movieName}/${movieYear}`).then(res => {
+		return res.json()
+	}).then(data => {
+		const moviePoster = document.createElement('img')
+		moviePoster.className = 'moviePoster'
+		moviePoster.setAttribute('src', data.poster)
+
+		const placement = document.querySelector('#addMovieImagePlace')
+		if (placement.firstElementChild !== null) {
+			placement.removeChild(placement.firstElementChild)
+		}
+		placement.appendChild(moviePoster)
+		addMovieButton.removeAttribute('disabled')
+	}).catch((error) => {
+		console.log(error)
+	})
+
+}
+
+function addNewMovie() {
+
+	const movieName = document.querySelector('#movieName').value
+	const movieYear = document.querySelector('#movieYear').value
+	
+	fetch(`http://localhost:8000/movie/${movieName}/${movieYear}`).then(res => {
+		return res.json()
+	}).then((result) => {
+		removeData(movieDataTable)
+		populateMovieTable()
+	})
+
+}
+
+
+
+
+function populateMovieTable() {
+
+	let currentMovies;
+	
+	fetch('http://localhost:8000/movies').then(res => { 
+  		return res.json()
+	}).then(data=>{
+		currentMovies = data;
+		// console.log(currentMovies)
+		for(let i = 0; i < currentMovies.length; i++) {
+
+			let poster = currentMovies[i].poster
+			let movieName = currentMovies[i].name
+			let date = currentMovies[i].year
+			let numDiscussions = currentMovies[i].numOfDiscussions
+			addToMovieTable(poster, movieName, date, numDiscussions);
+		}
+
+	})
+}
+
+function addToMovieTable(poster, movieName, date, numDiscussions) {
+
+	let currentRow = document.createElement('tr')
+
+	let posterData = document.createElement('th')
+	let posterImage = document.createElement('img')
+	posterImage.setAttribute('src', poster)
+	posterImage.className = "moviePoster";
+	posterData.appendChild(posterImage)
+
+	let movieNameData = document.createElement('td')
+	movieNameData.appendChild(document.createTextNode(movieName))
+
+	let dateData = document.createElement('td')
+	dateData.appendChild(document.createTextNode(date))
+
+	let numDiscussionsData = document.createElement('td')
+	numDiscussionsData.appendChild(document.createTextNode(numDiscussions))
+
+	currentRow.appendChild(posterData)
+	currentRow.appendChild(movieNameData)
+	currentRow.appendChild(dateData)
+	currentRow.appendChild(numDiscussionsData)
+
+	movieDataTable.appendChild(currentRow)
+
+
+}
 
 
 function saveUser(e) {
@@ -62,7 +181,7 @@ function saveUser(e) {
 	let newUserName = document.querySelector('#editUsername').value
 	userToModify.username = newUserName;
 
-	removeData()
+	removeData(dataTable)
 	addAvailableData()
 
 	// Would also modify the password in this function 
@@ -119,7 +238,7 @@ function editUserOrDelete(e) {
 function showSelected(e) {
 
 	e.preventDefault();
-	removeData();
+	removeData(dataTable);
 	let nameToSearch = document.querySelector("#filterSearch").value;
 	let flag = 0;
 
@@ -148,22 +267,22 @@ function showAllData(e) {
 	e.preventDefault()
 	// console.log("pressed")
 
-	removeData();
+	removeData(dataTable);
 	addAvailableData();
 
 }
 
-function removeData() {
+function removeData(table) {
 
 	let resetError = document.querySelector(".searchError")
 	resetError.innerText = ""
 
-	let currentRow = dataTable.firstElementChild
+	let currentRow = table.firstElementChild
 
 	while (currentRow !== null) {
 		let temp = currentRow.nextElementSibling
 		console.log()
-		dataTable.removeChild(currentRow)
+		table.removeChild(currentRow)
 		currentRow = temp
 	}
 }
