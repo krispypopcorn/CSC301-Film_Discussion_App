@@ -49,7 +49,7 @@ new Promise((resolve, reject)=>{
   changeMovies(page1);
   page1 = discussions.slice(0, 4)
   changeDiscussions(page1)
-
+  changeDiscussions(page1,'Latest')
   changeSlider()
 
 })
