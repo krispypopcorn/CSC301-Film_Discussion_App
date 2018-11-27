@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const Discussion = mongoose.model('Discussion',{
+const DisSchema = new mongoose.Schema({
     title: {
         type: String,
         trim: true,
@@ -32,11 +32,9 @@ const Discussion = mongoose.model('Discussion',{
         default: 0
     },
 
-    //  img: {
-    //      data: Buffer,
-    //      contentType: String,
-    //      required: true
-    //  },
+    img: {
+          type: String,
+    },
 
     comments: {
         type: Array,
@@ -44,4 +42,6 @@ const Discussion = mongoose.model('Discussion',{
     }
 })
 
-module.exports = {Discussion}
+
+var Discussion = mongoose.model('Discussion', DisSchema);
+module.exports = Discussion;

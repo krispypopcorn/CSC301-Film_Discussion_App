@@ -10,7 +10,7 @@ const path = require('path')
 var session = require('express-session')
 const { Movie } = require('./model/Movie')
 const User = require('./model/User')
-//const { Discussion } = require('./model/Discussion')
+const Discussion = require('./model/Discussion')
 const mongoose = require('mongoose')
 var bodyParser = require('body-parser');
 mongoose.connect(databaselink, { useNewUrlParser: true});
@@ -225,11 +225,11 @@ app.get('/deleteAllMovies', (req, res) => {
     get all discussions in the database
 */
 
-// app.get('/getAllDiscussions', (req, res) => {
-//     Discussion.find().then((discussions) => {
-//         res.send(discussions)
-//     })
-// })
+app.get('/getAllDiscussions', (req, res) => {
+     Discussion.find().then((discussions) => {
+         res.send(discussions)
+     })
+})
 
 app.listen(port, () => {
     log(`Listening on port ${port}...`)

@@ -5,7 +5,6 @@ $("#login_btn").click(checkPermission);
 let msg=false;
 
 const url = 'http://localhost:8000/users/login'
-let invalid_msg_on_screen = false
 
 function checkPermission(e){
     e.preventDefault()

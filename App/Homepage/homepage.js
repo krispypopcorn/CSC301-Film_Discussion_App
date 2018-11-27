@@ -8,6 +8,8 @@ $("#Movie .column").on('click', function(event) {window.location.href = "../Movi
 $("#homeLink").on('click', function(event) {window.location.href = "homepage.html";});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
+$(".previousButton").on('click',loadPreviousPage);
+$(".nextButton").on('click',loadNextPage);
 /*-------------Add Event-listener-------------*/
 
 //store current page
@@ -19,60 +21,38 @@ let LatestPage = 1;
 const discussionDiv = $("#latestSlider .column:first").clone();
 const movieDiv = $("#movieSlider .column:first").clone();
 let homeMovies = [];
+let discussions = [];
+let numberOfDiscusstions;
+let numberOfMovies;
 
+const movieFetch=fetch('http://localhost:8000/findAllMovies')
+const discussionFetch=fetch('http://localhost:8000/getAllDiscussions')
 
-fetch('http://localhost:8000/movies').then(res => { 
-  return res.json()
-}).then(data=>{
-  //array of movies
-  console.log(data)
-  homeMovies = data;
-  
-  //store the total number of discussions and movie
-  //we should pull this from server
-  let numberOfDiscusstions = 6;
-  let numberOfMovies = homeMovies.length;
-//array of discussions
-//we should pull this from server
-const discussions = [];
+new Promise((resolve, reject)=>{
+  Promise.all([movieFetch,discussionFetch]).
+  then(datas=>{
+    datas[0].json().then(res=>{
+      datas[1].json().then(disarray=>{
+        resolve([res, disarray])
+      })
+    })
+  })
+  .catch()
+}).then(res=>{
+  homeMovies = res[0]
+  discussions= res[1]
 
-class User {
-   constructor(username, password) {
-       this.username = username;
-       this.password = password;
-   }
-}
+  numberOfDiscusstions = discussions.length
+  numberOfMovies = homeMovies.length
 
-class Discussion {
-   constructor(title, author, content) {
-       //read from user input or pull from server
-       this.title = title;
-       this.author = author;
-       this.content = content;
-       this.thumbsUp = 130;
- 
-       //user can upload pic, hard code source link for now
-       this.image = '../Pictures/iron_man.jpg'
-   }
-}
+  let page1 = homeMovies.slice(0, 4)
+  changeMovies(page1);
+  page1 = discussions.slice(0, 4)
+  changeDiscussions(page1)
 
-// Dummy user
-const DummyUser = new User("author", "123")
+  changeSlider()
 
-const DummyText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 1", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 2", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 3", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 4", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 5", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 6", DummyUser, DummyText));
-
-$(".previousButton").on('click',loadPreviousPage);
-$(".nextButton").on('click',loadNextPage);
-
-var page1 = homeMovies.slice(0, 4)
-changeMovies(page1);
+})
 
 
 function loadPreviousPage(e) {
@@ -138,6 +118,8 @@ function loadNextPage(e) {
    const id = targetDiv.attr('id');
    
    let total = numberOfDiscusstions;
+
+   console.log(total)
    if(id=='Movie'){
     total = numberOfMovies;}
    const maxPage = Math.ceil(total / 4);
@@ -198,7 +180,7 @@ function createDiscussion(discussion) {
    let newPost = discussionDiv.clone();
    newPost.find(".backGroundImage").attr('src',discussion.image);
    newPost.find(".disTitle").html(discussion.title);
-   newPost.find(".author").html(discussion.author.username);
+   newPost.find(".author").html(discussion.user.username);
    newPost.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";})
    return newPost;
 }
@@ -232,7 +214,7 @@ function changeDiscussions(DisList,id){
        for (i = 0; i < targetList.length; i++) {
           $("#popularSlider").append(targetList[i]);}
    }
-}
+};
 
 function changeMovies(movieList){
    let i;
@@ -247,10 +229,18 @@ function changeMovies(movieList){
    for (i = 0; i < targetList.length; i++) {
        $("#movieSlider").append(targetList[i]);
    }
-  
+};
+
+function changeSlider(){
+  const bannerDiv = $('#CarouselPicHolder').children()
+  let i;
+  let temp = homeMovies.slice();
+  temp.sort((a,b)=>{
+	  return a.vote_average - b.vote_average;
+	});
+  for (i = 0;i<3;i++){
+    let curDiv = bannerDiv[i]
+    curDiv.children[0].src=temp[i].banner
+  }
+
 }
-
-
-});
-
-
