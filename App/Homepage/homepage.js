@@ -199,7 +199,8 @@ function loadNextPage(e) {
 
 function createDiscussion(discussion) {
    let newPost = discussionDiv.clone();
-   newPost.find(".backGroundImage").attr('src',discussion.image);
+   console.log('../Pictures/'+discussion.img)
+   newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
    newPost.find(".disTitle").html(discussion.title);
    newPost.find(".author").html(discussion.user.username);
    newPost.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";})
