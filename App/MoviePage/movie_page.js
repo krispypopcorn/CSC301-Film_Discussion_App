@@ -2,11 +2,11 @@
 
 // number of total discussions under a movie
 // we should pull this from server
-let numberOfDiscusstions = 6;
+let numberOfDiscusstions;
 
 //array of discussions posted by user
 //we should pull this from server
-const discussions = [];
+let discussions = [];
 
 //store search result
 let search = [];
@@ -19,40 +19,6 @@ let currentPage = 1;
 
 //keep a copy of the discussion div as template
 const template = $(".card:first").clone();
-
-
-class Discussion {
-   constructor(title, author, content) {
-       //read from user input or pull from server
-       this.title = title;
-       this.author = author;
-       this.content = content;
-       this.thumbsUp = 130;
- 
-       //user can upload pic, hard code source link for now
-       this.image = '../Pictures/iron_man.jpg'
-   }
-}
-
-class User {
-   constructor(username, password) {
-       this.username = username;
-       this.password = password;
-   }
-}
-
-// Dummy user
-const DummyUser = new User("Dummy", "123")
-
-const DummyText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 1", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 2", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 3", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 4", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 5", DummyUser, DummyText));
-discussions.push(new Discussion("Iron Man is the Coolest Avenger 6", DummyUser, DummyText));
-
 
 /*-------------Add Event-listener-------------*/
 $("#newPost").click(function() {
@@ -75,20 +41,63 @@ $(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
 $("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission;});
 /*-------------Add Event-listener-------------*/
+const movieFetch=fetch('/findAllMovies')
+const discussionFetch=fetch('/getAllDiscussions')
+
+new Promise((resolve, reject)=>{
+  Promise.all([movieFetch,discussionFetch]).
+  then(datas=>{
+    datas[0].json().then(res=>{
+      datas[1].json().then(disarray=>{
+        resolve([res, disarray])
+      })
+    })
+  })
+  .catch()
+}).then(res=>{
+  discussions= res[1]
+  numberOfDiscusstions = discussions.length
+  restoreDiscussion("temp")
+}).catch((error) => {
+  console.log(error)
+})
 
 function addNewDiscussion(e) {
    e.preventDefault();
    const inputTitle = $('#inputTitle').val();
    const inputText = $('#content').val();
-
-   const newDiscussion = new Discussion(inputTitle, DummyUser, inputText);
-   newDiscussion.image = "../Pictures/new_discussion.jpg";
-   newDiscussion.thumbsUp=0;
-   discussions.unshift(newDiscussion);
-   numberOfDiscusstions++;
-   updateTopicNum();
-   addDiscussionToDom(newDiscussion);
-   $("#popup1").toggle(200);
+   const files = document.querySelector('[type=file]').files;
+   const formData = new FormData();
+   formData.append('photo',files[0]);
+   fetch('/uploadImg', {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        return response.json()
+    }).then(url=>{
+        const newDiscussion = {
+            title:inputTitle,
+            discussion_content: inputText,
+            movie: "temp",
+            img: url,
+            likes: 0
+        }
+        fetch('/creatDiscussion', {
+            method: 'POST', 
+            body: JSON.stringify(newDiscussion), 
+            headers:{
+              'Content-Type': 'application/json'
+            }
+          }).then(res => res.json())
+          .then(response => console.log('Success:', JSON.stringify(response)))
+          .catch(error => console.error('Error:', error));
+    
+        discussions.unshift(newDiscussion);
+        numberOfDiscusstions++;
+        updateTopicNum();
+        addDiscussionToDom(newDiscussion);
+        $("#popup1").toggle(200);
+    });
 }
 
 function deletePost(e) {
@@ -140,11 +149,11 @@ function createDiscussion(discussion) {
    
    target[3].addEventListener('click',deletePost);
    newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
-
-   img.attr('src',discussion.image);
-   text.html(discussion.content);
+   console.log(discussion.img)
+   img.attr('src','../Pictures/'+discussion.img);
+   text.html(discussion.discussion_content);
    newTitle.html(discussion.title);
-   upVote.html(discussion.thumbsUp.toString());
+   upVote.html(discussion.likes.toString());
 
    return newPost;
 }

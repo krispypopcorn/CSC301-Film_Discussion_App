@@ -11,7 +11,8 @@ const DisSchema = new mongoose.Schema({
     },
 
     date: {
-        type: String,
+        type: Date,
+        default: new Date,
     },
 
     discussion_content: {

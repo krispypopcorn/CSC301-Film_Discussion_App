@@ -121,9 +121,9 @@ input.star:checked ~ .rev-box{
     position: fixed;
     left: 0;
     right: 0;
-    top: 8%;
+    top:15%;
     width:85vw;
-    height: 85vh;
+    height: 80vh;
     margin: 0 auto;
     background: rgb(84, 84, 87,0.7);
     padding: 2%;
@@ -144,7 +144,7 @@ input.star:checked ~ .rev-box{
 
 .textInput {
     margin-top:1vh;
-    height:68vh;
+    height:63vh;
 }
 
 .title #inputTitle{
@@ -169,6 +169,18 @@ input.star:checked ~ .rev-box{
     width: 7vw;
     height: 5vh;
 }
+
+
+.fileButton {
+    cursor: pointer;
+    border: 1px solid #39393a;
+    background:#66a3ff;
+    color: #fff;
+    border-radius: 20px/50px;
+    width: 7vw;
+    height: 5vh;
+}
+
 
 .submitButtonHolder {
     margin-top:0.5vh;

@@ -25,8 +25,8 @@ let discussions = [];
 let numberOfDiscusstions;
 let numberOfMovies;
 
-const movieFetch=fetch('http://localhost:8000/findAllMovies')
-const discussionFetch=fetch('http://localhost:8000/getAllDiscussions')
+const movieFetch=fetch('/findAllMovies')
+const discussionFetch=fetch('/getAllDiscussions')
 
 new Promise((resolve, reject)=>{
   Promise.all([movieFetch,discussionFetch]).
@@ -51,9 +51,9 @@ new Promise((resolve, reject)=>{
   changeDiscussions(page1)
   changeDiscussions(page1,'Latest')
   changeSlider()
-
+}).catch((error) => {
+  console.log(error)
 })
-
 
 function loadPreviousPage(e) {
    e.preventDefault();
@@ -63,6 +63,10 @@ function loadPreviousPage(e) {
    
    if(id=='MostPopular'){
      if (PopularPage != 1) {
+       let temp = discussions.slice();
+       temp.sort((a,b)=>{
+         return a.likes - b.likes;
+        });
        let index = PopularPage - 1;
        PopularPage--;
        index = index * 4 - 4;
@@ -71,9 +75,8 @@ function loadPreviousPage(e) {
        let max = 4;
        let i = 0;
        
-       //need server call
-       for (i = index; i < discussions.length && max != 0; i++) {
-         targetList.push(discussions[i]);
+       for (i = index; i < temp.length && max != 0; i++) {
+         targetList.push(temp[i]);
          max--;}
       changeDiscussions(targetList,id);
      }
@@ -81,15 +84,18 @@ function loadPreviousPage(e) {
      if (LatestPage != 1) {
        let index = LatestPage - 1;
        LatestPage--;
+       let temp = discussions.slice();
+       temp.sort((a,b)=>{
+         return a.date - b.date;
+        });
        index = index * 4 - 4;
        const targetList = [];
        
        let max = 4;
        let i = 0;
-       
-       //need server call
-       for (i = index; i < discussions.length && max != 0; i++) {
-         targetList.push(discussions[i]);
+
+       for (i = index; i < temp.length && max != 0; i++) {
+         targetList.push(temp[i]);
          max--;}
       changeDiscussions(targetList,id);
      }
@@ -97,6 +103,10 @@ function loadPreviousPage(e) {
      if (moviePage!= 1) {
        let index = moviePage - 1;
        moviePage--;
+       let temp = homeMovies.slice();
+       temp.sort((a,b)=>{
+         return a.vote_average - b.vote_average;
+        });
        index = index * 4 - 4;
        const targetList = [];
        
@@ -104,8 +114,8 @@ function loadPreviousPage(e) {
        let i = 0;
        
        //need server call
-       for (i = index; i < homeMovies.length && max != 0; i++) {
-         targetList.push(homeMovies[i]);
+       for (i = index; i < temp.length && max != 0; i++) {
+         targetList.push(temp[i]);
          max--;}
       changeMovies(targetList);
      }
@@ -128,6 +138,10 @@ function loadNextPage(e) {
      if (PopularPage != maxPage) {
        let index = PopularPage + 1;
        PopularPage++;
+       let temp = discussions.slice();
+       temp.sort((a,b)=>{
+         return a.likes - b.likes;
+        });
        index = index * 4 - 4;
        const targetList = [];
        
@@ -135,8 +149,8 @@ function loadNextPage(e) {
        let i = 0;
        
        //need server call
-       for (i = index; i < discussions.length && max != 0; i++) {
-         targetList.push(discussions[i]);
+       for (i = index; i < temp.length && max != 0; i++) {
+         targetList.push(temp[i]);
          max--;}
       changeDiscussions(targetList,id);
      }
@@ -144,15 +158,18 @@ function loadNextPage(e) {
      if (LatestPage != maxPage) {
        let index = LatestPage + 1;
        LatestPage++;
+       let temp = discussions.slice();
+       temp.sort((a,b)=>{
+         return a.date - b.date;
+        });
        index = index * 4 - 4;
        const targetList = [];
        
        let max = 4;
        let i = 0;
        
-       //need server call
-       for (i = index; i < discussions.length && max != 0; i++) {
-         targetList.push(discussions[i]);
+       for (i = index; i < temp.length && max != 0; i++) {
+         targetList.push(temp[i]);
          max--;}
       changeDiscussions(targetList,id);
      }
@@ -160,6 +177,10 @@ function loadNextPage(e) {
      if (moviePage!= maxPage) {
        let index = moviePage + 1;
        moviePage++;
+       let temp = homeMovies.slice();
+       temp.sort((a,b)=>{
+         return a.vote_average - b.vote_average;
+        });
        index = index * 4 - 4;
        const targetList = [];
        
@@ -167,8 +188,8 @@ function loadNextPage(e) {
        let i = 0;
        
        //need server call
-       for (i = index; i <numberOfMovies && max != 0; i++) {
-         targetList.push(homeMovies[i]);
+       for (i = index; i <temp.length && max != 0; i++) {
+         targetList.push(temp[i]);
          max--;}
       changeMovies(targetList);
      }

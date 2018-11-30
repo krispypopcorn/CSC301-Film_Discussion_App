@@ -13,6 +13,8 @@ const User = require('./model/User')
 const Discussion = require('./model/Discussion')
 const mongoose = require('mongoose')
 var bodyParser = require('body-parser');
+const multer = require("multer");
+
 mongoose.connect(databaselink, { useNewUrlParser: true});
 const app = express()
 app.use( express.static( path.join(__dirname, '../App') ));
@@ -35,6 +37,17 @@ const sessionChecker = (req, res, next)=>{
         next()
     }
 }
+
+var storage = multer.diskStorage({
+    destination: '../App/Pictures',
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+var upload = multer({storage: storage});
+
+app.use(upload.single('photo'));
 
 /* 
 *get Login page
@@ -79,6 +92,23 @@ app.post('/creatUser',(req, res)=>{
         } else {
           req.session.userId = user._id;
           return res.redirect('/home');
+        }
+      });
+})
+
+app.post('/creatDiscussion',(req, res)=>{
+    const disc = new Discussion({
+        title: req.body.title,
+        discussion_content: req.body.discussion_content,
+        user: req.session.userId,
+        movie: req.body.movie,
+        img: req.body.img
+      })
+      disc.save(function (error, user) {
+        if (error) {
+            res.send(error)
+        } else {
+          console.log("new discussion posted")
         }
       });
 })
@@ -132,9 +162,9 @@ app.get('/profilePage', (req, res) => {
  */
 app.get('/moviePage', (req, res) => {
     if(req.session.user){
-        es.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html')) 
+        res.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html')) 
     }else{
-        res.redirect('login')
+        res.redirect('/login')
     } 
 })
 
@@ -290,7 +320,10 @@ app.delete('/search/:name', (req, res) => {
     })
 })
 
-
+//This save a the uploaded img to dest folder
+app.post('/uploadImg', function(req, res, next){
+    res.send(JSON.stringify(req.file.filename));
+});
 
 app.listen(port, () => {
     log(`Listening on port ${port}...`)
