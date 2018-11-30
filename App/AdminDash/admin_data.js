@@ -364,10 +364,13 @@ function QueryMovie(e) {
 
 	let movieToSearch = document.querySelector('#MovieQuerySearch').value
 
+	const lowerSearch = movieToSearch.toLowerCase()
+
 	for (let i = 0; i < movieSet.length; i++) {
 		let currentMovie = movieSet[i]
+		let currentMovieName = movieSet[i].name.toLowerCase()
 
-		if (currentMovie.name === movieToSearch) {
+		if (currentMovieName.includes(lowerSearch)) {
 			flag = 1;
 			addToMovieTable(currentMovie.pic, currentMovie.name, currentMovie.date, currentMovie.num)
 		}
