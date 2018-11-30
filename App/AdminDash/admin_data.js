@@ -25,6 +25,8 @@ const deleteMovieModal = document.querySelector('#deleteMovie')
 
 const confirmDelete = document.querySelector('#deleteMovieButton')
 
+const showAllMovies = document.querySelector('#showAllMovies')
+
 class User {
 	constructor(image, username, numPost) {
 		this.image = image;
@@ -66,6 +68,8 @@ verifyMovieDelete.addEventListener('click', verifyDelete)
 deleteMovieModal.addEventListener('click', openDeleteForm)
 
 confirmDelete.addEventListener('click', deleteMovieFromDatabase)
+
+showAllMovies.addEventListener('click', allMovies)
 
 let movieSet;
 
@@ -354,8 +358,6 @@ function showSelected(e) {
 
 function QueryMovie(e) {
 
-	console.log("reached")
-	console.log(movieSet)
 	e.preventDefault()
 	removeData(movieDataTable)
 	let flag = 0;
@@ -376,6 +378,19 @@ function QueryMovie(e) {
 		// dataTable.appendChild(document.createTextNode("Username not found"));
 		let error = document.querySelector("#movieSearchError")
 		error.innerText = "Movie not found"
+	}
+
+
+}
+
+function allMovies() {
+
+	removeData(movieDataTable)
+
+	for(let i = 0; i < movieSet.length; i++) {
+		let currentMovie = movieSet[i]
+		addToMovieTable(currentMovie.pic, currentMovie.name, 
+			currentMovie.date, currentMovie.num)
 	}
 
 
