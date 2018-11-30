@@ -3,6 +3,8 @@
 
 const searchButton = document.querySelector('#dataForm');
 
+const searchMovieButton = document.querySelector('#MovieDataForm')
+
 const showAllButton = document.querySelector('#showAllQuery');
 
 const dataTable = document.querySelector("#dataTable");
@@ -22,6 +24,8 @@ const verifyMovieDelete = document.querySelector('#verifyMovieDelete')
 const deleteMovieModal = document.querySelector('#deleteMovie')
 
 const confirmDelete = document.querySelector('#deleteMovieButton')
+
+const showAllMovies = document.querySelector('#showAllMovies')
 
 class User {
 	constructor(image, username, numPost) {
@@ -47,6 +51,8 @@ showAllButton.addEventListener('click', showAllData)
 
 searchButton.addEventListener('submit', showSelected)
 
+searchMovieButton.addEventListener('submit', QueryMovie)
+
 dataTable.addEventListener('click', editUserOrDelete)
 
 saveButton.addEventListener('click', saveUser)
@@ -63,6 +69,19 @@ deleteMovieModal.addEventListener('click', openDeleteForm)
 
 confirmDelete.addEventListener('click', deleteMovieFromDatabase)
 
+showAllMovies.addEventListener('click', allMovies)
+
+let movieSet;
+
+class MovieElement {
+	constructor(pic, name, date, num) {
+		this.pic = pic
+		this.name = name
+		this. date = date
+		this.num = num
+	}
+}
+
 
 /* Populating movieDataTable with existing movies in 
 	database 	*/
@@ -70,10 +89,23 @@ populateMovieTable();
 
 function openDeleteForm() {
 	confirmDelete.disabled = 'true'
+	const message = document.querySelector('#DeleteMessage')
+	message.innerText = ""
+	const placement = document.querySelector('#DeleteMovieImagePlace')
+	if (placement.firstElementChild !== null) {
+		placement.removeChild(placement.firstElementChild)
+	}
 }
 
 function openForm() {
 	addMovieButton.disabled = 'true'
+	const placement = document.querySelector('#addMovieImagePlace')
+	const addMessage = document.querySelector('#AddMovieMessage')
+
+	if (placement.firstElementChild !== null) {
+		placement.removeChild(placement.firstElementChild)
+	}
+	addMessage.innerText = ""
 }
 
 function verifyMovie() {
@@ -83,6 +115,7 @@ function verifyMovie() {
 	// Get requested movie name
 	const movieName = document.querySelector('#movieName').value
 	const movieYear = document.querySelector('#movieYear').value
+	const addMessage = document.querySelector('#AddMovieMessage')
 	// console.log(`${movieName} ${movieYear}`)
 
 	// Search, Save and get data from movie
@@ -91,7 +124,7 @@ function verifyMovie() {
 		return res.json()
 	}).then(data => {
 		const moviePoster = document.createElement('img')
-		moviePoster.className = 'moviePoster'
+		moviePoster.className = 'moviePosterVerify'
 		moviePoster.setAttribute('src', data.poster)
 
 		const placement = document.querySelector('#addMovieImagePlace')
@@ -99,6 +132,8 @@ function verifyMovie() {
 			placement.removeChild(placement.firstElementChild)
 		}
 		placement.appendChild(moviePoster)
+		addMessage.style.color = "green"
+		addMessage.innerText = "Add this movie to database?"
 		addMovieButton.removeAttribute('disabled')
 	}).catch((error) => {
 		console.log(error)
@@ -126,7 +161,8 @@ function addNewMovie() {
 function populateMovieTable() {
 
 	let currentMovies;
-	
+
+	let tempMovieSet = []
 	fetch('http://localhost:8000/findAllMovies').then(res => { 
   		return res.json()
 	}).then(data=>{
@@ -138,9 +174,12 @@ function populateMovieTable() {
 			let movieName = currentMovies[i].name
 			let date = currentMovies[i].year
 			let numDiscussions = currentMovies[i].numOfDiscussions
+
+			let newMovie = new MovieElement(poster, movieName, date, numDiscussions)
+			tempMovieSet.push(newMovie)
 			addToMovieTable(poster, movieName, date, numDiscussions);
 		}
-
+		movieSet = tempMovieSet
 	})
 }
 
@@ -184,17 +223,35 @@ function addToMovieTable(poster, movieName, date, numDiscussions) {
 
 }
 
+let confirmMovie;
+
 function verifyDelete() {
 
 	const movieToDelete = document.querySelector('#MovieToDelete').value
 
-	fetch(`http://localhost:8000/search/${movieToDelete}`).then((result) => {
-		console.log(result)
+	const movieLower = movieToDelete.toLowerCase()
+
+	for (let i = 0; i < movieSet.length; i++) {
+		let currentMovie = movieSet[i]
+
+		let movieNameLower = currentMovie.name.toLowerCase()
+
+		if (movieNameLower.includes(movieLower)) {
+			confirmMovie = currentMovie.name
+			break
+		}
+	}
+
+	const message = document.querySelector('#DeleteMessage')
+	message.style.color = "red"
+
+	fetch(`http://localhost:8000/search/${confirmMovie}`).then((result) => {
+		// console.log(result)
 		return result.json()
 	}).then((data) => {
 		if (data.name !== "NOT FOUND") {
 			const moviePoster = document.createElement('img')
-			moviePoster.className = 'moviePoster'
+			moviePoster.className = 'moviePosterVerify'
 			moviePoster.setAttribute('src', data.poster)
 
 			const placement = document.querySelector('#DeleteMovieImagePlace')
@@ -203,6 +260,10 @@ function verifyDelete() {
 			}
 			placement.appendChild(moviePoster)
 			confirmDelete.removeAttribute('disabled')
+
+			message.innerText = "Are you sure you want to delete this movie?"
+		} else {
+			message.innerText = "Movie not found, re-define search"
 		}
 	})
 
@@ -210,9 +271,7 @@ function verifyDelete() {
 
 function deleteMovieFromDatabase() {
 
-	const movieToDelete = document.querySelector('#MovieToDelete').value
-
-	const url = `http://localhost:8000/search/${movieToDelete}`
+	const url = `http://localhost:8000/search/${confirmMovie}`
 
 	const request = new Request(url , {
 		method: 'delete'
@@ -332,6 +391,56 @@ function showSelected(e) {
 
 
 }
+
+function QueryMovie(e) {
+
+
+	e.preventDefault()
+	removeData(movieDataTable)
+	let flag = 0;
+	let error = document.querySelector("#movieSearchError")
+	error.innerText = ""
+	let movieToSearch = document.querySelector('#MovieQuerySearch').value
+
+	const lowerSearch = movieToSearch.toLowerCase()
+
+	for (let i = 0; i < movieSet.length; i++) {
+		let currentMovie = movieSet[i]
+		let currentMovieName = movieSet[i].name.toLowerCase()
+
+		if (currentMovieName.includes(lowerSearch)) {
+			flag = 1;
+			addToMovieTable(currentMovie.pic, currentMovie.name, currentMovie.date, currentMovie.num)
+		}
+
+	}
+
+	if (flag === 0) {
+		// dataTable.appendChild(document.createTextNode("Username not found"));
+		
+		error.innerText = "Movie not found"
+	}
+
+
+}
+
+function allMovies() {
+
+	removeData(movieDataTable)
+	let error = document.querySelector("#movieSearchError")
+	error.innerText = ""
+
+	for(let i = 0; i < movieSet.length; i++) {
+		let currentMovie = movieSet[i]
+		addToMovieTable(currentMovie.pic, currentMovie.name, 
+			currentMovie.date, currentMovie.num)
+	}
+
+
+}
+
+
+
 
 function showAllData(e) {
 
