@@ -34,12 +34,12 @@ $("#searchTerm").keyup(function(event) {
 $("#cleanSearch").click(restoreDiscussion);
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
-$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
-$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
-$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
+$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
+$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
+$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
 $(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission;});
+$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html";});
 /*-------------Add Event-listener-------------*/
 const movieFetch=fetch('/findAllMovies')
 const discussionFetch=fetch('/getAllDiscussions')

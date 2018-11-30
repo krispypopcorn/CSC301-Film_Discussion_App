@@ -1,10 +1,7 @@
 "use strict"
 
 /*-------------Add Event-listener-------------*/
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html";});
-$("#Latest .column").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
-$("#MostPopular .column").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
-$("#Movie .column").on('click', function(event) {window.location.href = "../MoviePage/movie_page.html";});
+$("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 $("#homeLink").on('click', function(event) {window.location.href = "homepage.html";});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
@@ -203,7 +200,7 @@ function createDiscussion(discussion) {
    newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
    newPost.find(".disTitle").html(discussion.title);
    newPost.find(".author").html(discussion.user.username);
-   newPost.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";})
+   newPost.on('click',function(event) {window.location.href = "/discussionPage";})
    return newPost;
 }
 
@@ -212,7 +209,7 @@ function createMovie(movie) {
    newPost.find(".backGroundImage").attr('src',movie.poster);
    newPost.find(".movieTitle").html(movie.name);
    newPost.find(".point").html(movie.vote_average.toString());
-   newPost.on('click',function(event) {window.location.href = "../MoviePage/movie_page.html";})
+   newPost.on('click',function(event) {window.location.href = "/moviePage";})
    return newPost;
 }
 
