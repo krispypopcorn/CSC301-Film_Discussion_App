@@ -124,7 +124,7 @@ function verifyMovie() {
 		return res.json()
 	}).then(data => {
 		const moviePoster = document.createElement('img')
-		moviePoster.className = 'moviePoster'
+		moviePoster.className = 'moviePosterVerify'
 		moviePoster.setAttribute('src', data.poster)
 
 		const placement = document.querySelector('#addMovieImagePlace')
@@ -251,7 +251,7 @@ function verifyDelete() {
 	}).then((data) => {
 		if (data.name !== "NOT FOUND") {
 			const moviePoster = document.createElement('img')
-			moviePoster.className = 'moviePoster'
+			moviePoster.className = 'moviePosterVerify'
 			moviePoster.setAttribute('src', data.poster)
 
 			const placement = document.querySelector('#DeleteMovieImagePlace')
