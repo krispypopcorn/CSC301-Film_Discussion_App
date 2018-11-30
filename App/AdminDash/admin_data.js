@@ -112,7 +112,7 @@ function populateMovieTable() {
 
 	let currentMovies;
 	
-	fetch('http://localhost:8000/movies').then(res => { 
+	fetch('http://localhost:8000/findAllMovies').then(res => { 
   		return res.json()
 	}).then(data=>{
 		currentMovies = data;

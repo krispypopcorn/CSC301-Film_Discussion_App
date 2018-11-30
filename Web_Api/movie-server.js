@@ -255,14 +255,14 @@ app.get('/getAllDiscussions', (req, res) => {
      })
 })
 
-// app.get('/getMovieCount', (req, res) => {
-//     Movie.count({}, (error, count) => {
-//         res.send({
-//             value: count
-//         })
-//         console.log(count)
-//     })
-// })
+app.get('/getMovieCount', (req, res) => {
+    Movie.count({}, (error, count) => {
+        res.send({
+            value: count
+        })
+        console.log(count)
+    })
+})
 
 app.listen(port, () => {
     log(`Listening on port ${port}...`)

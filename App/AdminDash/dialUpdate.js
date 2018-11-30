@@ -33,7 +33,14 @@ function updateUser() {
 
 function updateFilm() {
 
-	
+	fetch('http://localhost:8000/getMovieCount').then((result) => {
+		return result.json()
+	}).then((data) => {
+		console.log(data)
+		filmDial.innerText = data.value
+	}).catch((error)=> {
+		console.log(error)
+	})
 }
 
 function updatePost() {
