@@ -3,6 +3,8 @@
 
 const searchButton = document.querySelector('#dataForm');
 
+const searchMovieButton = document.querySelector('#MovieDataForm')
+
 const showAllButton = document.querySelector('#showAllQuery');
 
 const dataTable = document.querySelector("#dataTable");
@@ -47,6 +49,8 @@ showAllButton.addEventListener('click', showAllData)
 
 searchButton.addEventListener('submit', showSelected)
 
+searchMovieButton.addEventListener('submit', QueryMovie)
+
 dataTable.addEventListener('click', editUserOrDelete)
 
 saveButton.addEventListener('click', saveUser)
@@ -62,6 +66,17 @@ verifyMovieDelete.addEventListener('click', verifyDelete)
 deleteMovieModal.addEventListener('click', openDeleteForm)
 
 confirmDelete.addEventListener('click', deleteMovieFromDatabase)
+
+let movieSet;
+
+class MovieElement {
+	constructor(pic, name, date, num) {
+		this.pic = pic
+		this.name = name
+		this. date = date
+		this.num = num
+	}
+}
 
 
 /* Populating movieDataTable with existing movies in 
@@ -126,7 +141,8 @@ function addNewMovie() {
 function populateMovieTable() {
 
 	let currentMovies;
-	
+
+	let tempMovieSet = []
 	fetch('http://localhost:8000/findAllMovies').then(res => { 
   		return res.json()
 	}).then(data=>{
@@ -138,9 +154,12 @@ function populateMovieTable() {
 			let movieName = currentMovies[i].name
 			let date = currentMovies[i].year
 			let numDiscussions = currentMovies[i].numOfDiscussions
+
+			let newMovie = new MovieElement(poster, movieName, date, numDiscussions)
+			tempMovieSet.push(newMovie)
 			addToMovieTable(poster, movieName, date, numDiscussions);
 		}
-
+		movieSet = tempMovieSet
 	})
 }
 
@@ -332,6 +351,38 @@ function showSelected(e) {
 
 
 }
+
+function QueryMovie(e) {
+
+	console.log("reached")
+	console.log(movieSet)
+	e.preventDefault()
+	removeData(movieDataTable)
+	let flag = 0;
+
+	let movieToSearch = document.querySelector('#MovieQuerySearch').value
+
+	for (let i = 0; i < movieSet.length; i++) {
+		let currentMovie = movieSet[i]
+
+		if (currentMovie.name === movieToSearch) {
+			flag = 1;
+			addToMovieTable(currentMovie.pic, currentMovie.name, currentMovie.date, currentMovie.num)
+		}
+
+	}
+
+	if (flag === 0) {
+		// dataTable.appendChild(document.createTextNode("Username not found"));
+		let error = document.querySelector("#movieSearchError")
+		error.innerText = "Movie not found"
+	}
+
+
+}
+
+
+
 
 function showAllData(e) {
 
