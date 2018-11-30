@@ -264,6 +264,34 @@ app.get('/getMovieCount', (req, res) => {
     })
 })
 
+app.get('/search/:name', (req, res) => {
+
+    const movieName = req.params.name
+    // console.log(movieName)
+    Movie.findOne({name: movieName}).then((result) => {
+        if (!result) {
+            res.send({
+                "name": "NOT FOUND"
+            })
+        }
+        else {
+            res.send(result)
+        }
+    })
+})
+
+app.delete('/search/:name', (req, res) => {
+    const movieName = req.params.name
+
+    Movie.remove({name: movieName}).then((result) => {
+        res.status(200).send()
+    }).catch((error) => {
+        res.status(400).send()
+    })
+})
+
+
+
 app.listen(port, () => {
     log(`Listening on port ${port}...`)
 })

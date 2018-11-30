@@ -17,6 +17,12 @@ const movieDataTable = document.querySelector('#movieDataTable')
 
 const formMovieAdd = document.querySelector('#addNewMovie')
 
+const verifyMovieDelete = document.querySelector('#verifyMovieDelete')
+
+const deleteMovieModal = document.querySelector('#deleteMovie')
+
+const confirmDelete = document.querySelector('#deleteMovieButton')
+
 class User {
 	constructor(image, username, numPost) {
 		this.image = image;
@@ -49,13 +55,22 @@ searchNewMovie.addEventListener('click', verifyMovie)
 
 formMovieAdd.addEventListener('click', openForm)
 
-
 addMovieButton.addEventListener('click', addNewMovie)
+
+verifyMovieDelete.addEventListener('click', verifyDelete)
+
+deleteMovieModal.addEventListener('click', openDeleteForm)
+
+confirmDelete.addEventListener('click', deleteMovieFromDatabase)
 
 
 /* Populating movieDataTable with existing movies in 
 	database 	*/
 populateMovieTable();
+
+function openDeleteForm() {
+	confirmDelete.disabled = 'true'
+}
 
 function openForm() {
 	addMovieButton.disabled = 'true'
@@ -148,15 +163,71 @@ function addToMovieTable(poster, movieName, date, numDiscussions) {
 	let numDiscussionsData = document.createElement('td')
 	numDiscussionsData.appendChild(document.createTextNode(numDiscussions))
 
+	let buttonData = document.createElement('td')
+	let deleteButton = document.createElement('button')
+	// deleteButton.className = 'deleteMovie'
+	let deleteIcon = document.createElement('img')
+	deleteIcon.setAttribute('src', '../Pictures/deleteIcon.png')
+	deleteIcon.className = 'deleteMovie'
+	deleteButton.appendChild(deleteIcon)
+	deleteButton.style.visibility = "hidden"
+	buttonData.appendChild(deleteButton)
+
 	currentRow.appendChild(posterData)
 	currentRow.appendChild(movieNameData)
 	currentRow.appendChild(dateData)
 	currentRow.appendChild(numDiscussionsData)
+	currentRow.appendChild(buttonData)
 
 	movieDataTable.appendChild(currentRow)
 
 
 }
+
+function verifyDelete() {
+
+	const movieToDelete = document.querySelector('#MovieToDelete').value
+
+	fetch(`http://localhost:8000/search/${movieToDelete}`).then((result) => {
+		console.log(result)
+		return result.json()
+	}).then((data) => {
+		if (data.name !== "NOT FOUND") {
+			const moviePoster = document.createElement('img')
+			moviePoster.className = 'moviePoster'
+			moviePoster.setAttribute('src', data.poster)
+
+			const placement = document.querySelector('#DeleteMovieImagePlace')
+			if (placement.firstElementChild !== null) {
+				placement.removeChild(placement.firstElementChild)
+			}
+			placement.appendChild(moviePoster)
+			confirmDelete.removeAttribute('disabled')
+		}
+	})
+
+}
+
+function deleteMovieFromDatabase() {
+
+	const movieToDelete = document.querySelector('#MovieToDelete').value
+
+	const url = `http://localhost:8000/search/${movieToDelete}`
+
+	const request = new Request(url , {
+		method: 'delete'
+	});
+
+	fetch(request).then((res) => {
+		if(res.status === 200) {
+			removeData(movieDataTable)
+			populateMovieTable()
+		}
+	})
+
+}
+
+
 
 
 function saveUser(e) {
