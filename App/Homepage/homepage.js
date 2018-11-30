@@ -22,113 +22,108 @@ let discussions = [];
 let numberOfDiscusstions;
 let numberOfMovies;
 
-const movieFetch=fetch('/findAllMovies')
-const discussionFetch=fetch('/getAllDiscussions')
+const disUrl = '/getAllDiscussions';
+const Movieurl = '/findAllMovies';
 
-new Promise((resolve, reject)=>{
-  Promise.all([movieFetch,discussionFetch]).
-  then(datas=>{
-    datas[0].json().then(res=>{
-      datas[1].json().then(disarray=>{
-        resolve([res, disarray])
-      })
-    })
+getDiscussion();
+getMovie();
+
+function getMovie(){
+  fetch(Movieurl)
+  .then((res) => { 
+      if (res.status === 200) {
+         return res.json() 
+     } else {
+          alert('Could not get movies')
+     }                
   })
-  .catch()
-}).then(res=>{
-  homeMovies = res[0]
-  discussions= res[1]
+  .then((json) => {
+    homeMovies=json;
+    numberOfMovies=homeMovies.length;
+    let temp = homeMovies.slice();
+    temp.sort((a,b)=>{
+      return a.vote_average - b.vote_average;
+    });
+    movieHelper(1, temp)
+  }).catch((error) => {
+      console.log(error)
+  })
+}
 
-  numberOfDiscusstions = discussions.length
-  numberOfMovies = homeMovies.length
-
-  let page1 = homeMovies.slice(0, 4)
-  changeMovies(page1);
-  page1 = discussions.slice(0, 4)
-  changeDiscussions(page1)
-  changeDiscussions(page1,'Latest')
-  changeSlider()
-}).catch((error) => {
-  console.log(error)
-})
+function getDiscussion(){
+  fetch(disUrl)
+  .then((res) => { 
+      if (res.status === 200) {
+         return res.json() 
+     } else {
+          alert('Could not get discussion')
+     }                
+  })
+  .then((json) => {
+    discussions=json;
+    numberOfDiscusstions=discussions.length;
+    let temp = discussions.slice();
+    temp.sort((a,b)=>{
+      return a.likes - b.likes;
+    });
+    discussionHelper(1, temp, "MostPopular")
+    temp.sort((a,b)=>{
+      return a.date - b.date;
+    });
+    discussionHelper(1, temp, "Latest")
+  }).catch((error) => {
+      console.log(error)
+  })
+}
 
 function loadPreviousPage(e) {
-   e.preventDefault();
-   const targetDiv = $(e.target).parent()
-   const id = targetDiv.attr('id')
-   let page;
+  e.preventDefault();
+  const targetDiv = $(e.target).parent()
+  const id = targetDiv.attr('id')
    
-   if(id=='MostPopular'){
-     if (PopularPage != 1) {
-       let temp = discussions.slice();
-       temp.sort((a,b)=>{
-         return a.likes - b.likes;
-        });
-       let index = PopularPage - 1;
-       PopularPage--;
-       index = index * 4 - 4;
-       const targetList = [];
-       
-       let max = 4;
-       let i = 0;
-       
-       for (i = index; i < temp.length && max != 0; i++) {
-         targetList.push(temp[i]);
-         max--;}
-      changeDiscussions(targetList,id);
-     }
-   }else if(id=='Latest'){
-     if (LatestPage != 1) {
-       let index = LatestPage - 1;
-       LatestPage--;
-       let temp = discussions.slice();
-       temp.sort((a,b)=>{
-         return a.date - b.date;
-        });
-       index = index * 4 - 4;
-       const targetList = [];
-       
-       let max = 4;
-       let i = 0;
-
-       for (i = index; i < temp.length && max != 0; i++) {
-         targetList.push(temp[i]);
-         max--;}
-      changeDiscussions(targetList,id);
-     }
-   }else{
-     if (moviePage!= 1) {
-       let index = moviePage - 1;
-       moviePage--;
-       let temp = homeMovies.slice();
-       temp.sort((a,b)=>{
-         return a.vote_average - b.vote_average;
-        });
-       index = index * 4 - 4;
-       const targetList = [];
-       
-       let max = 4;
-       let i = 0;
-       
-       //need server call
-       for (i = index; i < temp.length && max != 0; i++) {
-         targetList.push(temp[i]);
-         max--;}
-      changeMovies(targetList);
-     }
-   }
+  if(id=='MostPopular'){
+    if (PopularPage != 1) {
+      let temp = discussions.slice();
+      temp.sort((a,b)=>{
+        return a.likes - b.likes;
+       });
+      let index = PopularPage - 1;
+      PopularPage--;
+      discussionHelper(index, temp, id)
+    }
+  }else if(id=='Latest'){
+    if (LatestPage != 1) {
+      let index = LatestPage - 1;
+      LatestPage--;
+      let temp = discussions.slice();
+      temp.sort((a,b)=>{
+        return a.date - b.date;
+       });
+       discussionHelper(index, temp, id)
+    }
+  }else{
+    if (moviePage!= 1) {
+      let index = moviePage - 1;
+      moviePage--;
+      let temp = homeMovies.slice();
+      temp.sort((a,b)=>{
+        return a.vote_average - b.vote_average;
+       });
+       movieHelper(index, temp)
+    }
+  }
 }
+
 
 function loadNextPage(e) {
    e.preventDefault()
    const targetDiv = $(e.target).parent()
    const id = targetDiv.attr('id');
-   
+
    let total = numberOfDiscusstions;
 
-   console.log(total)
    if(id=='Movie'){
-    total = numberOfMovies;}
+     total = numberOfMovies;}
    const maxPage = Math.ceil(total / 4);
 
    if(id=='MostPopular'){
@@ -139,17 +134,7 @@ function loadNextPage(e) {
        temp.sort((a,b)=>{
          return a.likes - b.likes;
         });
-       index = index * 4 - 4;
-       const targetList = [];
-       
-       let max = 4;
-       let i = 0;
-       
-       //need server call
-       for (i = index; i < temp.length && max != 0; i++) {
-         targetList.push(temp[i]);
-         max--;}
-      changeDiscussions(targetList,id);
+        discussionHelper(index, temp, id)
      }
    }else if(id=='Latest'){
      if (LatestPage != maxPage) {
@@ -159,16 +144,7 @@ function loadNextPage(e) {
        temp.sort((a,b)=>{
          return a.date - b.date;
         });
-       index = index * 4 - 4;
-       const targetList = [];
-       
-       let max = 4;
-       let i = 0;
-       
-       for (i = index; i < temp.length && max != 0; i++) {
-         targetList.push(temp[i]);
-         max--;}
-      changeDiscussions(targetList,id);
+        discussionHelper(index, temp, id)
      }
    }else{
      if (moviePage!= maxPage) {
@@ -178,25 +154,40 @@ function loadNextPage(e) {
        temp.sort((a,b)=>{
          return a.vote_average - b.vote_average;
         });
-       index = index * 4 - 4;
-       const targetList = [];
-       
-       let max = 4;
-       let i = 0;
-       
-       //need server call
-       for (i = index; i <temp.length && max != 0; i++) {
-         targetList.push(temp[i]);
-         max--;}
-      changeMovies(targetList);
+        movieHelper(index, temp)
      }
    }
 }
 
 
+function discussionHelper(index, temp, id){
+  index = index * 4 - 4;
+  const targetList = [];
+  
+  let max = 4;
+  let i = 0;
+  
+  for (i = index; i < temp.length && max != 0; i++) {
+    targetList.push(temp[i]);
+    max--;}
+  changeDiscussions(targetList,id);
+}
+
+function movieHelper(index, temp){
+  index = index * 4 - 4;
+  const targetList = [];
+  
+  let max = 4;
+  let i = 0;
+  
+  for (i = index; i <temp.length && max != 0; i++) {
+    targetList.push(temp[i]);
+    max--;}
+  changeMovies(targetList);
+};
+
 function createDiscussion(discussion) {
    let newPost = discussionDiv.clone();
-   console.log('../Pictures/'+discussion.img)
    newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
    newPost.find(".disTitle").html(discussion.title);
    newPost.find(".author").html(discussion.user.username);
