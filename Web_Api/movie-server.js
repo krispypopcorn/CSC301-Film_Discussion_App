@@ -181,6 +181,10 @@ app.get('/getNowPlaying', (req, res) => {
     })
 })
 
+/*
+    Populates the most top 20 most trending movies in the database
+*/
+
 app.get('/getTrending', (req, res) => {
 
     let count = 0;
@@ -251,6 +255,11 @@ app.get('/deleteAllMovies', (req, res) => {
     })
 })
 
+/*
+    Searched a new movie from movieDB server to be added to the
+    database
+*/
+
 app.get('/search/:name/:year', (req, res) => {
     const name = req.params.name
     const year = req.params.year
@@ -285,6 +294,10 @@ app.get('/getAllDiscussions', (req, res) => {
      })
 })
 
+/*
+    Get the number of movies currently in the database
+*/
+
 app.get('/getMovieCount', (req, res) => {
     Movie.count({}, (error, count) => {
         res.send({
@@ -293,6 +306,11 @@ app.get('/getMovieCount', (req, res) => {
         console.log(count)
     })
 })
+
+/*
+    Searches a movie in the database give the name of the 
+    movie
+*/
 
 app.get('/search/:name', (req, res) => {
 
@@ -309,6 +327,10 @@ app.get('/search/:name', (req, res) => {
         }
     })
 })
+
+/*
+    Deletes a movie from the database given a movie name
+*/
 
 app.delete('/search/:name', (req, res) => {
     const movieName = req.params.name
