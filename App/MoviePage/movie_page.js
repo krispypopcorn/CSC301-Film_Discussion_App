@@ -1,11 +1,9 @@
 "use strict"
 
 // number of total discussions under a movie
-// we should pull this from server
 let numberOfDiscusstions;
 
 //array of discussions posted by user
-//we should pull this from server
 let discussions = [];
 
 //store search result
@@ -19,6 +17,8 @@ let currentPage = 1;
 
 //keep a copy of the discussion div as template
 const template = $(".card:first").clone();
+
+var cookie = document.cookie;
 
 /*-------------Add Event-listener-------------*/
 $("#newPost").click(function() {
@@ -85,9 +85,11 @@ function addNewDiscussion(e) {
         fetch('/creatDiscussion', {
             method: 'POST', 
             body: JSON.stringify(newDiscussion), 
-            headers:{
-              'Content-Type': 'application/json'
-            }
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            credentials: 'include',
           }).then(res => res.json())
           .then(response => console.log('Success:', JSON.stringify(response)))
           .catch(error => console.error('Error:', error));
@@ -148,8 +150,7 @@ function createDiscussion(discussion) {
    let upVote = target.find(".upVoteNumber");
    
    target[3].addEventListener('click',deletePost);
-   newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
-   console.log(discussion.img)
+   newTitle.on('click',function(event) {window.location.href = "/discussionPage";});
    img.attr('src','../Pictures/'+discussion.img);
    text.html(discussion.discussion_content);
    newTitle.html(discussion.title);

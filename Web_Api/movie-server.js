@@ -14,6 +14,7 @@ const Discussion = require('./model/Discussion')
 const mongoose = require('mongoose')
 var bodyParser = require('body-parser');
 const multer = require("multer");
+const { ObjectID } = require('mongodb')
 
 mongoose.connect(databaselink, { useNewUrlParser: true});
 const app = express()
@@ -57,7 +58,6 @@ app.get('/',sessionChecker, (req, res) => {
 })
 
 app.get('/login', sessionChecker,(req,res) => {
-    console.log(res.session.user)
     res.sendFile(path.join(__dirname, '../App/Login/index.html'))   
 });
 
@@ -81,7 +81,7 @@ app.post('/creatUser',(req, res)=>{
         username: req.body.username,
         password: req.body.password,
         admin: false,
-        icon: "temp",
+        icon: req.body.img,
         like:0,
         discussion:[],
         comments:[]
@@ -100,7 +100,7 @@ app.post('/creatDiscussion',(req, res)=>{
     const disc = new Discussion({
         title: req.body.title,
         discussion_content: req.body.discussion_content,
-        user: req.session.userId,
+        user: req.session.user,
         movie: req.body.movie,
         img: req.body.img
       })
@@ -142,7 +142,7 @@ app.get('/discussionPage', (req, res) => {
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../App/DiscussionPage/discussion_topic_page.html')) 
     }else{
-        res.redirect('login')
+        res.redirect('/login')
     }
 })
 
@@ -153,7 +153,7 @@ app.get('/profilePage', (req, res) => {
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../App/UserProfile/user_profile.html'))   
     }else{
-        res.redirect('login')
+        res.redirect('/login')
     }
 })
 
@@ -303,7 +303,7 @@ app.get('/getMovieCount', (req, res) => {
         res.send({
             value: count
         })
-        console.log(count)
+        log(count)
     })
 })
 
@@ -346,6 +346,23 @@ app.delete('/search/:name', (req, res) => {
 app.post('/uploadImg', function(req, res, next){
     res.send(JSON.stringify(req.file.filename));
 });
+
+// GET user by id
+app.get('/user/:id', (req, res) => {
+    const id = req.params.id 
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send()
+		} else {
+			res.send(user)
+		}
+	}).catch((error) => {
+		res.status(400).send(error)
+	})
+})
 
 app.listen(port, () => {
     log(`Listening on port ${port}...`)

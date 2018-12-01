@@ -21,11 +21,11 @@ const DisSchema = new mongoose.Schema({
     },
 
     user: {
-        type: Schema.Types.Mixed
+        type: String,
     },
 
     movie: {
-        type: Schema.Types.Mixed
+        type: String,
     },
 
     likes: {

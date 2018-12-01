@@ -45,6 +45,7 @@ function getMovie(){
       return a.vote_average - b.vote_average;
     });
     movieHelper(1, temp)
+    changeSlider()
   }).catch((error) => {
       console.log(error)
   })
@@ -72,6 +73,24 @@ function getDiscussion(){
     });
     discussionHelper(1, temp, "Latest")
   }).catch((error) => {
+      console.log(error)
+  })
+}
+
+function getUser(id){
+  return fetch("/user/"+id, {
+    method: 'GET',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+  })
+  .then((res) => { 
+    if (res.status === 200) {
+       return res.json() 
+   } else {
+        alert('Could not get user')
+   }                
+}).catch((error) => {
       console.log(error)
   })
 }
@@ -187,12 +206,15 @@ function movieHelper(index, temp){
 };
 
 function createDiscussion(discussion) {
-   let newPost = discussionDiv.clone();
-   newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
-   newPost.find(".disTitle").html(discussion.title);
-   newPost.find(".author").html(discussion.user.username);
+  let newPost = discussionDiv.clone();
+  newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
+  newPost.find(".disTitle").html(discussion.title);
+  const user = getUser(discussion.user)
+  user.then((json) => {
+   newPost.find(".author").html(json.username);
    newPost.on('click',function(event) {window.location.href = "/discussionPage";})
-   return newPost;
+  })
+  return newPost;
 }
 
 function createMovie(movie) {
