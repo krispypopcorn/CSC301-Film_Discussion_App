@@ -34,7 +34,7 @@ $("#searchTerm").keyup(function(event) {
 $("#cleanSearch").click(restoreDiscussion);
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
-$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
+$("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
 $(".delete").on('click', deletePost);
@@ -61,6 +61,20 @@ new Promise((resolve, reject)=>{
 }).catch((error) => {
   console.log(error)
 })
+
+
+function getCookie(cname)
+{
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) 
+  {
+    var c = ca[i].trim();
+    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+  return "";
+}
+
 
 function addNewDiscussion(e) {
    e.preventDefault();

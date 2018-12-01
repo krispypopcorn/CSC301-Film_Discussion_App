@@ -2,9 +2,9 @@
 
 /*-------------Add Event-listener-------------*/
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
-$("#homeLink").on('click', function(event) {window.location.href = "homepage.html";});
-$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
-$("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
+$("#homeLink").on('click', function(event) {window.location.href = "/home";});
+$("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
+$("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".previousButton").on('click',loadPreviousPage);
 $(".nextButton").on('click',loadNextPage);
 /*-------------Add Event-listener-------------*/
@@ -212,7 +212,9 @@ function createDiscussion(discussion) {
   const user = getUser(discussion.user)
   user.then((json) => {
    newPost.find(".author").html(json.username);
-   newPost.on('click',function(event) {window.location.href = "/discussionPage";})
+   newPost.on('click',function(event) {
+     document.cookie="movie="+movie.name 
+     window.location.href = "/discussionPage";})
   })
   return newPost;
 }
@@ -222,7 +224,9 @@ function createMovie(movie) {
    newPost.find(".backGroundImage").attr('src',movie.poster);
    newPost.find(".movieTitle").html(movie.name);
    newPost.find(".point").html(movie.vote_average.toString());
-   newPost.on('click',function(event) {window.location.href = "/moviePage";})
+   newPost.on('click',function(event) {
+    document.cookie="movie="+movie.name 
+    window.location.href = "/moviePage";})
    return newPost;
 }
 
