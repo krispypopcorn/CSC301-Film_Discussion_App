@@ -271,6 +271,7 @@ app.get('/search/:name/:year', (req, res) => {
         year: result.release_date,
         poster: result.poster_path,
         banner: result.backdrop_path,
+        overview: result.overview,
         numOfDiscussions: 0,
         numOfComments: 0,
         vote_average: 0

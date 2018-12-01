@@ -101,6 +101,8 @@ function openForm() {
 	addMovieButton.disabled = 'true'
 	const placement = document.querySelector('#addMovieImagePlace')
 	const addMessage = document.querySelector('#AddMovieMessage')
+	const overview = document.querySelector('#addMovieOverview')
+	overview.innerText = ""
 
 	if (placement.firstElementChild !== null) {
 		placement.removeChild(placement.firstElementChild)
@@ -125,12 +127,16 @@ function verifyMovie() {
 	}).then(data => {
 		const moviePoster = document.createElement('img')
 		moviePoster.className = 'moviePosterVerify'
-		moviePoster.setAttribute('src', data.poster)
+		moviePoster.setAttribute('src', data.banner)
 
 		const placement = document.querySelector('#addMovieImagePlace')
+		const overview = document.querySelector('#addMovieOverview')
 		if (placement.firstElementChild !== null) {
 			placement.removeChild(placement.firstElementChild)
 		}
+
+		overview.innerText = data.overview
+
 		placement.appendChild(moviePoster)
 		addMessage.style.color = "green"
 		addMessage.innerText = "Add this movie to database?"

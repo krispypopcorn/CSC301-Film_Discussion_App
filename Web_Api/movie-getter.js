@@ -21,6 +21,7 @@ const getMovie = (name, year) => {
                     title: body.results[0].title,
                     poster_path: 'https://image.tmdb.org/t/p/original/' + body.results[0].poster_path,
                     backdrop_path: 'https://image.tmdb.org/t/p/original/' + body.results[0].backdrop_path,
+                    overview: body.results[0].overview,
                     release_date: body.results[0].release_date
                 })
             }
