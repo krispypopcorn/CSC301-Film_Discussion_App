@@ -7,27 +7,27 @@ $("#adminLink").on('click', function(event) {window.location.href = "/adminDash"
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".usn").on('click', function(event) {window.location.href = "/profilePage";});
 $("#bannerText").on('click', function(event) {window.location.href = '/moviePage'});
-$("#replyPost").on('click', replyToDiscussion);
-$(".reply").on('click', replyToPost);
+$("#replyToDiscussion").on('click', commentOnDiscussion);
+$(".reply").on('click', replyToComment);
 $(".close").on('click', deleteComment);
 
-checkUserClass()
+// checkUserClass()
 
-function checkUserClass(){
-  fetch('/userClass')
-  .then(res =>{
-    if (res.status === 200) {
-         return res.json() 
-     } else {
-       console.log('Could not get user class')
-     }                
-  })
-  .then(json =>{
-    if(json == false){
-      $('#adminLink').hide()
-    }
-  })
-}
+// function checkUserClass(){
+//   fetch('/userClass')
+//   .then(res =>{
+//     if (res.status === 200) {
+//          return res.json() 
+//      } else {
+//        console.log('Could not get user class')
+//      }                
+//   })
+//   .then(json =>{
+//     if(json == false){
+//       $('#adminLink').hide()
+//     }
+//   })
+// }
 
 function fillDiscussionPost(){
 
@@ -45,6 +45,7 @@ function fillDiscussionPost(){
 
 };
 
+var permission = 'user';
 
 function fillBanner(){
 
@@ -70,26 +71,28 @@ function deleteComment(e){
 
 
 
-function replyToPost(e){
+function replyToComment(e){
 	e.preventDefault();
 	let postToreplyTo = e.target.parentElement.parentElement;
 
-	let text = prompt("Reply to Post", );
+	let text = prompt("Reply to Comment", );
 
 	if (text){
 
-	postToreplyTo.appendChild(createPost(text));
+		postToreplyTo.appendChild(createReply(text));
 
 	}
 }
 
 
 
-function createPost(text){
+
+
+function createReply(text){
 
 	if (text){
 		let reply = document.createElement("div");
-		reply.className = "card border-dark";
+		reply.className = "card comment";
 
 		let row = document.createElement("div");
 		row.className = "row no-gutters";
@@ -135,7 +138,7 @@ function createPost(text){
 		let button_text = document.createTextNode("Reply");
 		reply_footer_btn.append(button_text)
 
-		$(reply_footer_btn).on('click', replyToPost);
+		$(reply_footer_btn).on('click', replyToComment);
 		
 		row_footer.append(footer_text_div)
 		row_footer.append(reply_footer_btn)
@@ -168,28 +171,28 @@ function createPost(text){
 
 
 
-// <div class="card border-dark">
-//         <div class="row no-gutters">
-//             <div class="col">
-//                 <div class="card-block px-2">
-//                     <p class="card-text">Galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum</p>
+// <div class="card comment">
+//             <button type="button" class="close col-sm-1 offset-sm-11" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+//             <div class="row no-gutters">
+//                 <div class="col">
+//                     <div class="card-block px-2">
+//                         <p class="card-text">Galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum</p>
 
+//                     </div>
 //                 </div>
 //             </div>
+//             <div class="row card-footer w-100 text-muted ">
+//                 <p class='col-sm-2'>Comment by <a id="yellow" class='usn'>James</a></p>
+//                 <button type=button class='reply col-md-1 offset-md-9 '>Reply</button>
+//             </div>
 //         </div>
-//         <div class="row card-footer w-100 text-muted">
-//             <p class='col-sm-2'>Post by <a id="yellow" class='usn'>USERNAME</a></p>
-//             <a href="#" id='reply' class="btn btn-primary col-sm-1 offset-sm-9"><strong>Reply</strong></a>
-//         </div>
-//     </div>
 
-
-function createReply(){
+function createComment(){
 	let text = document.getElementById("postText").value;
 
 	if (text){
 		let reply = document.createElement("div");
-		reply.className = "card";
+		reply.className = "card comment1";
 
 		let row = document.createElement("div");
 		row.className = "row no-gutters";
@@ -225,6 +228,8 @@ function createReply(){
 		}else{ usn_text = document.createTextNode("Admin");}
 		usn.append(usn_text);
 
+		let date = new Date();
+
 		footer_text_div.append(footer_text);
 		footer_text_div.append(usn);
 
@@ -236,7 +241,7 @@ function createReply(){
 		let button_text = document.createTextNode("Reply");
 		reply_footer_btn.append(button_text)
 
-		$(reply_footer_btn).on('click', replyToPost);
+		$(reply_footer_btn).on('click', replyToComment);
 		
 		row_footer.append(footer_text_div)
 		row_footer.append(reply_footer_btn)
@@ -268,12 +273,12 @@ function createReply(){
 
 
 //reply to main discussion-post
-function replyToDiscussion(e){
+function commentOnDiscussion(e){
 	e.preventDefault();
 
 	let comments = document.getElementById("comments");
 
-	let reply = createReply();
+	let reply = createComment();
 	if (reply){
 		if (comments.firstElementChild){
 		comments.insertBefore(reply, comments.firstElementChild);
