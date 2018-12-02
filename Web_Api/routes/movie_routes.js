@@ -163,13 +163,36 @@ movie_routes.get('/getNowPlaying', (req, res) => {
 movie_routes.post('/rateMovie/:id', (req, res)=>{
     const id = req.params.id
     const rating = req.body.rating
+    const user = req.session.user
     Movie.findById(id, (err, movie) =>{
         if(err){res.send(err)}
         else{
-            const target = movie.voted_user
+            let found = false;
+            movie.voted_user.forEach(element => {
+                if(element[0]==user){
+                    found = true;
+                    element[1]=rating;
+                }
+            });
+            if(!found){
+                movie.voted_user.push([user, rating])
+            }
+            movie.vote_average = get_average(movie);
+            movie.save((error, newMovie)=>{
+                if(!error){res.send(newMovie)}
+            });
         }
     });
-
 })
+
+function get_average(movie){
+    let sum=0;
+    let len = movie.voted_user.length;
+    movie.voted_user.forEach(element => {
+        sum += element[1]
+    });
+    const result = sum/len
+    return Math.round(result * 100) / 100
+}
 
 module.exports = movie_routes;
