@@ -41,10 +41,26 @@ $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
-$(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
+$(".card-title").on('click', function(event) {window.location.href = "/discussionPage";});
 $(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
+$('#star-5').on('click',function(){
+    rate(10)
+});
+$('#star-4').on('click',function(){
+    rate(8)
+});
+$('#star-3').on('click',function(){
+    rate(6)
+});
+$('#star-2').on('click',function(){
+    rate(4)
+})
+;$('#star-1').on('click',function(){
+    rate(2)
+})
+
 /*-------------Add Event-listener-------------*/
 
 /*-------request URL-------*/
@@ -128,6 +144,11 @@ function getCookie(cname)
   }
   return "";
 }
+
+function rate(num){
+    
+}
+
 
 function addNewDiscussion(e) {
    e.preventDefault();

@@ -1,5 +1,6 @@
 const discussion_routes = require('express').Router();
 const { Discussion } = require('../model/Discussion')
+const fs = require('fs');
 const log = console.log
 
 /*
@@ -70,5 +71,34 @@ discussion_routes.get('/getMovieDiscussions/:id', (req, res) => {
     });
 })
 
+
+/*
+    Deletes given discussion in the database
+*/
+discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
+    const id = req.params.id
+    Discussion.findByIdAndRemove(id, (err, discussion) =>{
+        if(err){res.send(err)}
+        else{
+            const img = discussion.img
+            fs.unlink('../App/Pictures/'+img, function(err) {
+                if (!err){
+                    console.log('img deleted');
+                }
+            });
+            res.send("discussion deleted")
+        }
+    });
+})
+
+discussion_routes.delete('/deleteimg/:name', (req, res) => {
+    const name = req.params.name
+    console.log('../../App/Pictures/'+name);
+    fs.unlink('../App/Pictures/'+name, function(err) {
+        if (!err){
+            res.send('img deleted');
+        }
+    });
+})
 
 module.exports = discussion_routes;

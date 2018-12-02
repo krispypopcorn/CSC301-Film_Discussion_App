@@ -38,7 +38,8 @@ movie_routes.get('/movie/:name/:year', (req, res) => {
         banner: result.backdrop_path,
         numOfDiscussions: 0,
         numOfComments: 0,
-        vote_average: 0
+        vote_average: 0,
+        voted_user: [],
             // discussions: null
         }).save().then(result => {
             res.send(result)
@@ -117,7 +118,7 @@ movie_routes.get('/search/:name/:year', (req, res) => {
 /*
     Deletes all movies in the database
 */
-movie_routes.get('/deleteAllMovies', (req, res) => {
+movie_routes.delete('/deleteAllMovies', (req, res) => {
     Movie.deleteMany({ }).then((result) => {
         res.send(result)
     })
@@ -158,6 +159,17 @@ movie_routes.get('/getNowPlaying', (req, res) => {
         res.send(result)
     })
 })
-  
+
+movie_routes.post('/rateMovie/:id', (req, res)=>{
+    const id = req.params.id
+    const rating = req.body.rating
+    Movie.findById(id, (err, movie) =>{
+        if(err){res.send(err)}
+        else{
+            const target = movie.voted_user
+        }
+    });
+
+})
 
 module.exports = movie_routes;

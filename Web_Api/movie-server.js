@@ -16,6 +16,7 @@ const mongoose = require('mongoose')
 var bodyParser = require('body-parser');
 const multer = require("multer");
 const { ObjectID } = require('mongodb')
+mongoose.set('useFindAndModify', false);
 
 mongoose.connect(databaselink, { useNewUrlParser: true});
 app.use( express.static( path.join(__dirname, '../App') ));

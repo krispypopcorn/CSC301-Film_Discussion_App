@@ -31,11 +31,6 @@ const UserSchema = new mongoose.Schema({
         default: 0
     },
 
-    rated_movie: {
-        type: Array,
-        default: []
-    },
-
     liked_Discussion: {
         type: Array,
         default: []

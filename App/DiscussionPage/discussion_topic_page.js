@@ -7,12 +7,6 @@ $("#adminLink").on('click', function(event) {window.location.href = "/adminDash"
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".usn").on('click', function(event) {window.location.href = "/profilePage";});
 $("#bannerText").on('click', function(event) {window.location.href = '/moviePage'});
-/*----navigate to another page----*/
-// you need to pass your permission to the next page
-// window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission
-/*----navigate to another page----*/
-
-
 $("#replyPost").on('click', replyToDiscussion);
 $(".reply").on('click', replyToPost);
 $(".close").on('click', deleteComment);
