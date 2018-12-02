@@ -18,9 +18,13 @@ const multer = require("multer");
 const { ObjectID } = require('mongodb')
 const movie_routes = require('./routes/movie_routes');
 const discussion_routes  = require('./routes/discussion_routes');
+const user_routes  = require('./routes/user_routes');
 app.use('/', movie_routes);
 app.use('/', discussion_routes);
-
+app.use('/', user_routes);
+// app.use(app.router);
+// user_routes.initialize(app);
+app.use('/', user_routes)
 
 mongoose.connect(databaselink, { useNewUrlParser: true});
 app.use( express.static( path.join(__dirname, '../App') ));

@@ -1,5 +1,7 @@
 "use strict"
 
+// const domain = "http://localhost:8000"
+
 const userDial = document.querySelector("#totalUsers")
 
 const filmDial = document.querySelector("#totalFilms")
@@ -28,12 +30,19 @@ function updateDials() {
 
 function updateUser() {
 
+	fetch("http://localhost:8000/userCount").then ((result) => {
+		return result.json()
+	}).then((data) => {
+		userDial.innerText = data.value
+	}).catch((error) => {
+		console.log(error)
+	})
 
 }
 
 function updateFilm() {
 
-	fetch('http://localhost:8000/getMovieCount').then((result) => {
+	fetch("http://localhost:8000/getMovieCount").then((result) => {
 		return result.json()
 	}).then((data) => {
 		filmDial.innerText = data.value
