@@ -1,5 +1,10 @@
 // Getting reference to relavant DOM elements
 "use strict"
+const domain = "http://localhost:8000"
+
+const log = console.log
+
+populateUserTable()
 
 const searchButton = document.querySelector('#dataForm');
 
@@ -17,16 +22,16 @@ class User {
 	}
 }
 
-let userSet = []
+let userSet
 // console.log("pressed")
 
 // Entering dummy userSet data
 // would normally pull data from the database
 
-userSet.push(new User("../Pictures/icon.jpg", "Jennifer", 21))
-userSet.push(new User("../Pictures/me.png", "Faiyaz", 54))
-userSet.push(new User("../Pictures/icon.jpg", "Jane", 12))
-userSet.push(new User("../Pictures/icon.jpg", "Fionna", 68))
+// userSet.push(new User("../Pictures/icon.jpg", "Jennifer", 21))
+// userSet.push(new User("../Pictures/me.png", "Faiyaz", 54))
+// userSet.push(new User("../Pictures/icon.jpg", "Jane", 12))
+// userSet.push(new User("../Pictures/icon.jpg", "Fionna", 68))
 
 
 showAllButton.addEventListener('click', showAllData)
@@ -36,6 +41,32 @@ searchButton.addEventListener('submit', showSelected)
 dataTable.addEventListener('click', editUserOrDelete)
 
 saveButton.addEventListener('click', saveUser)
+
+function populateUserTable() {
+	
+	let tempUsers = []
+
+	fetch(`${domain}/allUsers`).then((res) => {
+		return res.json()
+	}).then((data) => {
+		// log(data)
+		let currentUsers = data
+
+		for (let i = 0; i < currentUsers.length; i++) {
+			let name = currentUsers[i].username
+			let image = currentUsers[i].icon
+			let discussions = currentUsers[i].discussions.length
+
+			let newUser = new User(image,name,discussions)
+			tempUsers.push(newUser)
+			createDataRow(newUser)
+		}
+
+		userSet = tempUsers
+	}).catch((error) => {
+		log(error)
+	})
+}
 
 
 function saveUser(e) {
@@ -126,8 +157,7 @@ function showSelected(e) {
 
 		if (currentUser.username === nameToSearch) {
 			flag = 1;
-			let newRow = createDataRow(currentUser)
-			dataTable.appendChild(newRow)
+			createDataRow(currentUser)
 		}
 
 	}
@@ -171,8 +201,7 @@ function addAvailableData() {
 	for (let i = 0; i < userSet.length; i++) {
 
 		let currentUser = userSet[i];
-		let newRow = createDataRow(currentUser)
-		dataTable.appendChild(newRow);
+		createDataRow(currentUser)
 	}
 }
 
@@ -215,7 +244,7 @@ function createDataRow(currentUser) {
 	newRow.appendChild(dataPost)
 	newRow.appendChild(options)
 
-	return newRow;
-
+	// return newRow;
+	dataTable.appendChild(newRow)
 }
 
