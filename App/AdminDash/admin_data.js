@@ -1,6 +1,6 @@
 // Getting reference to relavant DOM elements
 "use strict"
-const domain = "http://localhost:8000"
+const domain = "http://localhost:8000/user/"
 
 let confirmUser 
 
@@ -23,6 +23,12 @@ const verifyUserDelete = document.querySelector("#verifyUserDelete")
 const confirmUserDelete = document.querySelector("#deleteUserButton")
 
 const deleteUserModel = document.querySelector("#deleteUser")
+
+const addUserModel = document.querySelector('#AddUser')
+
+const addUserButton = document.querySelector('#addUserButton')
+
+const verifyUser = document.querySelector('#verifyUser')
 
 /* User Class */
 
@@ -61,8 +67,22 @@ verifyUserDelete.addEventListener('click', verifyDelete)
 
 confirmUserDelete.addEventListener('click', confirmDeleteUser)
 
+addUserModel.addEventListener('click', openAddModel)
+
+verifyUser.addEventListener('click', verifyUserDB)
+
+addUserButton.addEventListener('click', confirmAddUser)
+
 
 /* User Specific Funtions */
+
+function openAddModel() {
+
+	addUserButton.disabled = 'true'
+	const message = document.querySelector('#AddUserMessage')
+	message.innerText = ""
+
+}
 
 function openDeleteModel() {
 
@@ -75,6 +95,81 @@ function openDeleteModel() {
 		placement.removeChild(placement.firstElementChild)
 	}
 }
+
+function verifyUserDB() {
+
+	const userToAdd = document.querySelector('#username').value
+
+	const password = document.querySelector('#password').value
+
+	const icon = document.querySelector('#icon').value
+
+	const message = document.querySelector('#AddUserMessage')
+
+	/* Check if there is an existing user */
+	const userlower = userToAdd.toLowerCase()
+	for(let i = 0; i < userSet.length; i++) {
+
+		let userSetLower = userSet[i].username.toLowerCase()
+		if (userlower === userSetLower) {
+			message.style.color = "red"
+			message.innerText = "User already exists!"
+			return;
+		}
+	}
+
+	if (password.length === 0) {
+		message.style.color = "red"
+		message.innerText = "Password cannot be empty!"
+		return;
+	}
+
+	message.style.color = "green"
+	message.innerText = "Verification Passed, Click Add User to confirm"
+	addUserButton.removeAttribute('disabled')
+
+}
+
+function confirmAddUser() {
+
+	const userToAdd = document.querySelector('#username').value
+
+	const password = document.querySelector('#password').value
+
+	const icon = document.querySelector('#icon').value	
+
+	const url = `${domain}/createUser`
+
+	const data = {
+		"username": userToAdd,
+		"password": password,
+		"icon": icon
+	}
+	// const request = new Request(url, {
+	// 	method: 'PATCH',
+	// 	body: JSON.stringify(data)
+	// });
+
+	// log(request)
+
+	fetch(url, {
+		method: 'POST', 
+		body: JSON.stringify(data), 
+		headers: {
+			'Accept': 'application/json',
+			'Content-type': 'application/json'
+		},
+		credentials: 'include',
+	  }).then((response) => {
+		removeData(dataTable)
+		populateUserTable()
+	}).catch((error) => {
+		log(error)
+	})
+
+
+}
+
 
 function verifyDelete() {
 

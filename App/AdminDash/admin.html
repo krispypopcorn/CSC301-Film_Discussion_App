@@ -126,7 +126,10 @@
                     <button id="showAllQuery" class="btn btn-outline-success my-2 ml-sm-2" type="button">Show All</button>
                 </div>
                 <div class="col-md-4">
-                        <button id="deleteUser" class="btn btn-outline-success my-2 ml-sm-2" type="button" data-toggle="modal" data-target="#DeleteUserModel">Delete A User</button>
+                    <button id="deleteUser" class="btn btn-outline-success my-2 ml-sm-2" type="button" data-toggle="modal" data-target="#DeleteUserModel">Delete A User</button>
+                </div>
+                <div class="col-md-4">
+                    <button id="AddUser" class="btn btn-outline-success my-2 ml-sm-2" type="button" data-toggle="modal" data-target="#AddUserModel">Add A User</button>
                 </div>
             </div>
         </div>
@@ -385,6 +388,62 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Add a user pop up -->
+    <div class="modal fade" id="AddUserModel" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add a User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Username
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                    <input id="username" class="form-control mr-sm-2" placeholder="Enter Username">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Password
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                    <input id="password" class="form-control mr-sm-2" placeholder="Enter Password">
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-6">
+                                        Icon
+                                    </div>
+                                    <div class="col-md-6 ml-auto">
+                                        <input id="icon" class="form-control mr-sm-2" placeholder="Enter icon url">
+                                        <!-- Will be changed to upload a photo -->
+                                    </div>
+                                </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6" id="AddUserMessage">
+                                    <!-- Add User message will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success my-2 ml-sm-2" data-dismiss="modal">Close</button>
+                        <button id="verifyUser" type="button" class="btn btn-outline-success my-2 ml-sm-2">Verify</button>
+                        <button id="addUserButton" type="button" class="btn btn-outline-success my-2 ml-sm-2" data-dismiss="modal">Add User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
