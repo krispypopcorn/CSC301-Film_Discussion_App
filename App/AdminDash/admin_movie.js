@@ -140,17 +140,19 @@ function populateMovieTable() {
 		currentMovies = data;
 		// console.log(currentMovies)
 		for(let i = 0; i < currentMovies.length; i++) {
-
-			let poster = currentMovies[i].poster
-			let movieName = currentMovies[i].name
-			let date = currentMovies[i].year
-			let numDiscussions = currentMovies[i].numOfDiscussions
-
-			let newMovie = new MovieElement(poster, movieName, date, numDiscussions)
-			tempMovieSet.push(newMovie)
-			addToMovieTable(poster, movieName, date, numDiscussions);
+			fetch('/getMovieDisCount/'+currentMovies[i]._id).then(res=>{
+				return res.json()})
+				.then(num=>{
+					let poster = currentMovies[i].poster
+					let movieName = currentMovies[i].name
+					let date = currentMovies[i].year
+					let numDiscussions = num.value
+					let newMovie = new MovieElement(poster, movieName, date, numDiscussions)
+					tempMovieSet.push(newMovie)
+					addToMovieTable(poster, movieName, date, numDiscussions);
+					movieSet = tempMovieSet
+				})
 		}
-		movieSet = tempMovieSet
 	})
 }
 

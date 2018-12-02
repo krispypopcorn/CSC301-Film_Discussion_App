@@ -1,16 +1,12 @@
 "use strict";
 
 //Add event-listner
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission;});
-$("#homeLink").on('click', function(event) {console.log("HI");window.location.href = "../Homepage/homepage.html" + "?para1="+ permission;});
-$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html" + "?para1="+ permission;});
-$("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
+$("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
+$("#homeLink").on('click', function(event) {console.log("HI");window.location.href = "/home";});
+$("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
+$("#signOut").on('click', function(event) {window.location.href = "/logout";});
 
-/*----navigate to another page----*/
-// you need to pass your permission to the next page
-// window.location.href = "../UserProfile/user_profile.html" + "?para1="+ permission
-/*----navigate to another page----*/
-
+setUserIcon()
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChartView);
