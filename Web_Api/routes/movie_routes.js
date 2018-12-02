@@ -1,7 +1,6 @@
 const movie_routes = require('express').Router();
 const { Movie } = require('../model/Movie')
 const movieServer = require('../movie-getter')
-const Discussion = require('../model/Discussion')
 const log = console.log
 
 movie_routes.get('/findAllMovies', (req, res) => {
@@ -159,5 +158,6 @@ movie_routes.get('/getNowPlaying', (req, res) => {
         res.send(result)
     })
 })
-   
+  
+
 module.exports = movie_routes;

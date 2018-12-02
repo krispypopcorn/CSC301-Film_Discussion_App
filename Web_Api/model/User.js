@@ -79,4 +79,4 @@ UserSchema.statics.authenticate = function (username,password) {
   });
   
   var User = mongoose.model('User', UserSchema);
-  module.exports = User;
+  module.exports = { User };

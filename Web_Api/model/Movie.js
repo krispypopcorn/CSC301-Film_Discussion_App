@@ -27,10 +27,6 @@ const Movie = mongoose.model('Movie', {
         type: Number,
         default: 0
     },
-    discussions: {
-        type: Array,
-        default: []
-    }
 })
 
 module.exports = { Movie }

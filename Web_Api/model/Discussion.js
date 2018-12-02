@@ -45,4 +45,4 @@ const DisSchema = new mongoose.Schema({
 
 
 var Discussion = mongoose.model('Discussion', DisSchema);
-module.exports = Discussion;
+module.exports = { Discussion };

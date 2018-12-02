@@ -1,5 +1,7 @@
 "use strict"
 
+let firstAccess = true;
+
 // number of total discussions under a movie
 let numberOfDiscusstions;
 
@@ -14,6 +16,9 @@ let searchMode = 0;
 
 //store current page
 let currentPage = 1;
+
+// current movie
+let currentMovie;
 
 //keep a copy of the discussion div as template
 const template = $(".card:first").clone();
@@ -42,7 +47,10 @@ $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 /*-------------Add Event-listener-------------*/
 const MovieUrl = '/search/'+movieName
-const discussionUrl = ''
+const discussionUrl = '/getMovieDiscussions/'
+const dicNumUrl = "/getMovieDisCount/"
+const comNumUrl =''
+
 
 getMovie()
 
@@ -57,11 +65,37 @@ function getMovie(){
     })
     .then((json) => {
         changeBanner(json)
+        currentMovie = json
+        updateTopicNum(currentMovie._id);
+        updateCommentsNum(currentMovie._id);
+        getDiscussions(currentMovie._id)
     }).catch((error) => {
         console.log(error)
     })
-  }
+}
 
+function getDiscussions(movieId){
+    fetch(discussionUrl+movieId)
+    .then((res) => { 
+      if (res.status === 200) {
+         return res.json() 
+     } else {
+          alert('Could not get discussions')
+     }                
+    })
+  .then((json) => {
+    discussions=json;
+    discussions.sort((a,b)=>{
+        return a.date - b.date;
+    });
+    if(firstAccess){
+        restoreDiscussion()
+        firstAccess=false
+    }
+  }).catch((error) => {
+      console.log(error)
+  })
+}
 
 function getCookie(cname)
 {
@@ -74,7 +108,6 @@ function getCookie(cname)
   }
   return "";
 }
-
 
 function addNewDiscussion(e) {
    e.preventDefault();
@@ -92,7 +125,7 @@ function addNewDiscussion(e) {
         const newDiscussion = {
             title:inputTitle,
             discussion_content: inputText,
-            movie: "temp",
+            movie: currentMovie._id,
             img: url,
             likes: 0
         }
@@ -104,15 +137,13 @@ function addNewDiscussion(e) {
                 'Content-type': 'application/json'
             },
             credentials: 'include',
-          }).then(res => res.json())
-          .then(response => console.log('Success:', JSON.stringify(response)))
-          .catch(error => console.error('Error:', error));
-    
-        discussions.unshift(newDiscussion);
-        numberOfDiscusstions++;
-        updateTopicNum();
-        addDiscussionToDom(newDiscussion);
-        $("#popup1").toggle(200);
+          })
+          .then(res => {return res.json()})
+          .then(newDis=>{
+            addDiscussionToDom(newDis);
+            $("#popup1").toggle(200);
+            getDiscussions(currentMovie._id)
+          })
     });
 }
 
@@ -264,14 +295,7 @@ function changeBanner(movie){
     banner.attr('src',movie.banner)
 }
 
-function changeBanner(movie){
-    const banner = $('#banner .w-100')
-    const bannerTitle = $('#bannerTitle')
-    bannerTitle.html(movie.name);
-    banner.attr('src',movie.banner)
-}
-
-function restoreDiscussion(e) {
+function restoreDiscussion() {
    search = [];
    currentPage = 1;
    searchMode = 0;
@@ -289,6 +313,23 @@ function restoreDiscussion(e) {
    }
 }
 
-function updateTopicNum() {
-   $("#discussionTopic")[0].innerHTML = numberOfDiscusstions;
+function updateTopicNum(movieId) {
+    fetch(dicNumUrl+movieId)
+    .then((res) => { 
+      if (res.status === 200) {
+         return res.json() 
+     } else {
+          alert('Could not get discussions numer')
+     }                
+    })
+  .then((json) => {
+    const temp = $('#discussionTopic')
+    temp.html(json)
+  }).catch((error) => {
+      console.log(error)
+  })
+}
+
+function updateCommentsNum(movie){
+    
 }
