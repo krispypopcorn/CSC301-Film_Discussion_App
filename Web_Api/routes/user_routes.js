@@ -68,7 +68,6 @@ user_routes.get('/userExist/:name', (req, res) => {
     });
 })
 
-
 user_routes.post('/createUser',(req, res)=>{
     const userData = new User({
         username: req.body.username,
@@ -81,7 +80,7 @@ user_routes.post('/createUser',(req, res)=>{
         if (error) {
             res.send(error)
         } else {
-          req.session.userId = user._id;
+          req.session.user = user._id;
           return res.redirect('/home');
         }
       });

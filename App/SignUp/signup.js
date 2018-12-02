@@ -8,8 +8,8 @@ function createUser(e){
 	e.preventDefault();
     const username = $('#username').val();
     const password = $('#password').val();
-    const confirmpassword = $('#confirm_password').val();
-    console.log(username);
+	const confirmpassword = $('#confirm_password').val();
+	
 
     if(password == confirmpassword){
     	console.log("confirmpassword");
@@ -34,8 +34,10 @@ function createUser(e){
 	        credentials: 'include',
 	    }).then(response => {
 	        if(response.status==200){
-	        	console.log('user saved');
-	        }
+				window.location.href = "/home"
+	        }else{
+				console.log("failed to save user")
+			}
 	    })		
 		}
 	)}

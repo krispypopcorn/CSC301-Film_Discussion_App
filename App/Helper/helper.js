@@ -1,6 +1,6 @@
 'use strict'
 function setUserIcon(){
-    fetch('/user/userIcon')
+    fetch('/userIcon')
     .then(res =>{
       if (res.status === 200) {
            return res.json() 
@@ -9,12 +9,12 @@ function setUserIcon(){
        }                
     })
     .then(url =>{
-      $('#profilePic').attr('src','../Pictures/'+url)
+      $('#profilePic').attr('src',url)
     })
   }
 
 function checkUserClass(){
-  fetch('/user/userClass')
+  fetch('/userClass')
   .then(res =>{
     if (res.status === 200) {
          return res.json() 
