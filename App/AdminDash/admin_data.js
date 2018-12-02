@@ -2,9 +2,13 @@
 "use strict"
 const domain = "http://localhost:8000"
 
+let confirmUser 
+
 const log = console.log
 
 populateUserTable()
+
+/* Getters for HTML elements */
 
 const searchButton = document.querySelector('#dataForm');
 
@@ -13,6 +17,14 @@ const showAllButton = document.querySelector('#showAllQuery');
 const dataTable = document.querySelector("#dataTable");
 
 const saveButton = document.querySelector("#SaveButton")
+
+const verifyUserDelete = document.querySelector("#verifyUserDelete")
+
+const confirmUserDelete = document.querySelector("#deleteUserButton")
+
+const deleteUserModel = document.querySelector("#deleteUser")
+
+/* User Class */
 
 class User {
 	constructor(image, username, like, dbId) {
@@ -42,6 +54,78 @@ searchButton.addEventListener('submit', showSelected)
 dataTable.addEventListener('click', editUserOrDelete)
 
 saveButton.addEventListener('click', saveUser)
+
+deleteUserModel.addEventListener('click', openDeleteModel)
+
+verifyUserDelete.addEventListener('click', verifyDelete)
+
+confirmUserDelete.addEventListener('click', confirmDelete)
+
+
+/* User Specific Funtions */
+
+function openDeleteModel() {
+
+	log("Reached")
+	confirmUserDelete.disabled = 'true'
+	const message = document.querySelector('#DeleteUserMessage')
+	message.innerText = ""
+	const placement = document.querySelector('#DeleteUserImagePlace')
+	if (placement.firstElementChild !== null) {
+		placement.removeChild(placement.firstElementChild)
+	}
+}
+
+function verifyDelete() {
+
+	const userToDelete = document.querySelector('#UserToDelete').value
+
+	const userLower = userToDelete.toLowerCase()
+
+	for (let i = 0; i < userSet.length; i++) {
+
+		let currentUser = userSet[i]
+
+		let currentUserLower = currentUser.username.toLowerCase()
+
+		if (currentUserLower.includes(userLower)) {
+
+			confirmUser = currentUser.dbId
+			break;
+
+		}
+	}
+
+	const message = document.querySelector('#DeleteUserMessage')
+	message.style.color = "red"
+
+	fetch(`${domain}/searchUser/${confirmUser}`).then((result) => {
+		return result.json()
+	}).then((data) => {
+
+		if (data.status === 404) {
+			message.innerText = "User Not Found"
+		} else {
+			const userIcon = document.createElement('img')
+			userIcon.className = 'moviePosterVerify'
+			userIcon.setAttribute('src', "../Pictures/" + data.icon)
+
+			const placement = document.querySelector('#DeleteUserImagePlace')
+			if (placement.firstElementChild !== null) {
+				placement.removeChild(placement.firstElementChild)
+			}
+			placement.appendChild(userIcon)
+			confirmUserDelete.removeAttribute('disabled')
+			message.innerText = "Are you sure you want to delete this user?"
+
+		}
+
+	})
+
+}
+
+
+
 
 function populateUserTable() {
 	
