@@ -31,15 +31,15 @@ const UserSchema = new mongoose.Schema({
         default: 0
     },
 
-    discussions: {
+    rated_movie: {
         type: Array,
         default: []
     },
 
-    comments: {
+    liked_Discussion: {
         type: Array,
         default: []
-    },
+    }
 })
 
 UserSchema.statics.authenticate = function (username,password) {

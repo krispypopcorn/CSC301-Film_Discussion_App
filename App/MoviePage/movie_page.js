@@ -180,7 +180,7 @@ function displaySearch(e) {
    for (i = 0; i < discussions.length; i++) {
        let cur = discussions[i];
        if (cur.title.includes(inputTitle)) {
-           search.push(cur);
+           search.unshift(cur);
        }
    }
    addMultiplyDiscussion(search);

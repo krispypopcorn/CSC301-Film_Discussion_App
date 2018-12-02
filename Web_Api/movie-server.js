@@ -46,30 +46,21 @@ var storage = multer.diskStorage({
     }
 });
 
+var upload = multer({storage: storage});
+
+app.use(upload.single('photo'));
+
 const movie_routes = require('./routes/movie_routes');
 const discussion_routes  = require('./routes/discussion_routes');
 const user_routes  = require('./routes/user_routes');
+const page_routes = require('./routes/page_routes');
 app.use('/', movie_routes);
 app.use('/', discussion_routes);
 app.use('/', user_routes);
 // app.use(app.router);
 // user_routes.initialize(app);
 app.use('/', user_routes)
-
-var upload = multer({storage: storage});
-
-app.use(upload.single('photo'));
-
-/* 
-*get Login page
- */
-app.get('/',sessionChecker, (req, res) => {
-    res.redirect('/login')
-})
-
-app.get('/login', sessionChecker,(req,res) => {
-    res.sendFile(path.join(__dirname, '../App/Login/index.html'))   
-});
+app.use('/', page_routes)
 
 app.post('/users/login', (req, res) => {
     const username = req.body.username
@@ -115,59 +106,6 @@ app.get('/logout', (req, res)=>{
         }
     })
 })
-
-/* 
-*get Home page
- */
-app.get('/home', (req, res) => {
-    //check if we have active session cookie
-    if(req.session.user){
-        res.sendFile(path.join(__dirname, '../App/Homepage/homepage.html')) 
-    }else{
-        res.redirect('/login')
-    }
-})
-
-/* 
-*get discussion page
- */
-app.get('/discussionPage', (req, res) => {
-    if(req.session.user){
-        res.sendFile(path.join(__dirname, '../App/DiscussionPage/discussion_topic_page.html')) 
-    }else{
-        res.redirect('/login')
-    }
-})
-
-/* 
-*get profile page
- */
-app.get('/profilePage', (req, res) => {
-    if(req.session.user){
-        res.sendFile(path.join(__dirname, '../App/UserProfile/user_profile.html'))   
-    }else{
-        res.redirect('/login')
-    }
-})
-
-/* 
-*get movie page
- */
-app.get('/moviePage', (req, res) => {
-    if(req.session.user){
-        res.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html')) 
-    }else{
-        res.redirect('/login')
-    } 
-})
-
-/* 
-*get admin dash
- */
-app.get('/adminDash', (req, res) => {
-    res.sendFile(path.join(__dirname, '../App/AdminDash/admin.html'))   
-})
-
  
 //This save a the uploaded img to dest folder
 app.post('/uploadImg', function(req, res, next){
@@ -175,22 +113,6 @@ app.post('/uploadImg', function(req, res, next){
 });
 
 // GET user by id
-app.get('/user/:id', (req, res) => {
-    const id = req.params.id 
-	if (!ObjectID.isValid(id)) {
-		return res.status(404).send()
-	}
-	User.findById(id).then((user) => {
-		if (!user) {
-			res.status(404).send()
-		} else {
-			res.send(user)
-		}
-	}).catch((error) => {
-		res.status(400).send(error)
-	})
-})
-
 app.get('/user/:id', (req, res) => {
     const id = req.params.id 
 	if (!ObjectID.isValid(id)) {
