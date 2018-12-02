@@ -163,7 +163,7 @@ function addNewDiscussion(e) {
    formData.append('photo',files[0]);
    fetch('/uploadImg', {
         method: 'POST',
-        body: formData
+        body: formData,
     }).then(response => {
         return response.json()
     }).then(url=>{
