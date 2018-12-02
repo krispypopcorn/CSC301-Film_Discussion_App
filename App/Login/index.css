@@ -84,3 +84,8 @@ color: white;
 .links a{
 margin-left: 4px;
 }
+
+#SignUpPage{
+    cursor: pointer;
+    color: blue;
+}

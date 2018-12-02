@@ -50,6 +50,24 @@ user_routes.get('/userIcon', (req, res) => {
 
 })
 
+/*
+   return true if given user exists in the database
+*/
+user_routes.get('/userExist/:name', (req, res) => {
+    let name = req.params.name
+    User.findOne({"username": name}, (err, user) =>{
+        if(err){res.send(err)}
+        else{
+            if(user!=null){
+                res.send('true')
+            }
+            else{
+                res.send('false')
+            }
+        }
+    });
+})
+
 user_routes.post('/createUser',(req, res)=>{
     const userData = new User({
         username: req.body.username,
@@ -62,7 +80,7 @@ user_routes.post('/createUser',(req, res)=>{
         if (error) {
             res.send(error)
         } else {
-          req.session.userId = user._id;
+          req.session.user = user._id;
           return res.redirect('/home');
         }
       });

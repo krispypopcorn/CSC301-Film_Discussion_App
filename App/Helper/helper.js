@@ -9,7 +9,7 @@ function setUserIcon(){
        }                
     })
     .then(url =>{
-      $('#profilePic').attr('src','../Pictures/'+url)
+      $('#profilePic').attr('src',url)
     })
   }
 

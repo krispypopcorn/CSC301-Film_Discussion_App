@@ -17,6 +17,21 @@ var bodyParser = require('body-parser');
 const multer = require("multer");
 const { ObjectID } = require('mongodb')
 mongoose.set('useFindAndModify', false);
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+cloudinary.config({
+    cloud_name: "dxpmsmv08",
+    api_key: 897789924997634,
+    api_secret: "Gju0WMIQF7Ys_nL-_pe3b_nmLCo"
+    });
+    const storage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: "demo",
+    allowedFormats: ["jpg", "png"],
+    });
+
+    const parser = multer({ storage: storage });
 
 mongoose.connect(databaselink, { useNewUrlParser: true});
 app.use( express.static( path.join(__dirname, '../App') ));
@@ -39,17 +54,6 @@ const sessionChecker = (req, res, next)=>{
         next()
     }
 }
-
-var storage = multer.diskStorage({
-    destination: '../App/Pictures',
-    filename: function (req, file, cb) {
-        cb(null, Date.now()+'-'+file.originalname);
-    }
-});
-
-var upload = multer({storage: storage});
-
-app.use(upload.single('photo'));
 
 const movie_routes = require('./routes/movie_routes');
 const discussion_routes  = require('./routes/discussion_routes');
@@ -87,10 +91,10 @@ app.get('/logout', (req, res)=>{
     })
 })
  
-//This save a the uploaded img to dest folder
-app.post('/uploadImg', function(req, res, next){
-    res.send(JSON.stringify(req.file.filename));
-});
+//Upload img to cloud
+app.post('/uploadImg', parser.single("photo"), (req, res) => {
+    res.send(JSON.stringify(req.file.url))
+  });
 
 // GET user by id
 app.get('/user/:id', (req, res) => {

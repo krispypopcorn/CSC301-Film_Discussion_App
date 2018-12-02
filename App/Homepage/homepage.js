@@ -77,7 +77,7 @@ function getDiscussion(){
     });
     discussionHelper(1, temp, "MostPopular")
     temp.sort((a,b)=>{
-      return new Date(a.date) - new Date(b.date);
+      return -(new Date(a.date) - new Date(b.date));
     });
     discussionHelper(1, temp, "Latest")
   }).catch((error) => {
@@ -124,7 +124,7 @@ function loadPreviousPage(e) {
       LatestPage--;
       let temp = discussions.slice();
       temp.sort((a,b)=>{
-        return new Date(a.date) - new Date(b.date);
+        return -(new Date(a.date) - new Date(b.date));
        });
        discussionHelper(index, temp, id)
     }
@@ -159,7 +159,7 @@ function loadNextPage(e) {
        PopularPage++;
        let temp = discussions.slice();
        temp.sort((a,b)=>{
-         return a.likes - b.likes;
+         return -(a.likes - b.likes);
         });
         discussionHelper(index, temp, id)
      }
@@ -169,7 +169,7 @@ function loadNextPage(e) {
        LatestPage++;
        let temp = discussions.slice();
        temp.sort((a,b)=>{
-         return new Date(a.date) - new Date(b.date);
+         return -(new Date(a.date) - new Date(b.date));
         });
         discussionHelper(index, temp, id)
      }
@@ -215,7 +215,7 @@ function movieHelper(index, temp){
 
 function createDiscussion(discussion) {
   let newPost = discussionDiv.clone();
-  newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
+  newPost.find(".backGroundImage").attr('src',discussion.img);
   newPost.find(".disTitle").html(discussion.title);
   const user = getUser(discussion.user)
   user.then((json) => {
