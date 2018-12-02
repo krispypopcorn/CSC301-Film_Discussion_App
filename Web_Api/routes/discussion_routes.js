@@ -41,6 +41,7 @@ discussion_routes.get('/getMovieDisCount/:id', (req, res) => {
    return the added discussion
 */
 discussion_routes.post('/creatDiscussion',(req, res)=>{
+    Console.log(req.session.user)
     const disc = new Discussion({
         title: req.body.title,
         discussion_content: req.body.discussion_content,

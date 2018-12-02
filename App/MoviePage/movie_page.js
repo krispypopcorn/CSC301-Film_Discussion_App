@@ -1,7 +1,5 @@
 "use strict"
 
-let firstAccess = true;
-
 // number of total discussions under a movie
 let numberOfDiscusstions;
 
@@ -114,12 +112,8 @@ function getDiscussions(movieId){
         return new Date(a.date) - new Date(b.date);
     });
     numberOfDiscusstions = discussions.length
-    if(firstAccess){
-        restoreDiscussion()
-        firstAccess=false
-    }
-  }).catch((error) => {
-      console.log(error)
+    currentPage++;
+    loadPreviousPage();
   })
 }
 
@@ -193,7 +187,7 @@ function addNewDiscussion(e) {
             return response.json()
         })
           .then(newDis=>{
-            addDiscussionToDom(newDis);
+            //addDiscussionToDom(newDis);
             $("#popup1").toggle(200);
             getDiscussions(currentMovie._id)
             updateTopicNum(currentMovie._id)
@@ -205,15 +199,14 @@ function deletePost(e) {
   e.preventDefault();
   const targetDiv = e.target.parentNode.parentNode.parentNode;
   const targetTitle = targetDiv.children[0].children[1].children[0].children[0].innerHTML
-  console.log(targetTitle)
   
-  let index=0;
-  while(discussions[index].title != targetTitle){index++;}
-  discussions.splice(index,1);
-  numberOfDiscusstions--;
-  updateTopicNum();
-  currentPage++;
-  loadPreviousPage(e);
+  fetch('/deleteDiscussions/'+currentMovie._id+'/'+targetTitle, {
+    method: 'DELETE', 
+  })
+  .then(response => {
+      getDiscussions(currentMovie._id)
+      updateTopicNum(currentMovie._id)
+})
 }
 
 
@@ -238,7 +231,6 @@ function displaySearch(e) {
 // Helper function
 // Creates a discussion div based on given discussion object
 function createDiscussion(discussion) {
-
    let newPost = template.clone();
    const target = newPost.children().children();
    
@@ -268,8 +260,7 @@ function createDiscussion(discussion) {
    return newPost;
 }
 
-function loadPreviousPage(e) {
-   e.preventDefault();
+function loadPreviousPage() {
    if (currentPage != 1) {
 
        let index = currentPage - 1;
@@ -342,7 +333,7 @@ function addMultiplyDiscussion(discussionList) {
    let newPost;
    for (i = 0; i < discussionList.length && i < 4; i++) {
        newPost = createDiscussion(discussionList[i]);
-       targetList.push(newPost);
+       targetList.unshift(newPost);
    }
 
    $('#postsContainer .card').remove();
