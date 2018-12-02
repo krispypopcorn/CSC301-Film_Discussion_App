@@ -81,12 +81,6 @@ discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
     Discussion.findByIdAndRemove(id, (err, discussion) =>{
         if(err){res.send(err)}
         else{
-            const img = discussion.img
-            fs.unlink('../App/Pictures/'+img, function(err) {
-                if (!err){
-                    console.log('img deleted');
-                }
-            });
             res.send("discussion deleted")
         }
     });

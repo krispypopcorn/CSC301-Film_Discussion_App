@@ -215,7 +215,7 @@ function movieHelper(index, temp){
 
 function createDiscussion(discussion) {
   let newPost = discussionDiv.clone();
-  newPost.find(".backGroundImage").attr('src','../Pictures/'+discussion.img);
+  newPost.find(".backGroundImage").attr('src',discussion.img);
   newPost.find(".disTitle").html(discussion.title);
   const user = getUser(discussion.user)
   user.then((json) => {
