@@ -46,12 +46,33 @@ $(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 /*-------------Add Event-listener-------------*/
+
+/*-------request URL-------*/
 const MovieUrl = '/search/'+movieName
 const discussionUrl = '/getMovieDiscussions/'
 const dicNumUrl = "/getMovieDisCount/"
 const comNumUrl =''
+/*-------request URL-------*/
+
 
 getMovie()
+checkUserClass()
+
+function checkUserClass(){
+  fetch('/userClass')
+  .then(res =>{
+    if (res.status === 200) {
+         return res.json() 
+     } else {
+       console.log('Could not get user class')
+     }                
+  })
+  .then(json =>{
+    if(json == false){
+      $('#adminLink').hide()
+    }
+  })
+}
 
 function getMovie(){
     fetch(MovieUrl)
@@ -69,8 +90,6 @@ function getMovie(){
         updateCommentsNum(currentMovie._id);
         getDiscussions(currentMovie._id)
         uodateVote(currentMovie)
-    }).catch((error) => {
-        console.log(error)
     })
 }
 

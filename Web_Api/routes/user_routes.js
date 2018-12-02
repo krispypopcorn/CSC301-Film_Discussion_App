@@ -28,4 +28,17 @@ user_routes.get('/userCount', (req, res) => {
     })
 })
 
+/*
+    Get current user's class
+*/
+user_routes.get('/userClass', (req, res) => {
+    User.findById(req.session.user, (err, user) =>{
+        if(err){res.send(err)}
+        else{
+            res.send(user.admin)
+        }
+    });
+
+})
+
 module.exports = user_routes

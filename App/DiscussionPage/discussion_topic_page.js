@@ -17,9 +17,23 @@ $("#replyPost").on('click', replyToDiscussion);
 $(".reply").on('click', replyToPost);
 $(".close").on('click', deleteComment);
 
+checkUserClass()
 
-
-
+function checkUserClass(){
+  fetch('/userClass')
+  .then(res =>{
+    if (res.status === 200) {
+         return res.json() 
+     } else {
+       console.log('Could not get user class')
+     }                
+  })
+  .then(json =>{
+    if(json == false){
+      $('#adminLink').hide()
+    }
+  })
+}
 
 function fillDiscussionPost(){
 
