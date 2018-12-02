@@ -58,7 +58,6 @@ movie_routes.get('/movie/:name/:year', (req, res) => {
 movie_routes.get('/search/:name', (req, res) => {
 
     const movieName = req.params.name
-    // console.log(movieName)
     Movie.findOne({name: movieName}).then((result) => {
         if (!result) {
             res.send({

@@ -18,7 +18,7 @@ let currentPage = 1;
 //keep a copy of the discussion div as template
 const template = $(".card:first").clone();
 
-var cookie = document.cookie;
+const movieName = getCookie('movie');
 
 /*-------------Add Event-listener-------------*/
 $("#newPost").click(function() {
@@ -35,32 +35,32 @@ $("#cleanSearch").click(restoreDiscussion);
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
-$("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
+$("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
 $(".delete").on('click', deletePost);
-$("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html";});
+$("#signOut").on('click', function(event) {window.location.href = "/logout";});
+$("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 /*-------------Add Event-listener-------------*/
-const movieFetch=fetch('/findAllMovies')
-const discussionFetch=fetch('/getAllDiscussions')
+const MovieUrl = '/search/'+movieName
+const discussionUrl = ''
 
-new Promise((resolve, reject)=>{
-  Promise.all([movieFetch,discussionFetch]).
-  then(datas=>{
-    datas[0].json().then(res=>{
-      datas[1].json().then(disarray=>{
-        resolve([res, disarray])
-      })
+getMovie()
+
+function getMovie(){
+    fetch(MovieUrl)
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get movies')
+       }                
     })
-  })
-  .catch()
-}).then(res=>{
-  discussions= res[1]
-  numberOfDiscusstions = discussions.length
-  restoreDiscussion("temp")
-}).catch((error) => {
-  console.log(error)
-})
+    .then((json) => {
+        changeBanner(json)
+    }).catch((error) => {
+        console.log(error)
+    })
+  }
 
 
 function getCookie(cname)
@@ -255,6 +255,20 @@ function addMultiplyDiscussion(discussionList) {
    for (i = 0; i < targetList.length; i++) {
        $("#postsContainer").append(targetList[i]);
    }
+}
+
+function changeBanner(movie){
+    const banner = $('#banner .w-100')
+    const bannerTitle = $('#bannerTitle')
+    bannerTitle.html(movie.name);
+    banner.attr('src',movie.banner)
+}
+
+function changeBanner(movie){
+    const banner = $('#banner .w-100')
+    const bannerTitle = $('#bannerTitle')
+    bannerTitle.html(movie.name);
+    banner.attr('src',movie.banner)
 }
 
 function restoreDiscussion(e) {

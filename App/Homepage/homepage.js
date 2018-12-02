@@ -9,6 +9,7 @@ $(".previousButton").on('click',loadPreviousPage);
 $(".nextButton").on('click',loadNextPage);
 /*-------------Add Event-listener-------------*/
 
+
 //store current page
 let moviePage = 1;
 let PopularPage = 1;
@@ -27,6 +28,11 @@ const Movieurl = '/findAllMovies';
 
 getDiscussion();
 getMovie();
+delete_cookie('movie')
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 
 function getMovie(){
   fetch(Movieurl)
@@ -213,7 +219,7 @@ function createDiscussion(discussion) {
   user.then((json) => {
    newPost.find(".author").html(json.username);
    newPost.on('click',function(event) {
-     document.cookie="movie="+movie.name 
+     document.cookie="movie="+movie.name
      window.location.href = "/discussionPage";})
   })
   return newPost;
@@ -225,7 +231,7 @@ function createMovie(movie) {
    newPost.find(".movieTitle").html(movie.name);
    newPost.find(".point").html(movie.vote_average.toString());
    newPost.on('click',function(event) {
-    document.cookie="movie="+movie.name 
+    document.cookie="movie="+movie.name
     window.location.href = "/moviePage";})
    return newPost;
 }
