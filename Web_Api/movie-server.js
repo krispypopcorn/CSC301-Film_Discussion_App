@@ -78,26 +78,6 @@ app.post('/users/login', (req, res) => {
 	})  
 });
 
-app.post('/creatUser',(req, res)=>{
-    const userData = new User({
-        username: req.body.username,
-        password: req.body.password,
-        admin: false,
-        icon: req.body.img,
-        like:0,
-        discussion:[],
-        comments:[]
-      })
-      userData.save(function (error, user) {
-        if (error) {
-            res.send(error)
-        } else {
-          req.session.userId = user._id;
-          return res.redirect('/home');
-        }
-      });
-})
-
 app.get('/logout', (req, res)=>{
     req.session.destroy((error)=>{
         if(error){

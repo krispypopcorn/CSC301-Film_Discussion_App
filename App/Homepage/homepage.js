@@ -30,22 +30,7 @@ getDiscussion();
 getMovie();
 delete_cookie('movie')
 checkUserClass()
-
-function checkUserClass(){
-  fetch('/userClass')
-  .then(res =>{
-    if (res.status === 200) {
-         return res.json() 
-     } else {
-       console.log('Could not get user class')
-     }                
-  })
-  .then(json =>{
-    if(json == false){
-      $('#adminLink').hide()
-    }
-  })
-}
+setUserIcon()
 
 function delete_cookie( name ) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';

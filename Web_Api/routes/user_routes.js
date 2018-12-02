@@ -41,4 +41,32 @@ user_routes.get('/userClass', (req, res) => {
 
 })
 
+user_routes.get('/userIcon', (req, res) => {
+    User.findById(req.session.user, (err, user) =>{
+        if(err){res.send(err)}
+        else{
+            res.send(JSON.stringify(user.icon))
+        }
+    });
+
+})
+
+user_routes.post('/creatUser',(req, res)=>{
+    const userData = new User({
+        username: req.body.username,
+        password: req.body.password,
+        admin: false,
+        icon: req.body.icon,
+        like:0,
+      })
+      userData.save(function (error, user) {
+        if (error) {
+            res.send(error)
+        } else {
+          req.session.userId = user._id;
+          return res.redirect('/home');
+        }
+      });
+})
+
 module.exports = user_routes
