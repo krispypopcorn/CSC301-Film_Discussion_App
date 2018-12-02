@@ -112,3 +112,17 @@ font-family: cursive;
 .col-md-6{
     padding-left: 350px !important;
 }
+
+.file_box{
+    text-align: center
+}
+
+.file{
+    display: inline-block;
+}
+.file_btn{
+    position:relative;
+    left:50%;
+    align-items: center;
+    text-align: center !important;
+}

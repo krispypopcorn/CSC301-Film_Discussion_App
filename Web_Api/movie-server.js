@@ -57,7 +57,6 @@ const user_routes  = require('./routes/user_routes');
 const page_routes = require('./routes/page_routes');
 app.use('/', movie_routes);
 app.use('/', discussion_routes);
-app.use('/', user_routes);
 // app.use(app.router);
 // user_routes.initialize(app);
 app.use('/', user_routes)

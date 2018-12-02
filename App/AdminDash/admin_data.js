@@ -59,7 +59,7 @@ deleteUserModel.addEventListener('click', openDeleteModel)
 
 verifyUserDelete.addEventListener('click', verifyDelete)
 
-confirmUserDelete.addEventListener('click', confirmDelete)
+confirmUserDelete.addEventListener('click', confirmDeleteUser)
 
 
 /* User Specific Funtions */
@@ -121,6 +121,25 @@ function verifyDelete() {
 		}
 
 	})
+
+}
+
+function confirmDeleteUser() {
+
+	log(confirmUser)
+	const url = `${domain}/deleteFinal/${confirmUser}`
+
+	const request = new Request(url, {
+		method: 'delete'
+	});
+
+	fetch(request).then((res) => {
+		if (res.status === 205) {
+			removeData(dataTable)
+			populateUserTable()
+		}
+	})
+
 
 }
 
