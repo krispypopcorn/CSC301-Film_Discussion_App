@@ -71,7 +71,7 @@ app.post('/users/login', (req, res) => {
             res.status(400).send("invalid user")
 		} else {
             req.session.user = user._id
-			res.redirect('/home')
+            res.redirect('/adminDash')
 		}
 	}).catch((error) => {
 		res.status(400).send("invalid user")

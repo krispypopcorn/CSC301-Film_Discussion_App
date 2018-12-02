@@ -61,6 +61,7 @@ const comNumUrl =''
 
 getMovie()
 checkUserClass()
+setUserIcon()
 
 function checkUserClass(){
   fetch('/userClass')

@@ -163,15 +163,16 @@ movie_routes.post('/rateMovie/:id', (req, res)=>{
         if(err){res.send(err)}
         else{
             let found = false;
-            movie.voted_user.forEach(element => {
-                if(element[0]==user){
+            for(let i=0;i< movie.voted_user.length;i++){
+                if(movie.voted_user[i][0]==user){
                     found = true;
-                    element[1]=rating;
+                    movie.voted_user[i][1]=rating;
                 }
-            });
-            if(!found){
+            }
+            if(found==false){
                 movie.voted_user.push([user, rating])
             }
+            movie.markModified('voted_user');
             movie.vote_average = get_average(movie);
             movie.save((error, newMovie)=>{
                 if(!error){res.send(newMovie)}
@@ -184,10 +185,11 @@ function get_average(movie){
     let sum=0;
     let len = movie.voted_user.length;
     movie.voted_user.forEach(element => {
-        sum += element[1]
+        sum += parseInt(element[1]) 
     });
-    const result = sum/len
-    return Math.round(result * 100) / 100
+  
+    const result = (sum/len).toFixed(2);
+    return result
 }
 
 module.exports = movie_routes;
