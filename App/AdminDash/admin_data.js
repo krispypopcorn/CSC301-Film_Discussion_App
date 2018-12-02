@@ -15,10 +15,11 @@ const dataTable = document.querySelector("#dataTable");
 const saveButton = document.querySelector("#SaveButton")
 
 class User {
-	constructor(image, username, numPost) {
+	constructor(image, username, like, dbId) {
 		this.image = image;
 		this.username = username;
-		this.numPost = numPost;
+		this.like = like;
+		this.dbId = dbId
 	}
 }
 
@@ -53,11 +54,14 @@ function populateUserTable() {
 		let currentUsers = data
 
 		for (let i = 0; i < currentUsers.length; i++) {
+			// log(currentUsers[i])
 			let name = currentUsers[i].username
 			let image = currentUsers[i].icon
-			let discussions = currentUsers[i].discussions.length
-
-			let newUser = new User(image,name,discussions)
+			// let discussions = currentUsers[i].discussions.length
+			let like = currentUsers[i].like
+			let dbId = currentUsers[i]._id
+			// log(dbId)
+			let newUser = new User(image,name,like, dbId)
 			tempUsers.push(newUser)
 			createDataRow(newUser)
 		}
@@ -89,10 +93,35 @@ function saveUser(e) {
 	// Get new username
 
 	let newUserName = document.querySelector('#editUsername').value
-	userToModify.username = newUserName;
+	// userToModify.username = newUserName;
+	const url = `${domain}/modifyUserName/${userToModify.dbId}`
+	log(newUserName)
 
-	removeData(dataTable)
-	addAvailableData()
+	const data = {
+		"username": newUserName
+	}
+	// const request = new Request(url, {
+	// 	method: 'PATCH',
+	// 	body: JSON.stringify(data)
+	// });
+
+	// log(request)
+
+	fetch(url, {
+		method: 'PATCH', 
+		body: JSON.stringify(data), 
+		headers: {
+			'Accept': 'application/json',
+			'Content-type': 'application/json'
+		},
+		credentials: 'include',
+	  }).then((response) => {
+		removeData(dataTable)
+		populateUserTable()
+	}).catch((error) => {
+		log(error)
+	})
+
 
 	// Would also modify the password in this function 
 
@@ -150,12 +179,16 @@ function showSelected(e) {
 	e.preventDefault();
 	removeData(dataTable);
 	let nameToSearch = document.querySelector("#filterSearch").value;
+	let lowerCase = nameToSearch.toLowerCase()
+
 	let flag = 0;
 
 	for (let i = 0; i < userSet.length; i++) {
 		let currentUser = userSet[i]
 
-		if (currentUser.username === nameToSearch) {
+		let userNameLower = currentUser.username.toLowerCase()
+
+		if (userNameLower.includes(lowerCase)) {
 			flag = 1;
 			createDataRow(currentUser)
 		}
@@ -214,14 +247,14 @@ function createDataRow(currentUser) {
 	dataTh.setAttribute("scope", "row")
 	let img = document.createElement('img')
 	img.className = "icons"
-	img.setAttribute("src", currentUser.image)
+	img.setAttribute("src", "../Pictures/" + currentUser.image)
 	dataTh.appendChild(img)
 
 	let dataName = document.createElement('td')
 	dataName.innerText = currentUser.username
 
 	let dataPost = document.createElement('td')
-	dataPost.innerText = currentUser.numPost
+	dataPost.innerText = currentUser.like
 
 	let options = document.createElement('td')
 	let deleteIcon = document.createElement('a')

@@ -7,7 +7,7 @@ const log = console.log
 */
 user_routes.get('/allUsers', (req, res) => {
     User.find({}).then((result) => {
-        log(result)
+        // log(result)
         res.send(result)
     }).catch((error) => {
         res.status(404).send()
@@ -22,7 +22,7 @@ user_routes.get('/userCount', (req, res) => {
         res.send({
             value: count
         })
-        log(count)
+        // log(count)
     }).catch((error) => {
         res.status(404).send()
     })
@@ -66,6 +66,21 @@ user_routes.post('/creatUser',(req, res)=>{
           return res.redirect('/home');
         }
       });
+})
+
+user_routes.patch('/modifyUserName/:id', (req, res) => {
+
+    let newName = req.body.username
+    log(newName)
+    const user_id = req.params.id
+    User.findByIdAndUpdate(user_id, {
+        username: newName
+    }, {new: true}).then((update) => {
+        res.send(update)
+    }).catch((erorr) => {
+        log(error)
+    })
+
 })
 
 module.exports = user_routes

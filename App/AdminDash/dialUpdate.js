@@ -53,7 +53,13 @@ function updateFilm() {
 
 function updatePost() {
 
-	
+	fetch("http://localhost:8000/getDiscussionCount").then((result) => {
+		return result.json()
+	}).then((data) => {
+		PostDial.innerText = data.value
+	}).catch((error)=> {
+		console.log(error)
+	})
 }
 
 function updateComment() {
