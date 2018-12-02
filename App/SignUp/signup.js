@@ -11,7 +11,8 @@ function createUser(e){
     const confirmpassword = $('#confirm_password').val();
     console.log(username);
 
-    if(password === confirmpassword){
+    if(password == confirmpassword){
+    	console.log("confirmpassword");
 
        const files = document.querySelector('[type=file]').files;
 	   const formData = new FormData();
@@ -22,7 +23,6 @@ function createUser(e){
 	    }).then(response => {
 	        return response.json()
 	    }).then(url=>{
-	    	console.log(url);
 		    // check unique username
 	    	fetch(userUrl, {
 	        method: 'POST',
@@ -33,10 +33,12 @@ function createUser(e){
 	        },
 	        credentials: 'include',
 	    }).then(response => {
-	        return response.json()
-	    })
+	        if(response.status==200){
+	        	console.log('user saved');
+	        }
+	    })		
 		}
-   }
+	)}
 }
 
 
