@@ -149,7 +149,7 @@ function loadPreviousPage(e) {
       moviePage--;
       let temp = homeMovies.slice();
       temp.sort((a,b)=>{
-        return a.vote_average - b.vote_average;
+        return -(a.vote_average - b.vote_average);
        });
        movieHelper(index, temp)
     }
@@ -194,7 +194,7 @@ function loadNextPage(e) {
        moviePage++;
        let temp = homeMovies.slice();
        temp.sort((a,b)=>{
-         return a.vote_average - b.vote_average;
+         return -(a.vote_average - b.vote_average);
         });
         movieHelper(index, temp)
      }
