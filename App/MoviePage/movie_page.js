@@ -204,10 +204,9 @@ function addNewDiscussion(e) {
 function deletePost(e) {
   e.preventDefault();
   const targetDiv = e.target.parentNode.parentNode.parentNode;
-  const container = $("#postsContainer").children()
   const targetTitle = targetDiv.children[0].children[1].children[0].children[0].innerHTML
+  console.log(targetTitle)
   
-  // discussions list should be pulled from server
   let index=0;
   while(discussions[index].title != targetTitle){index++;}
   discussions.splice(index,1);
