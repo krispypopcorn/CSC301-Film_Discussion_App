@@ -123,7 +123,7 @@ input.star:checked ~ .rev-box{
     right: 0;
     top:15%;
     width:85vw;
-    height: 80vh;
+    height: 81vh;
     margin: 0 auto;
     background: rgb(84, 84, 87,0.7);
     padding: 2%;
@@ -169,7 +169,31 @@ input.star:checked ~ .rev-box{
     width: 7vw;
     height: 5vh;
 }
+.file {
+    cursor: pointer;
+    display: inline-block;
+    background:#66a3ff;
+    border: 1px solid #39393a;
+    border-radius: 20px/50px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    width: 7vw;
+    height: 5vh;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
 
+.file:hover {
+    cursor: pointer;
+    text-decoration: none;
+}
 
 .fileButton {
     cursor: pointer;

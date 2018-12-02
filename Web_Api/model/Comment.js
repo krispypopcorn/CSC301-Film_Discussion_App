@@ -10,17 +10,15 @@ const Comment =  mongoose.model('Comment',{
     },
 
     user: {
-        type: Schema.Types.Mixed
+        type: String
     },
 
     discussion: {
-        type: Schema.Types.Mixed,
-        required: true
+        type: String
     },
 
     comment: {
-        type: Schema.Types.Mixed,
-        default: null
+        type: String
     },
 
     date: {
@@ -33,4 +31,4 @@ const Comment =  mongoose.model('Comment',{
     },
 })
 
-module.exports = {Comment};
+module.exports = { Comment };
