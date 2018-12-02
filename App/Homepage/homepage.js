@@ -77,7 +77,7 @@ function getDiscussion(){
     });
     discussionHelper(1, temp, "MostPopular")
     temp.sort((a,b)=>{
-      return new Date(a.date) - new Date(b.date);
+      return -(new Date(a.date) - new Date(b.date));
     });
     discussionHelper(1, temp, "Latest")
   }).catch((error) => {
@@ -124,7 +124,7 @@ function loadPreviousPage(e) {
       LatestPage--;
       let temp = discussions.slice();
       temp.sort((a,b)=>{
-        return new Date(a.date) - new Date(b.date);
+        return -(new Date(a.date) - new Date(b.date));
        });
        discussionHelper(index, temp, id)
     }
@@ -169,7 +169,7 @@ function loadNextPage(e) {
        LatestPage++;
        let temp = discussions.slice();
        temp.sort((a,b)=>{
-         return new Date(a.date) - new Date(b.date);
+         return -(new Date(a.date) - new Date(b.date));
         });
         discussionHelper(index, temp, id)
      }
@@ -195,7 +195,7 @@ function discussionHelper(index, temp, id){
   let i = 0;
   
   for (i = index; i < temp.length && max != 0; i++) {
-    targetList.push(temp[i]);
+    targetList.unshift(temp[i]);
     max--;}
   changeDiscussions(targetList,id);
 }
@@ -245,7 +245,7 @@ function changeDiscussions(DisList,id){
    let newPost;
    for (i = 0; i < DisList.length && i < 4; i++) {
        newPost = createDiscussion(DisList[i]);
-       targetList.push(newPost);
+       targetList.unshift(newPost);
    }
    if(id=='Latest'){
        $('#latestSlider .column').remove();
