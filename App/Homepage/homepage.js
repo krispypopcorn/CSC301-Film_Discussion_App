@@ -159,7 +159,7 @@ function loadNextPage(e) {
        PopularPage++;
        let temp = discussions.slice();
        temp.sort((a,b)=>{
-         return a.likes - b.likes;
+         return -(a.likes - b.likes);
         });
         discussionHelper(index, temp, id)
      }
@@ -195,7 +195,7 @@ function discussionHelper(index, temp, id){
   let i = 0;
   
   for (i = index; i < temp.length && max != 0; i++) {
-    targetList.unshift(temp[i]);
+    targetList.push(temp[i]);
     max--;}
   changeDiscussions(targetList,id);
 }
@@ -245,7 +245,7 @@ function changeDiscussions(DisList,id){
    let newPost;
    for (i = 0; i < DisList.length && i < 4; i++) {
        newPost = createDiscussion(DisList[i]);
-       targetList.unshift(newPost);
+       targetList.push(newPost);
    }
    if(id=='Latest'){
        $('#latestSlider .column').remove();

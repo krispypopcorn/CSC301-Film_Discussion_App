@@ -244,7 +244,7 @@ function createDiscussion(discussion) {
    newTitle.on('click',function(event) {
        document.cookie="discussion="+discussion._id
        window.location.href = "/discussionPage";});
-   img.attr('src','../Pictures/'+discussion.img);
+   img.attr('src',discussion.img);
    text.html(discussion.discussion_content);
    newTitle.html(discussion.title);
    upVote.html(discussion.likes.toString());
