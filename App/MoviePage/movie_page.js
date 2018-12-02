@@ -45,22 +45,11 @@ $(".card-title").on('click', function(event) {window.location.href = "/discussio
 $(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
-$('#star-5').on('click',function(){
-    rate(10)
-});
-$('#star-4').on('click',function(){
-    rate(8)
-});
-$('#star-3').on('click',function(){
-    rate(6)
-});
-$('#star-2').on('click',function(){
-    rate(4)
-})
-;$('#star-1').on('click',function(){
-    rate(2)
-})
-
+$('#star-5').on('click',rate);
+$('#star-4').on('click',rate);
+$('#star-3').on('click',rate);
+$('#star-2').on('click',rate);
+$('#star-1').on('click',rate);
 /*-------------Add Event-listener-------------*/
 
 /*-------request URL-------*/
@@ -69,7 +58,6 @@ const discussionUrl = '/getMovieDiscussions/'
 const dicNumUrl = "/getMovieDisCount/"
 const comNumUrl =''
 /*-------request URL-------*/
-
 
 getMovie()
 checkUserClass()
@@ -105,7 +93,7 @@ function getMovie(){
         updateTopicNum(currentMovie._id);
         updateCommentsNum(currentMovie._id);
         getDiscussions(currentMovie._id)
-        uodateVote(currentMovie)
+        updateVote(currentMovie)
     })
 }
 
@@ -145,10 +133,26 @@ function getCookie(cname)
   return "";
 }
 
-function rate(num){
+function rate(e){
+    const id =  $(e.target).attr('id')
+    $(e.target).css({"color":"#FD4"});
+    const num = parseInt(id.slice(-1))*2
+    fetch('/rateMovie/'+currentMovie._id, {
+        method: 'POST',
+        body: JSON.stringify({"rating":num}),
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        credentials: 'include',
+    }).then(response => {
+        return response.json()
+    }).then(newMovie=>{
+        currentMovie = newMovie;
+        updateVote(currentMovie)
+    }) 
     
 }
-
 
 function addNewDiscussion(e) {
    e.preventDefault();
@@ -374,7 +378,7 @@ function updateTopicNum(movieId) {
   })
 }
 
-function uodateVote(movie){
+function updateVote(movie){
     const temp =  $('#movieRating')
     temp.html(movie.vote_average+'/10')
 }

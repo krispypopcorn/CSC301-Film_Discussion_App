@@ -65,7 +65,7 @@ function getMovie(){
     numberOfMovies=homeMovies.length;
     let temp = homeMovies.slice();
     temp.sort((a,b)=>{
-      return a.vote_average - b.vote_average;
+      return -(a.vote_average - b.vote_average);
     });
     movieHelper(1, temp)
     changeSlider()
@@ -260,7 +260,7 @@ function changeDiscussions(DisList,id){
    let newPost;
    for (i = 0; i < DisList.length && i < 4; i++) {
        newPost = createDiscussion(DisList[i]);
-       targetList.push(newPost);
+       targetList.unshift(newPost);
    }
    if(id=='Latest'){
        $('#latestSlider .column').remove();
@@ -281,7 +281,7 @@ function changeMovies(movieList){
    let newPost;
    for (i = 0; i < movieList.length && i < 4; i++) {
        newPost = createMovie(movieList[i]);
-       targetList.push(newPost);
+       targetList.unshift(newPost);
    }
     $('#movieSlider .column').remove();
 
@@ -295,7 +295,7 @@ function changeSlider(){
   let i;
   let temp = homeMovies.slice();
   temp.sort((a,b)=>{
-	  return a.vote_average - b.vote_average;
+	  return -(a.vote_average - b.vote_average);
 	});
   for (i = 0;i<3;i++){
     let curDiv = bannerDiv[i]

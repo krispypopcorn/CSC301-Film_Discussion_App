@@ -15,14 +15,6 @@ const Movie = mongoose.model('Movie', {
     banner: {
         type: String
     },
-    numOfDiscussions: {
-        type: Number,
-        default: 0
-    },
-    numOfComments: {
-        type: Number,
-        default: 0
-    },
     vote_average: {
         type: Number,
         default: 0

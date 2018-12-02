@@ -36,8 +36,6 @@ movie_routes.get('/movie/:name/:year', (req, res) => {
         year: result.release_date,
         poster: result.poster_path,
         banner: result.backdrop_path,
-        numOfDiscussions: 0,
-        numOfComments: 0,
         vote_average: 0,
         voted_user: [],
             // discussions: null
@@ -101,10 +99,7 @@ movie_routes.get('/search/:name/:year', (req, res) => {
         poster: result.poster_path,
         banner: result.backdrop_path,
         overview: result.overview,
-        numOfDiscussions: 0,
-        numOfComments: 0,
         vote_average: 0
-            // discussions: null
         }
         return data;
     }).then((result) => {
