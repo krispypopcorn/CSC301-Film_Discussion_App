@@ -219,7 +219,7 @@ function createDiscussion(discussion) {
   user.then((json) => {
    newPost.find(".author").html(json.username);
    newPost.on('click',function(event) {
-     document.cookie="movie="+movie.name
+     document.cookie="discussion="+discussion._id
      window.location.href = "/discussionPage";})
   })
   return newPost;

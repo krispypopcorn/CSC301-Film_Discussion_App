@@ -51,7 +51,6 @@ const discussionUrl = '/getMovieDiscussions/'
 const dicNumUrl = "/getMovieDisCount/"
 const comNumUrl =''
 
-
 getMovie()
 
 function getMovie(){
