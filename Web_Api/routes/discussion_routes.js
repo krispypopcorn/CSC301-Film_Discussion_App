@@ -116,5 +116,25 @@ discussion_routes.get('/canEdit/:id', (req, res) => {
     }); 
 })
 
+/*
+    Deletes given discussion in the database
+    Require movie_id and title
+*/
+discussion_routes.delete('/deleteDiscussions/:movieId/:title',(req, res) => {
+    const movieId = req.params.movieId
+    const title = req.params.title
+    Discussion.findOneAndDelete({"movie":movieId, "title":title},(err, discussion) =>{
+        if(err){res.send(err)}
+        else{
+            const img = discussion.img
+            fs.unlink('../App/Pictures/'+img, function(err) {
+                if (!err){
+                    console.log('img deleted');
+                }
+            });
+            res.send("discussion deleted")
+        }
+    });
+})
 
 module.exports = discussion_routes;
