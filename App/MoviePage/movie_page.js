@@ -42,7 +42,6 @@ $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $(".card-title").on('click', function(event) {window.location.href = "/discussionPage";});
-$(".delete").on('click', deletePost);
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 $('#star-5').on('click',rate);
@@ -50,6 +49,8 @@ $('#star-4').on('click',rate);
 $('#star-3').on('click',rate);
 $('#star-2').on('click',rate);
 $('#star-1').on('click',rate);
+$('#thumbContainer').on('click', upVote)
+$(".delete").on('click', deletePost);
 /*-------------Add Event-listener-------------*/
 
 /*-------request URL-------*/
@@ -132,6 +133,10 @@ function getCookie(cname)
     if (c.indexOf(name)==0) return c.substring(name.length,c.length);
   }
   return "";
+}
+
+function upVote(e){
+
 }
 
 function rate(e){
@@ -242,14 +247,25 @@ function createDiscussion(discussion) {
    let text = target.find(".card-text");
    let newTitle = target.find(".card-title");
    let upVote = target.find(".upVoteNumber");
+   let deletButton = target.find(".delete")
    
    target[3].addEventListener('click',deletePost);
-   newTitle.on('click',function(event) {window.location.href = "/discussionPage";});
+   newTitle.on('click',function(event) {
+       document.cookie="discussion="+discussion._id
+       window.location.href = "/discussionPage";});
    img.attr('src','../Pictures/'+discussion.img);
    text.html(discussion.discussion_content);
    newTitle.html(discussion.title);
    upVote.html(discussion.likes.toString());
 
+   fetch('/canEdit/'+discussion._id).
+   then(response => {
+    return response.json()}).
+   then(result=>{
+       if(result == false){
+           target[3].remove() 
+       }
+   })
    return newPost;
 }
 

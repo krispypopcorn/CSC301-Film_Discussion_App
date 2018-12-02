@@ -1,5 +1,6 @@
 const discussion_routes = require('express').Router();
 const { Discussion } = require('../model/Discussion')
+const { User } = require('../model/User')
 const fs = require('fs');
 const log = console.log
 
@@ -91,14 +92,29 @@ discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
     });
 })
 
-discussion_routes.delete('/deleteimg/:name', (req, res) => {
-    const name = req.params.name
-    console.log('../../App/Pictures/'+name);
-    fs.unlink('../App/Pictures/'+name, function(err) {
-        if (!err){
-            res.send('img deleted');
+/*
+    return true if current user can edit given discussion
+    always true if current user is an admin
+*/
+discussion_routes.get('/canEdit/:id', (req, res) => {
+    const id = req.params.id
+    
+    User.findById(req.session.user, (err, user) =>{
+        if(err){res.send(err)}
+        else{
+            if(user.admin==true){
+                res.send('true')
+            }else{
+                Discussion.findById(id,(error, discussion)=>{
+                    if(!error){
+                        const result = discussion.user == req.session.user
+                        res.send(result)
+                    }
+                })
+            }
         }
-    });
+    }); 
 })
+
 
 module.exports = discussion_routes;

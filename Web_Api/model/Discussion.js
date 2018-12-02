@@ -40,6 +40,11 @@ const DisSchema = new mongoose.Schema({
     comments: {
         type: Array,
         default: []
+    },
+
+    liked_user: {
+        type: Array,
+        default: []
     }
 })
 
