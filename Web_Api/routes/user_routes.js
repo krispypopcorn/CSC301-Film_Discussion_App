@@ -50,7 +50,7 @@ user_routes.get('/userIcon', (req, res) => {
 
 })
 
-user_routes.post('/creatUser',(req, res)=>{
+user_routes.post('/createUser',(req, res)=>{
     const userData = new User({
         username: req.body.username,
         password: req.body.password,
@@ -99,6 +99,20 @@ user_routes.get('/searchUser/:id', (req, res) => {
     })
 
 
+})
+
+user_routes.delete('/deleteFinal/:id', (req, res) => {
+    log("reached")
+
+    const user_id = req.params.id
+
+    User.findByIdAndRemove(user_id).then((result) => {
+
+        res.status(205).send()
+    }).catch((error) => {
+        log(error)
+        res.status(404).send()
+    })
 })
 
 module.exports = user_routes
