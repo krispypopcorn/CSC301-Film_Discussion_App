@@ -4,34 +4,35 @@ $("#login_btn").click(checkPermission);
 
 let msg=false;
 
-const url = 'http://localhost:8000/users/login'
+const url = '/users/login'
 
 function checkPermission(e){
     e.preventDefault()
     const username = $('#username').val();
     const password = $('#password').val();
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
     var params = {
         "username": username,
         "password": password
-      };
+    };
 
-    xhr.send(JSON.stringify(params));
-
-    xhr.onreadystatechange = function(){
-        if(xhr.readyState == 4 && xhr.status == 400){
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(params),
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        credentials: 'include',
+    }).then(res=>{
+        if (res.status === 200) {
+            window.location.href = "/home"
+        } else {
             if(!msg){
                 show_invalid_msg();
                 msg=true;
             }
-        }else if(xhr.readyState == 4 && xhr.status == 200){
-            window.location.href = "http://localhost:8000/home"
-        };
-    };
-    
+        }             
+    })    
 };
 
 function show_invalid_msg(){

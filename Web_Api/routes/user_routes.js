@@ -38,7 +38,6 @@ user_routes.get('/userClass', (req, res) => {
             res.send(user.admin)
         }
     });
-
 })
 
 user_routes.get('/userIcon', (req, res) => {

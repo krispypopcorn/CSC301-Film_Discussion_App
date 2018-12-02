@@ -83,7 +83,7 @@ app.get('/logout', (req, res)=>{
         if(error){
             res.status(500).send(error)
         }else{
-            res.redirect('/login')
+            res.redirect('/loginPage')
         }
     })
 })

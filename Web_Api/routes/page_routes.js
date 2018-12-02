@@ -1,5 +1,6 @@
 const page_routes = require('express').Router();
 const path = require('path')
+const { User } = require('../model/User')
 const log = console.log
 
 const sessionChecker = (req, res, next)=>{
@@ -13,10 +14,10 @@ const sessionChecker = (req, res, next)=>{
 *get Login page
  */
 page_routes.get('/',sessionChecker, (req, res) => {
-    res.redirect('/login')
+    res.redirect('/loginPage')
 })
 
-page_routes.get('/login', sessionChecker,(req,res) => {
+page_routes.get('/loginPage', sessionChecker,(req,res) => {
     res.sendFile(path.join(__dirname, '../../App/Login/index.html'))   
 });
 
@@ -28,7 +29,7 @@ page_routes.get('/home', (req, res) => {
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../../App/Homepage/homepage.html')) 
     }else{
-        res.redirect('/login')
+        res.redirect('/loginPage')
     }
 })
 
@@ -39,7 +40,7 @@ page_routes.get('/discussionPage', (req, res) => {
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../../App/DiscussionPage/discussion_topic_page.html')) 
     }else{
-        res.redirect('/login')
+        res.redirect('/loginPage')
     }
 })
 
@@ -50,7 +51,7 @@ page_routes.get('/profilePage', (req, res) => {
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../../App/UserProfile/user_profile.html'))   
     }else{
-        res.redirect('/login')
+        res.redirect('/loginPage')
     }
 })
 
@@ -61,7 +62,7 @@ page_routes.get('/moviePage', (req, res) => {
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../../App/MoviePage/movie_page.html')) 
     }else{
-        res.redirect('/login')
+        res.redirect('/loginPage')
     } 
 })
 
@@ -69,7 +70,20 @@ page_routes.get('/moviePage', (req, res) => {
 *get admin dash
  */
 page_routes.get('/adminDash', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../App/AdminDash/admin.html'))   
+    if(req.session.user){
+        User.findById(req.session.user, (err, user) =>{
+            if(err){res.send(err)}
+            else{
+                if(user.admin==true){
+                    res.sendFile(path.join(__dirname, '../../App/AdminDash/admin.html'))
+                }else{
+                    res.redirect('/home')
+                }
+            }
+        }); 
+    }else{
+        res.redirect('/loginPage')
+    }   
 })
 
 module.exports = page_routes;
