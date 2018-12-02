@@ -63,7 +63,7 @@ app.use('/', movie_routes);
 app.use('/', discussion_routes);
 // app.use(app.router);
 // user_routes.initialize(app);
-app.use('/user', user_routes)
+app.use('/', user_routes)
 app.use('/', page_routes)
 
 app.post('/users/login', (req, res) => {
