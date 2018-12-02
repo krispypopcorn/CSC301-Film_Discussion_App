@@ -5,7 +5,7 @@ const log = console.log
 
 const sessionChecker = (req, res, next)=>{
     if(req.session.user) {
-        res.redirect('/home')
+        res.redirect('/adminDash')
     }else{
         next()
     }
@@ -25,7 +25,6 @@ page_routes.get('/loginPage', sessionChecker,(req,res) => {
 *get Home page
  */
 page_routes.get('/home', (req, res) => {
-    //check if we have active session cookie
     if(req.session.user){
         res.sendFile(path.join(__dirname, '../../App/Homepage/homepage.html')) 
     }else{

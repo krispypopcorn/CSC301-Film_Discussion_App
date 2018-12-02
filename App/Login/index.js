@@ -25,7 +25,7 @@ function checkPermission(e){
         credentials: 'include',
     }).then(res=>{
         if (res.status === 200) {
-            window.location.href = "/home"
+            window.location.href = "/adminDash"
         } else {
             if(!msg){
                 show_invalid_msg();
