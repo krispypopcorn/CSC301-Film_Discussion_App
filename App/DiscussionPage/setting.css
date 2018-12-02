@@ -1,4 +1,4 @@
-.close {
+0.close {
   margin-left: 94.5%;
 }
 
@@ -18,8 +18,12 @@ hr {
 }
 .comment {  
     background: rgb(46, 46, 46);
-    min-height: 100px;
-    min-width: 100%;
+    border-left: 2px solid black;
+
+}
+.comment p {
+	color: white;
+
 }
 
 .modal-content {
@@ -36,6 +40,11 @@ textarea {
 
 
 
+}
+
+#card {
+	border-width: 2px;
+	border: white;
 }
 
 .carousel-item:after {
