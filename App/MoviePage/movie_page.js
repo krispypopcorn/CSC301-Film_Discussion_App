@@ -69,6 +69,7 @@ function getMovie(){
         updateTopicNum(currentMovie._id);
         updateCommentsNum(currentMovie._id);
         getDiscussions(currentMovie._id)
+        uodateVote(currentMovie)
     }).catch((error) => {
         console.log(error)
     })
@@ -86,8 +87,9 @@ function getDiscussions(movieId){
   .then((json) => {
     discussions=json;
     discussions.sort((a,b)=>{
-        return a.date - b.date;
+        return new Date(a.date) - new Date(b.date);
     });
+    numberOfDiscusstions = discussions.length
     if(firstAccess){
         restoreDiscussion()
         firstAccess=false
@@ -138,11 +140,14 @@ function addNewDiscussion(e) {
             },
             credentials: 'include',
           })
-          .then(res => {return res.json()})
+          .then(response => {
+            return response.json()
+        })
           .then(newDis=>{
             addDiscussionToDom(newDis);
             $("#popup1").toggle(200);
             getDiscussions(currentMovie._id)
+            updateTopicNum(currentMovie._id)
           })
     });
 }
@@ -304,7 +309,7 @@ function restoreDiscussion() {
    const targetList = [];
    for (i = 0; i < discussions.length && i < 4; i++) {
        newPost = createDiscussion(discussions[i]);
-       targetList.push(newPost);
+       targetList.unshift(newPost);
    }
    $('#postsContainer .card').remove();
 
@@ -323,11 +328,16 @@ function updateTopicNum(movieId) {
      }                
     })
   .then((json) => {
-    const temp = $('#discussionTopic')
-    temp.html(json)
+      const temp = $('#discussionTopic')
+      temp.html(json.value)
   }).catch((error) => {
       console.log(error)
   })
+}
+
+function uodateVote(movie){
+    const temp =  $('#movieRating')
+    temp.html(movie.vote_average+'/10')
 }
 
 function updateCommentsNum(movie){

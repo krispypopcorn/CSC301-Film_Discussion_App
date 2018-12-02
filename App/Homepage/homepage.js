@@ -75,7 +75,7 @@ function getDiscussion(){
     });
     discussionHelper(1, temp, "MostPopular")
     temp.sort((a,b)=>{
-      return a.date - b.date;
+      return new Date(a.date) - new Date(b.date);
     });
     discussionHelper(1, temp, "Latest")
   }).catch((error) => {
@@ -122,7 +122,7 @@ function loadPreviousPage(e) {
       LatestPage--;
       let temp = discussions.slice();
       temp.sort((a,b)=>{
-        return a.date - b.date;
+        return new Date(a.date) - new Date(b.date);
        });
        discussionHelper(index, temp, id)
     }
@@ -167,7 +167,7 @@ function loadNextPage(e) {
        LatestPage++;
        let temp = discussions.slice();
        temp.sort((a,b)=>{
-         return a.date - b.date;
+         return new Date(a.date) - new Date(b.date);
         });
         discussionHelper(index, temp, id)
      }
@@ -193,7 +193,7 @@ function discussionHelper(index, temp, id){
   let i = 0;
   
   for (i = index; i < temp.length && max != 0; i++) {
-    targetList.push(temp[i]);
+    targetList.unshift(temp[i]);
     max--;}
   changeDiscussions(targetList,id);
 }
@@ -206,7 +206,7 @@ function movieHelper(index, temp){
   let i = 0;
   
   for (i = index; i <temp.length && max != 0; i++) {
-    targetList.push(temp[i]);
+    targetList.unshift(temp[i]);
     max--;}
   changeMovies(targetList);
 };
