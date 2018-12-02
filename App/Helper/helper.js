@@ -1,6 +1,6 @@
 'use strict'
 function setUserIcon(){
-    fetch('/userIcon')
+    fetch('/user/userIcon')
     .then(res =>{
       if (res.status === 200) {
            return res.json() 
@@ -14,7 +14,7 @@ function setUserIcon(){
   }
 
 function checkUserClass(){
-  fetch('/userClass')
+  fetch('/user/userClass')
   .then(res =>{
     if (res.status === 200) {
          return res.json() 
