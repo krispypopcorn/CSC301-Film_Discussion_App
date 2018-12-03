@@ -1,6 +1,7 @@
 "use strict"
 
 $("#login_btn").click(checkPermission);
+
 $("#SignUpPage").on('click',function(event) {
     console.log("here")
     window.location.href = "/SignUp";});
