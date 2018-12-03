@@ -21,6 +21,11 @@ page_routes.get('/loginPage', sessionChecker,(req,res) => {
     res.sendFile(path.join(__dirname, '../../App/Login/index.html'))   
 });
 
+page_routes.get('/SignUp', sessionChecker,(req,res) => {
+    res.sendFile(path.join(__dirname, '../../App/SignUp/signup.html'))   
+});
+
+
 /* 
 *get Home page
  */

@@ -58,10 +58,13 @@ user_routes.post('/createUser',(req, res)=>{
         icon: req.body.icon,
         like:0,
       })
+    console.log(userData);
       userData.save(function (error, user) {
         if (error) {
             res.send(error)
+
         } else {
+        res.send("user saved")
           req.session.userId = user._id;
           return res.redirect('/home');
         }
@@ -114,5 +117,10 @@ user_routes.delete('/deleteFinal/:id', (req, res) => {
         res.status(404).send()
     })
 })
+
+
+user_routes.patch('/modifyPassword/:id'), (req, res) =>{
+    
+}
 
 module.exports = user_routes

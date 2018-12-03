@@ -1,6 +1,8 @@
 "use strict"
 
 $("#login_btn").click(checkPermission);
+$(".SignUpPage").on('click', function(event) {window.location.href = "/SignUp";});
+
 
 let msg=false;
 

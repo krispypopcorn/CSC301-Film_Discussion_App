@@ -43,7 +43,9 @@ function createUser(e){
 
 
 
-// how to see database
-// what to do after creating user
+
+// check min length password
+// check unique username
+// check passwords match
 
 // TODO: center field in sign up page
