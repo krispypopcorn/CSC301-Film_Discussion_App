@@ -39,7 +39,6 @@ $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
-$(".card-title").on('click', function(event) {window.location.href = "/discussionPage";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 $('#star-5').on('click',rate);
@@ -171,7 +170,6 @@ function addNewDiscussion(e) {
             return response.json()
         })
           .then(newDis=>{
-            //addDiscussionToDom(newDis);
             $("#popup1").toggle(200);
             getDiscussions(currentMovie._id)
             updateTopicNum(currentMovie._id)
@@ -193,7 +191,6 @@ function deletePost(e) {
 })
 }
 
-
 function displaySearch(e) {
    e.preventDefault()
    search = [];
@@ -210,38 +207,6 @@ function displaySearch(e) {
        }
    }
    addMultiplyDiscussion(search);
-}
-
-// Helper function
-// Creates a discussion div based on given discussion object
-function createDiscussion(discussion) {
-   let newPost = template.clone();
-   const target = newPost.children().children();
-   
-   let img = target.find(".postImg");
-   let text = target.find(".card-text");
-   let newTitle = target.find(".card-title");
-   let upVote = target.find(".upVoteNumber");
-   let deletButton = target.find(".delete")
-   
-   target[3].addEventListener('click',deletePost);
-   newTitle.on('click',function(event) {
-       document.cookie="discussion="+discussion._id
-       window.location.href = "/discussionPage";});
-   img.attr('src',discussion.img);
-   text.html(discussion.discussion_content);
-   newTitle.html(discussion.title);
-   upVote.html(discussion.likes.toString());
-
-   fetch('/canEdit/'+discussion._id).
-   then(response => {
-    return response.json()}).
-   then(result=>{
-       if(result == false){
-           target[3].remove() 
-       }
-   })
-   return newPost;
 }
 
 function loadPreviousPage() {
@@ -304,13 +269,6 @@ function loadNextPage(e) {
 /*-------------------------------------------------------*/
 /*Dom function below*/
 /*-------------------------------------------------------*/
-
-function addDiscussionToDom(discussion) {
-  if($("#postsContainer").children().length==4){$('.card').last().remove();}
-  const newPost = createDiscussion(discussion);
-  $("#postsContainer").prepend(newPost);
-}
-
 function addMultiplyDiscussion(discussionList) {
    let i;
    const targetList = [];
@@ -325,13 +283,6 @@ function addMultiplyDiscussion(discussionList) {
    for (i = 0; i < targetList.length; i++) {
        $("#postsContainer").append(targetList[i]);
    }
-}
-
-function changeBanner(movie){
-    const banner = $('#banner .w-100')
-    const bannerTitle = $('#bannerTitle')
-    bannerTitle.html(movie.name);
-    banner.attr('src',movie.banner)
 }
 
 function restoreDiscussion() {
@@ -367,13 +318,4 @@ function updateTopicNum(movieId) {
   }).catch((error) => {
       console.log(error)
   })
-}
-
-function updateVote(movie){
-    const temp =  $('#movieRating')
-    temp.html(movie.vote_average+'/10')
-}
-
-function updateCommentsNum(movie){
-    
 }
