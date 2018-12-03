@@ -69,7 +69,7 @@ function getDiscussion(){
     numberOfDiscusstions=discussions.length;
     let temp = discussions.slice();
     temp.sort((a,b)=>{
-      return a.likes - b.likes;
+      return b.likes - a.likes;
     });
     discussionHelper(1, temp, "MostPopular")
     temp.sort((a,b)=>{
@@ -108,7 +108,7 @@ function loadPreviousPage(e) {
     if (PopularPage != 1) {
       let temp = discussions.slice();
       temp.sort((a,b)=>{
-        return a.likes - b.likes;
+        return b.likes - a.likes;
        });
       let index = PopularPage - 1;
       PopularPage--;
@@ -155,7 +155,7 @@ function loadNextPage(e) {
        PopularPage++;
        let temp = discussions.slice();
        temp.sort((a,b)=>{
-         return -(a.likes - b.likes);
+         return b.likes - a.likes;
         });
         discussionHelper(index, temp, id)
      }
