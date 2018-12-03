@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const Comment =  mongoose.model('Comment',{
+const Comment =  new mongoose.Schema({
     comment_content: {
         type: String,
         trim: true,
