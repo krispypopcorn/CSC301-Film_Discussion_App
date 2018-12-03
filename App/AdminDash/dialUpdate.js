@@ -30,7 +30,7 @@ function updateDials() {
 
 function updateUser() {
 
-	fetch("http://localhost:8000/user/userCount").then ((result) => {
+	fetch("http://localhost:8000/userCount").then ((result) => {
 		return result.json()
 	}).then((data) => {
 		userDial.innerText = data.value

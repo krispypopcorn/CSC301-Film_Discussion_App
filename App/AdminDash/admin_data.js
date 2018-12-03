@@ -1,6 +1,6 @@
 // Getting reference to relavant DOM elements
 "use strict"
-const domain = "http://localhost:8000/user/"
+const domain = "http://localhost:8000"
 
 let confirmUser 
 
