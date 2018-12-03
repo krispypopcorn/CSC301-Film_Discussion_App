@@ -1,5 +1,5 @@
 const discussion_routes = require('express').Router();
-const { Discussion } = require('../model/Discussion')
+const { Discussion } = require('../model/Discussion.js')
 const { User } = require('../model/User')
 const fs = require('fs');
 const log = console.log
@@ -213,7 +213,7 @@ discussion_routes.delete('/deleteComment/:id/cid', (req, res) => {
         }
         
     })
-}
+})
 
 
 /*
