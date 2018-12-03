@@ -203,7 +203,7 @@ function verifyDelete() {
 		} else {
 			const userIcon = document.createElement('img')
 			userIcon.className = 'moviePosterVerify'
-			userIcon.setAttribute('src', "../Pictures/" + data.icon)
+			userIcon.setAttribute('src', data.icon)
 
 			const placement = document.querySelector('#DeleteUserImagePlace')
 			if (placement.firstElementChild !== null) {
@@ -445,7 +445,7 @@ function createDataRow(currentUser) {
 	dataTh.setAttribute("scope", "row")
 	let img = document.createElement('img')
 	img.className = "icons"
-	img.setAttribute("src", "../Pictures/" + currentUser.image)
+	img.setAttribute("src", currentUser.image)
 	dataTh.appendChild(img)
 
 	let dataName = document.createElement('td')
