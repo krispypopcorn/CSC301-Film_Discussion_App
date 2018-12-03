@@ -201,7 +201,7 @@ function get_average(movie){
         sum += parseInt(element[1]) 
     });
   
-    const result = (sum/len).toFixed(2);
+    const result = (sum/len).toFixed(1);
     return result
 }
 

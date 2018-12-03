@@ -23,7 +23,9 @@ function createDiscussion(discussion) {
     let text = target.find(".card-text");
     let newTitle = target.find(".card-title");
     let upVote = target.find(".upVoteNumber");
+    let container = target.find('.thumbContainer')[0];
     
+    container.addEventListener('click', upVoteDis)
     target[3].addEventListener('click',deletePost);
     newTitle.on('click',function(event) {
         document.cookie="discussion="+discussion._id

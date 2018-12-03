@@ -46,7 +46,6 @@ $('#star-4').on('click',rate);
 $('#star-3').on('click',rate);
 $('#star-2').on('click',rate);
 $('#star-1').on('click',rate);
-$('#thumbContainer').on('click', upVote)
 $(".delete").on('click', deletePost);
 /*-------------Add Event-listener-------------*/
 
@@ -98,13 +97,28 @@ function getDiscussions(movieId){
   })
 }
 
-function upVote(e){
-
+function upVoteDis(e){
+    const targetDiv = e.target.parentNode.parentNode.parentNode;
+    const targetTitle = targetDiv.children[0].children[1].children[0].children[0].innerHTML
+    const target = $(e.target).parent().find('.upVoteNumber')
+    fetch('/LikeDiscussion/'+currentMovie._id+'/'+targetTitle, {
+        method: 'PATCH',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        credentials: 'include',
+    }).then(response => {
+        return response.json()
+    }).then(likes=>{
+        target.html(likes.value)
+        updateTotalLike(currentMovie._id)
+    }) 
+    
 }
 
 function rate(e){
     const id =  $(e.target).attr('id')
-    $(e.target).css({"color":"#FD4"});
     const num = parseInt(id.slice(-1))*2
     fetch('/rateMovie/'+currentMovie._id, {
         method: 'POST',
