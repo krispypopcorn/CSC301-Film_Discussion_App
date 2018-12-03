@@ -284,8 +284,9 @@ discussion_routes.patch('/LikeDiscussion/:movieId/:title',(req, res) => {
 /*
     return total num of like of a given movie
 */
-discussion_routes.get('/totalLikesMovie/:id', (req, res) => {
-    Discussion.find().then((discussions) => {
+discussion_routes.get('/totalLikesMovie/:movieId', (req, res) => {
+    const movieId = req.params.movieId
+    Discussion.find({movie: movieId}).then((discussions) => {
         let sum = 0
         discussions.forEach(element => {
             sum += element.likes
