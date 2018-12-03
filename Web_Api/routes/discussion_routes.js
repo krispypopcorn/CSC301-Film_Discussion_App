@@ -1,6 +1,5 @@
 const discussion_routes = require('express').Router();
 const { Discussion } = require('../model/Discussion.js')
-const { Comment } = require('../model/Comment.js')
 const { User } = require('../model/User')
 const fs = require('fs');
 const log = console.log
@@ -238,15 +237,64 @@ discussion_routes.delete('/deleteDiscussions/:movieId/:title',(req, res) => {
     Discussion.findOneAndDelete({"movie":movieId, "title":title},(err, discussion) =>{
         if(err){res.send(err)}
         else{
-            const img = discussion.img
-            fs.unlink('../App/Pictures/'+img, function(err) {
-                if (!err){
-                    console.log('img deleted');
-                }
-            });
             res.send("discussion deleted")
         }
     });
+})
+
+/*
+    increment likes by one if current user haven't voted before
+    decrement otherwise
+*/
+discussion_routes.patch('/LikeDiscussion/:movieId/:title',(req, res) => {
+    const movieId = req.params.movieId
+    const title = req.params.title
+    const user = req.session.user
+    Discussion.findOne({"movie":movieId, "title":title}, (err, discussion) =>{
+        if(err){res.send(err)}
+        else{
+            let found = false;
+            let i = 0;
+            const L = discussion.liked_user.length
+           while(i!=L && !found){
+                if(discussion.liked_user[i]==user){
+                    found = true;
+                    discussion.liked_user.splice(i,1);
+                    discussion.likes--
+                }
+                i++
+            }
+            if(found==false){
+                discussion.liked_user.push(user)
+                discussion.likes++
+            }
+            discussion.markModified('liked_user');
+            discussion.markModified('liks');
+            discussion.save((error, newDis)=>{
+                if(!error){
+                    res.send(
+                        {"value": newDis.likes})
+                }
+            });
+        }
+    });
+})
+
+
+/*
+    return total num of like of a given movie
+*/
+discussion_routes.get('/totalLikesMovie/:movieId', (req, res) => {
+    const movieId = req.params.movieId
+    Discussion.find({movie: movieId}).then((discussions) => {
+        let sum = 0
+        discussions.forEach(element => {
+            sum += element.likes
+        });
+        res.send({
+            value: sum
+        })
+    })
 })
 
 module.exports = discussion_routes;

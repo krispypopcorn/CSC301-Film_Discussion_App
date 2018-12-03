@@ -39,7 +39,6 @@ $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
-$(".card-title").on('click', function(event) {window.location.href = "/discussionPage";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
 $('#star-5').on('click',rate);
@@ -47,15 +46,12 @@ $('#star-4').on('click',rate);
 $('#star-3').on('click',rate);
 $('#star-2').on('click',rate);
 $('#star-1').on('click',rate);
-$('#thumbContainer').on('click', upVote)
 $(".delete").on('click', deletePost);
 /*-------------Add Event-listener-------------*/
 
 /*-------request URL-------*/
 const MovieUrl = '/search/'+movieName
 const discussionUrl = '/getMovieDiscussions/'
-const dicNumUrl = "/getMovieDisCount/"
-const comNumUrl =''
 /*-------request URL-------*/
 
 getMovie()
@@ -75,9 +71,9 @@ function getMovie(){
         changeBanner(json)
         currentMovie = json
         updateTopicNum(currentMovie._id);
-        updateCommentsNum(currentMovie._id);
         getDiscussions(currentMovie._id)
         updateVote(currentMovie)
+        updateTotalLike(currentMovie._id)
     })
 }
 
@@ -101,25 +97,28 @@ function getDiscussions(movieId){
   })
 }
 
-function getCookie(cname)
-{
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0; i<ca.length; i++) 
-  {
-    var c = ca[i].trim();
-    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-  }
-  return "";
-}
-
-function upVote(e){
-
+function upVoteDis(e){
+    const targetDiv = e.target.parentNode.parentNode.parentNode;
+    const targetTitle = targetDiv.children[0].children[1].children[0].children[0].innerHTML
+    const target = $(e.target).parent().find('.upVoteNumber')
+    fetch('/LikeDiscussion/'+currentMovie._id+'/'+targetTitle, {
+        method: 'PATCH',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        credentials: 'include',
+    }).then(response => {
+        return response.json()
+    }).then(likes=>{
+        target.html(likes.value)
+        updateTotalLike(currentMovie._id)
+    }) 
+    
 }
 
 function rate(e){
     const id =  $(e.target).attr('id')
-    $(e.target).css({"color":"#FD4"});
     const num = parseInt(id.slice(-1))*2
     fetch('/rateMovie/'+currentMovie._id, {
         method: 'POST',
@@ -171,7 +170,6 @@ function addNewDiscussion(e) {
             return response.json()
         })
           .then(newDis=>{
-            //addDiscussionToDom(newDis);
             $("#popup1").toggle(200);
             getDiscussions(currentMovie._id)
             updateTopicNum(currentMovie._id)
@@ -193,7 +191,6 @@ function deletePost(e) {
 })
 }
 
-
 function displaySearch(e) {
    e.preventDefault()
    search = [];
@@ -210,38 +207,6 @@ function displaySearch(e) {
        }
    }
    addMultiplyDiscussion(search);
-}
-
-// Helper function
-// Creates a discussion div based on given discussion object
-function createDiscussion(discussion) {
-   let newPost = template.clone();
-   const target = newPost.children().children();
-   
-   let img = target.find(".postImg");
-   let text = target.find(".card-text");
-   let newTitle = target.find(".card-title");
-   let upVote = target.find(".upVoteNumber");
-   let deletButton = target.find(".delete")
-   
-   target[3].addEventListener('click',deletePost);
-   newTitle.on('click',function(event) {
-       document.cookie="discussion="+discussion._id
-       window.location.href = "/discussionPage";});
-   img.attr('src',discussion.img);
-   text.html(discussion.discussion_content);
-   newTitle.html(discussion.title);
-   upVote.html(discussion.likes.toString());
-
-   fetch('/canEdit/'+discussion._id).
-   then(response => {
-    return response.json()}).
-   then(result=>{
-       if(result == false){
-           target[3].remove() 
-       }
-   })
-   return newPost;
 }
 
 function loadPreviousPage() {
@@ -304,13 +269,6 @@ function loadNextPage(e) {
 /*-------------------------------------------------------*/
 /*Dom function below*/
 /*-------------------------------------------------------*/
-
-function addDiscussionToDom(discussion) {
-  if($("#postsContainer").children().length==4){$('.card').last().remove();}
-  const newPost = createDiscussion(discussion);
-  $("#postsContainer").prepend(newPost);
-}
-
 function addMultiplyDiscussion(discussionList) {
    let i;
    const targetList = [];
@@ -325,13 +283,6 @@ function addMultiplyDiscussion(discussionList) {
    for (i = 0; i < targetList.length; i++) {
        $("#postsContainer").append(targetList[i]);
    }
-}
-
-function changeBanner(movie){
-    const banner = $('#banner .w-100')
-    const bannerTitle = $('#bannerTitle')
-    bannerTitle.html(movie.name);
-    banner.attr('src',movie.banner)
 }
 
 function restoreDiscussion() {
@@ -350,30 +301,4 @@ function restoreDiscussion() {
    for (i = 0; i < targetList.length; i++) {
        $("#postsContainer").append(targetList[i]);
    }
-}
-
-function updateTopicNum(movieId) {
-    fetch(dicNumUrl+movieId)
-    .then((res) => { 
-      if (res.status === 200) {
-         return res.json() 
-     } else {
-          alert('Could not get discussions numer')
-     }                
-    })
-  .then((json) => {
-      const temp = $('#discussionTopic')
-      temp.html(json.value)
-  }).catch((error) => {
-      console.log(error)
-  })
-}
-
-function updateVote(movie){
-    const temp =  $('#movieRating')
-    temp.html(movie.vote_average+'/10')
-}
-
-function updateCommentsNum(movie){
-    
 }
