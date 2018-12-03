@@ -455,13 +455,6 @@ function createDataRow(currentUser) {
 	dataPost.innerText = currentUser.like
 
 	let options = document.createElement('td')
-	let deleteIcon = document.createElement('a')
-	deleteIcon.href = "#"
-	let deleteImg = document.createElement('img')
-	deleteImg.className = "delete"
-	deleteImg.setAttribute("src", "../Pictures/deleteIcon.png")
-	deleteIcon.appendChild(deleteImg)
-	options.appendChild(deleteIcon)
 
 	let editButton = document.createElement('button')
 	editButton.className = "btn btn-outline-success my-2 ml-sm-2 edit"
