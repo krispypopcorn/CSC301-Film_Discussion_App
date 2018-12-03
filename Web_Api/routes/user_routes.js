@@ -68,6 +68,23 @@ user_routes.get('/userExist/:name', (req, res) => {
     });
 })
 
+user_routes.post('/adminCreateUser', (req, res) => {
+    const userData = new User({
+        username: req.body.username,
+        password: req.body.password,
+        admin: false,
+        icon: req.body.icon,
+        like:0,
+      })
+    // console.log(userData);
+    userData.save().then((result) => {
+        res.status(200).send()
+    }).catch((error) => {
+        log(error)
+    })
+
+})
+
 user_routes.post('/createUser',(req, res)=>{
     const userData = new User({
         username: req.body.username,

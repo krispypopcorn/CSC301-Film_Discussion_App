@@ -4,6 +4,8 @@ const domain = "http://localhost:8000"
 
 let confirmUser 
 
+let imgUrl
+
 const log = console.log
 
 populateUserTable()
@@ -29,6 +31,7 @@ const addUserModel = document.querySelector('#AddUser')
 const addUserButton = document.querySelector('#addUserButton')
 
 const verifyUser = document.querySelector('#verifyUser')
+
 
 /* User Class */
 
@@ -74,6 +77,7 @@ verifyUser.addEventListener('click', verifyUserDB)
 addUserButton.addEventListener('click', confirmAddUser)
 
 
+
 /* User Specific Funtions */
 
 function openAddModel() {
@@ -102,7 +106,7 @@ function verifyUserDB() {
 
 	const password = document.querySelector('#password').value
 
-	const icon = document.querySelector('#icon').value
+	// const icon = document.querySelector('#icon').value
 
 	const message = document.querySelector('#AddUserMessage')
 
@@ -130,20 +134,21 @@ function verifyUserDB() {
 
 }
 
+
 function confirmAddUser() {
 
 	const userToAdd = document.querySelector('#username').value
 
 	const password = document.querySelector('#password').value
 
-	const icon = document.querySelector('#icon').value	
+	// const icon = document.querySelector('#icon').value	
 
-	const url = `${domain}/createUser`
+	const url = `${domain}/adminCreateUser`
 
 	const data = {
 		"username": userToAdd,
 		"password": password,
-		"icon": icon
+		"icon": "http://res.cloudinary.com/dxpmsmv08/image/upload/v1543793099/demo/q4cwstmcppyuy0xyxdgd.png"
 	}
 	// const request = new Request(url, {
 	// 	method: 'PATCH',
