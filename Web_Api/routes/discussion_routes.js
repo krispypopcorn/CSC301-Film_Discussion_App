@@ -16,17 +16,13 @@ discussion_routes.get('/getAllDiscussions', (req, res) => {
     Get a discussion by id    
 */
 discussion_routes.get('/getDiscussion/:id', (req, res) => {
-    const id = req.params.id 
-
-    if (!ObjectID.isValid(id)) {
-        return res.status(404).send()
-    }
+    const id = req.params.id;
 
     Discussion.findById(id).then((disc) => {
         if (!disc) {
             res.status(404).send()
         } else {
-            res.send({ disc })
+            res.send(disc)
         }
     }).catch((error) => {
         res.status(400).send(error)
