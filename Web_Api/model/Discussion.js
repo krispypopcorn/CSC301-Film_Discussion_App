@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const Comment =  new mongoose.Schema({
+
+const CommentSchema =  new mongoose.Schema({
     comment_content: {
         type: String,
         trim: true,
@@ -21,7 +22,10 @@ const Comment =  new mongoose.Schema({
         type: Date
     },
 
-    replies: [Comment]
+    replies: [{
+     type: Schema.ObjectId,
+     ref: 'CommentSchema'
+	}]
 })
 
 const DisSchema = new mongoose.Schema({
@@ -60,7 +64,7 @@ const DisSchema = new mongoose.Schema({
           type: String,
     },
 
-    comments: [Comment],
+    comments: [CommentSchema],
 
     liked_user: {
         type: Array,
