@@ -53,8 +53,6 @@ $(".delete").on('click', deletePost);
 /*-------request URL-------*/
 const MovieUrl = '/search/'+movieName
 const discussionUrl = '/getMovieDiscussions/'
-const dicNumUrl = "/getMovieDisCount/"
-const comNumUrl =''
 /*-------request URL-------*/
 
 getMovie()
@@ -74,9 +72,9 @@ function getMovie(){
         changeBanner(json)
         currentMovie = json
         updateTopicNum(currentMovie._id);
-        updateCommentsNum(currentMovie._id);
         getDiscussions(currentMovie._id)
         updateVote(currentMovie)
+        updateTotalLike(currentMovie._id)
     })
 }
 
@@ -98,18 +96,6 @@ function getDiscussions(movieId){
     currentPage++;
     loadPreviousPage();
   })
-}
-
-function getCookie(cname)
-{
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0; i<ca.length; i++) 
-  {
-    var c = ca[i].trim();
-    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-  }
-  return "";
 }
 
 function upVote(e){
@@ -301,21 +287,4 @@ function restoreDiscussion() {
    for (i = 0; i < targetList.length; i++) {
        $("#postsContainer").append(targetList[i]);
    }
-}
-
-function updateTopicNum(movieId) {
-    fetch(dicNumUrl+movieId)
-    .then((res) => { 
-      if (res.status === 200) {
-         return res.json() 
-     } else {
-          alert('Could not get discussions numer')
-     }                
-    })
-  .then((json) => {
-      const temp = $('#discussionTopic')
-      temp.html(json.value)
-  }).catch((error) => {
-      console.log(error)
-  })
 }

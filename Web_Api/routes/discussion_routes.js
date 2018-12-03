@@ -1,6 +1,5 @@
 const discussion_routes = require('express').Router();
 const { Discussion } = require('../model/Discussion.js')
-const { Comment } = require('../model/Comment.js')
 const { User } = require('../model/User')
 const fs = require('fs');
 const log = console.log
@@ -247,6 +246,21 @@ discussion_routes.delete('/deleteDiscussions/:movieId/:title',(req, res) => {
             res.send("discussion deleted")
         }
     });
+})
+
+/*
+    return total num of like of a given movie
+*/
+discussion_routes.get('/totalLikesMovie/:id', (req, res) => {
+    Discussion.find().then((discussions) => {
+        let sum = 0
+        discussions.forEach(element => {
+            sum += element.likes
+        });
+        res.send({
+            value: sum
+        })
+    })
 })
 
 module.exports = discussion_routes;

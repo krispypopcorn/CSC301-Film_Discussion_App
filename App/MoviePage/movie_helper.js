@@ -7,10 +7,6 @@ function updateVote(movie){
     temp.html(movie.vote_average+'/10')
 }
 
-function updateCommentsNum(movie){
-    
-}
-
 function changeBanner(movie){
     const banner = $('#banner .w-100')
     const bannerTitle = $('#bannerTitle')
@@ -47,3 +43,37 @@ function createDiscussion(discussion) {
     })
     return newPost;
  }
+
+function updateTopicNum(movieId) {
+    fetch('/getMovieDisCount/'+movieId)
+    .then((res) => { 
+      if (res.status === 200) {
+         return res.json() 
+     } else {
+          alert('Could not get discussions numer')
+     }                
+    })
+  .then((json) => {
+      const temp = $('#discussionTopic')
+      temp.html(json.value)
+  }).catch((error) => {
+      console.log(error)
+  })
+}
+
+function updateTotalLike(movieId){
+    fetch('/totalLikesMovie/'+movieId)
+    .then((res) => { 
+      if (res.status === 200) {
+         return res.json() 
+     } else {
+          alert('Could not get discussions numer')
+     }                
+    })
+  .then((json) => {
+      const temp = $('#TotalLikes')
+      temp.html(json.value)
+  }).catch((error) => {
+      console.log(error)
+  })
+}
