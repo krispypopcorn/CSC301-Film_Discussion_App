@@ -1,7 +1,13 @@
-0.close {
+.close {
   margin-left: 94.5%;
 }
+.btn-dark{
+  background: rgb(46, 46, 46);
+  position: absolute;
+  top: 0px;
+  right: 0px;
 
+}
 .usn {
   color: #FFC312;
   cursor:pointer;

@@ -10,7 +10,7 @@ let movieId = "";
 const discussionUrl = '/getDiscussion/'
 const MovieUrl = '/getMovie/'
 const newComment = '/createComment/'
-const createReply = '/createReply/'
+const replyUrl = '/createReply/'
 
 /*-------request URL-------*/
 
@@ -61,8 +61,9 @@ $("#bannerText").on('click', function(event) {window.location.href = '/moviePage
 $("#replyToDiscussion").on('click', commentOnDiscussion);
 $(".reply").on('click', replyToComment);
 $(".close").on('click', deleteComment);
+$("#deletePost").on('click', deleteDiscussion);
 
-checkUserClass()
+//checkUserClass()
 
 function checkUserClass(){
   fetch('/userClass')
@@ -142,7 +143,7 @@ function fillComment(com){
 	}
 }
 
-function deleteComment(e){
+function deleteDiscussion(e){
 	e.preventDefault();
 
 	//required: PERMISSION CHECK
@@ -159,6 +160,26 @@ function deleteComment(e){
    		})
 
 	if (canEdit){
+
+		let comments = e.target.parentElement.parentElement.parentElement;
+
+		let postToRemove = e.target.parentElement.parentElement;
+		comments.removeChild(postToRemove);
+
+		fetch('/deleteDiscussions/'+thisDiscussion._id, {
+	    method: 'DELETE', }).then(response => {
+	      	fetch('/home')
+		})
+	}
+
+}
+
+
+function deleteComment(e){
+	e.preventDefault();
+
+	//required: PERMISSION CHECK
+
 		let comments = e.target.parentElement.parentElement.parentElement;
 
 		let postToRemove = e.target.parentElement.parentElement;
@@ -171,7 +192,6 @@ function deleteComment(e){
 	      getDiscussions(currentMovie._id)
 	      updateTopicNum(currentMovie._id)
 		})
-	}
 
 }
 
@@ -201,7 +221,7 @@ function createReply(text, postToreplyTo){
 			comment_content: text,
 		}
 
-		fetch(createReply+postToreplyTo._id, {
+		fetch(replyUrl+postToreplyTo._id, {
             method: 'POST', 
             body: JSON.stringify(newReply), 
             headers: {
