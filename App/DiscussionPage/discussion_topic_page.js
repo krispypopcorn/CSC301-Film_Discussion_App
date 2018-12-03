@@ -166,7 +166,7 @@ function deleteComment(e){
 
 
 		//db.bios.find( { _id: 5 } )
-		fetch('/deleteComment/'+thisDiscussion._id+'/'+postToRemove.id, {
+		fetch('/deleteComment/'+postToRemove.id, {
 	    method: 'DELETE', }).then(response => {
 	      getDiscussions(currentMovie._id)
 	      updateTopicNum(currentMovie._id)
@@ -194,18 +194,16 @@ function replyToComment(e){
 function createReply(text, postToreplyTo){
 
 	if (text){
-		let date = new Date();
+		let date = "";
 		let usn_text = "";
 		let replyId = "";
 		const newReply = {
 			comment_content: text,
-		    date: date,
-		    comment: postToreplyTo;
 		}
 
-		fetch(createReply+thisDiscussion._id, {
+		fetch(createReply+postToreplyTo._id, {
             method: 'POST', 
-            body: JSON.stringify(newComment), 
+            body: JSON.stringify(newReply), 
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
@@ -215,6 +213,7 @@ function createReply(text, postToreplyTo){
           .then(response => {
           	usn_text = document.createTextNode(response.user);
           	replyId = response._id;
+          	date = response.date;
         })
 		let reply = document.createElement("div");
 		reply.className = "card comment";
@@ -312,12 +311,11 @@ function createComment(){
 	let text = document.getElementById("postText").value;
 
 	if (text){
-		let date = new Date();
+		let date;
 		let usn_text = "";
 		let replyId = "";
 		const newComment = {
 			comment_content: text,
-		    date: date,
 		}
 
 		fetch(newComment+thisDiscussion._id, {
@@ -332,6 +330,7 @@ function createComment(){
           .then(response => {
           	usn_text = document.createTextNode(response.user);
           	replyId = response._id;
+          	date = response.date;
         })
 
 		let reply = document.createElement("div");

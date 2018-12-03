@@ -1,8 +1,10 @@
 const discussion_routes = require('express').Router();
 const { Discussion } = require('../model/Discussion.js')
+const { Comment } = require('../model/Comment.js')
 const { User } = require('../model/User')
 const fs = require('fs');
 const log = console.log
+const { ObjectID } = require('mongodb')
 
 /*
     get all discussions in the database
@@ -62,7 +64,10 @@ discussion_routes.post('/creatDiscussion',(req, res)=>{
         discussion_content: req.body.discussion_content,
         user: req.session.user,
         movie: req.body.movie,
-        img: req.body.img
+        img: req.body.img,
+        comments: [],
+        likes:  0, 
+        liked_user: []
       })
       disc.save(function (error, newDis) {
         if (error) {
@@ -79,17 +84,15 @@ discussion_routes.post('/creatDiscussion',(req, res)=>{
 discussion_routes.post('/creatComment/:id',(req, res)=>{
     const id = req.params.id
     log(req.body)
-    const com = {
+    const com = new Comment({
         comment_content: req.body.comment_content,
 
         user: req.session.user,
         
         comment: null,
 
-        date: req.body.date,
-
         replies: []
-    }
+    })
     Discussion.findById(id).then((disc) => {
         if (!disc) {
             res.status(404).send()
@@ -98,45 +101,44 @@ discussion_routes.post('/creatComment/:id',(req, res)=>{
             res.send(com)
             disc.save(function (err) {
             if (err) {
+                log(err)
                 return handleError(err)
             }
             });
-            res.send(com)
         }
     })  
 })
 
-discussion_routes.post('/createReply/:id',(req, res)=>{
-    const id = req.params.id;
-    const cid = req.body.comment;
+discussion_routes.post('/createReply/:cid',(req, res)=>{
+
+    const cid = req.params.cid;
+
+    if (!ObjectID.isValid(cid)) {
+        return res.status(404).send()
+    }
+
     log(req.body)
-    const com = {
+    const com = new Comment ({
         comment_content: req.body.comment_content,
 
         user: req.session.user,
         
         comment: cid,
-
-        date: req.body.date,
-
-        replies: []
-    }
-    Discussion.findById(id).then((disc) => {
-        if (!disc) {
+    })
+    Discussion.findOne({_id : cid}).then((parentComment) => {
+        if (!parentComment) {
+            log("a")
             res.status(404).send()
         } else {
-            var doc = disc.comments.id(cid);
-            if (!doc) {
-                res.status(404).send()
-            } else {
-                doc.replies.push(com);
-                disc.save(function (err) {
+                log(parentComment)
+                parentComment.replies.push(com)
+                parentComment.save(function (err) {
                     if (err) {
+                        log(err)
                         return handleError(err)
                     }
                 });
-                res.send(com)
-            }
+                res.send()
         }
     })
 })
@@ -175,37 +177,27 @@ discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
     Deletes given comment/reply from the database
 */
 
-discussion_routes.delete('/deleteComment/:id/cid', (req, res) => {
+discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
     // Add code here
     const id = req.params.id
     const cid = req.params.cid
-    const com = {
-        comment_content: req.body.comment_content,
-
-        user: req.body.user,
-        
-        comment: req.body.comment,
-
-        date: req.body.date,
-
-        replies: req.body.replies
-    }
-
     Discussion.findById(id).then((disc) => {
         if (!disc) {
             res.status(404).send()
         }else {
-            db.Discussion.find( { _id: cid} ).then((reply) => {
-                if (!reply) { 
+            let comment = disc.comments.id(cid);
+                if (!comment){
                     res.status(404).send()
-                } else {
-                    reply.remove()
+                } else{
+                    comment.remove();
                     disc.save(function (err) {
                         if (err) {
-                            return handleError(err)                }
-                        })   
+                            log(err)
+                            return handleError(err)
+                        }
+                    res.send();
+                    });
                 }
-            })
         }
         
     })
