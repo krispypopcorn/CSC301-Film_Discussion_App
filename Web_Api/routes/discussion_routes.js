@@ -12,6 +12,26 @@ discussion_routes.get('/getAllDiscussions', (req, res) => {
         res.send(discussions)
     }).catch(err => {log(err)})
 })
+/*
+    Get a discussion by id    
+*/
+discussion_routes.get('/getDiscussion/:id', (req, res) => {
+    const id = req.params.id 
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send()
+    }
+
+    Discussion.findById(id).then((disc) => {
+        if (!disc) {
+            res.status(404).send()
+        } else {
+            res.send({ disc })
+        }
+    }).catch((error) => {
+        res.status(400).send(error)
+    })
+})
 
 /*
     Get the number of discussion currently in the database
@@ -58,6 +78,75 @@ discussion_routes.post('/creatDiscussion',(req, res)=>{
 })
 
 /*
+    Add a comment to a Discussion Post.
+*/
+discussion_routes.post('/creatComment/:id',(req, res)=>{
+    const id = req.params.id
+    log(req.body)
+    const com = {
+        comment_content: req.body.comment_content,
+
+        user: req.session.user,
+        
+        comment: null,
+
+        date: req.body.date,
+
+        replies: []
+    }
+    Discussion.findById(id).then((disc) => {
+        if (!disc) {
+            res.status(404).send()
+        } else {
+            disc.comments.push(com)
+            res.send(com)
+            disc.save(function (err) {
+            if (err) {
+                return handleError(err)
+            }
+            });
+            res.send(com)
+        }
+    })  
+})
+
+discussion_routes.post('/createReply/:id',(req, res)=>{
+    const id = req.params.id;
+    const cid = req.body.comment;
+    log(req.body)
+    const com = {
+        comment_content: req.body.comment_content,
+
+        user: req.session.user,
+        
+        comment: cid,
+
+        date: req.body.date,
+
+        replies: []
+    }
+    Discussion.findById(id).then((disc) => {
+        if (!disc) {
+            res.status(404).send()
+        } else {
+            var doc = disc.comments.id(cid);
+            if (!doc) {
+                res.status(404).send()
+            } else {
+                doc.replies.push(com);
+                disc.save(function (err) {
+                    if (err) {
+                        return handleError(err)
+                    }
+                });
+                res.send(com)
+            }
+        }
+    })
+})
+
+
+/*
     return given movie's discussions 
 */
 discussion_routes.get('/getMovieDiscussions/:id', (req, res) => {
@@ -85,6 +174,47 @@ discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
         }
     });
 })
+
+/*
+    Deletes given comment/reply from the database
+*/
+
+discussion_routes.delete('/deleteComment/:id/cid', (req, res) => {
+    // Add code here
+    const id = req.params.id
+    const cid = req.params.cid
+    const com = {
+        comment_content: req.body.comment_content,
+
+        user: req.body.user,
+        
+        comment: req.body.comment,
+
+        date: req.body.date,
+
+        replies: req.body.replies
+    }
+
+    Discussion.findById(id).then((disc) => {
+        if (!disc) {
+            res.status(404).send()
+        }else {
+            db.Discussion.find( { _id: cid} ).then((reply) => {
+                if (!reply) { 
+                    res.status(404).send()
+                } else {
+                    reply.remove()
+                    disc.save(function (err) {
+                        if (err) {
+                            return handleError(err)                }
+                        })   
+                }
+            })
+        }
+        
+    })
+}
+
 
 /*
     return true if current user can edit given discussion

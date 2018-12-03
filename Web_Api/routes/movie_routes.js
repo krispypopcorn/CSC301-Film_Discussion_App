@@ -9,6 +9,19 @@ movie_routes.get('/findAllMovies', (req, res) => {
     })
 });
 
+movie_routes.get('/getMovie/:id', (req, res) => {
+    const id = req.params.id
+    Movie.findById(id, function(err, movie) 
+    {
+       if (err)
+       {
+           res.send(err);
+       }
+       res.send(movie);
+    });
+})
+
+
 /*
     Get the number of movies currently in the database
 */

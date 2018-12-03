@@ -1,6 +1,29 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
+const Comment =  mongoose.model('Comment',{
+    comment_content: {
+        type: String,
+        trim: true,
+        minlength: 1,
+        required: true
+    },
+
+    user: {
+        type: String
+    },
+    
+    comment: {
+        type: String
+    },
+
+    date: {
+        type: Date
+    },
+
+    replies: [Comment]
+})
+
 const DisSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -37,10 +60,7 @@ const DisSchema = new mongoose.Schema({
           type: String,
     },
 
-    comments: {
-        type: Array,
-        default: []
-    },
+    comments: [Comment],
 
     liked_user: {
         type: Array,
