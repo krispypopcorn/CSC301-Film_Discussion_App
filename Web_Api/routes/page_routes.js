@@ -26,8 +26,7 @@ page_routes.get('/SignUp', sessionChecker,(req,res) => {
 });
 
 
-/* 
-*get Home page
+/*get Home page
  */
 page_routes.get('/home', (req, res) => {
     if(req.session.user){

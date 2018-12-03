@@ -21,7 +21,12 @@ hr {
     border-left: 2px solid black;
 
 }
-.comment p {
+.comment1 {  
+    background: rgb(46, 46, 46);
+    border-left: 4px solid black;
+
+}
+.comment, .comment1 p {
 	color: white;
 
 }
@@ -72,7 +77,7 @@ textarea {
     
 }
 
-.reply:hover, #replyPost:hover, #confirmReply:hover, #cancelReply:hover {   
+.reply:hover, #replyToDiscussion:hover, #confirmReply:hover, #cancelReply:hover {   
 
     background-color: #555;
 }
@@ -86,7 +91,7 @@ textarea {
     outline:none;
 }
 
-.reply, #replyPost {
+.reply, #replyToDiscussion {
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
