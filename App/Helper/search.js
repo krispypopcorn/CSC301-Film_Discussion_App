@@ -1,35 +1,40 @@
 "use strict"
 $("#movieSearchButton").on('click',displaySearch);
-$("#movieSearch").keyup(function(event) {
+$("#movieSearch").keyup(function() {
   $("#movieSearchButton").click();
 });
+$(".searchPreviousButton").on('click',getPreviousPage);
+$(".searchNextButton").on('click',getNextPage);
 
 //store current page
 let curPage = 1;
 
 //array of movies
-//we should pull this from server
-const movies = [];
+let movies = [];
 
 //store search result
 let results = [];
 
 //keep a copy of the movie div as template
 const temp = $(".result:first").clone();
+getMovie()
 
 
-class Movie {
-   constructor(title, image) {
-       this.title = title;
-       this.image = image
-   }
-}
-
-movies.push(new Movie("Avengers", "../Pictures/movie_pic.jpg"));
-movies.push(new Movie("Halloween", "../Pictures/halloween.jpg"));
-movies.push(new Movie("The Dark Knight", "../Pictures/thedarkknight.jpg"));
-movies.push(new Movie("Venom", "../Pictures/venom.jpeg"));
-movies.push(new Movie("Life of Pi", "../Pictures/lifeofpi.jpg"));
+function getMovie(){
+   fetch('/findAllMovies')
+   .then((res) => { 
+       if (res.status === 200) {
+          return res.json() 
+      } else {
+           alert('Could not get movies')
+      }                
+   })
+   .then((json) => {
+     movies=json;
+   }).catch((error) => {
+       console.log(error)
+   })
+ }
 
 function displaySearch(e){
    e.preventDefault()
@@ -38,10 +43,9 @@ function displaySearch(e){
    const inputTitle = $("#movieSearch").val().toLowerCase();
    if(inputTitle!=''){
       let i;
-      //we should pull the movie list from server
       for (i = 0; i < movies.length; i++) {
            let cur = movies[i];
-          if (cur.title.toLowerCase().includes(inputTitle)) {
+          if (cur.name.toLowerCase().includes(inputTitle)) {
                results.push(cur);
           }
       }
@@ -59,8 +63,8 @@ function addSearchToDom(searchList){
    const targetList = [];
    let newPost;
    for (i = 0; i < searchList.length && i < 4; i++) {
-       newPost = createSearchResult(searchList[i]);
-       targetList.push(newPost);
+      newPost = createSearchResult(searchList[i]);
+      targetList.push(newPost);
    }
 
    $('#searchResult .result').remove();
@@ -71,12 +75,56 @@ function addSearchToDom(searchList){
   
 }
 
+function getPreviousPage(e) {
+   e.preventDefault();
+   if (curPage != 1) {
+
+      let index = curPage - 1;
+      curPage--;
+      index = index * 4 - 4;
+      const targetList = [];
+       
+      let max = 4;
+      let i = 0;
+
+      for (i = index; i < results.length && max != 0; i++) {
+         targetList.push(results[i]);
+         max--;
+      }
+      addSearchToDom(targetList);
+   }
+}
+
+function getNextPage(e) {
+   e.preventDefault();
+
+   const maxPage = Math.ceil(results.length / 4);
+
+   if (curPage != maxPage) {
+      let index = curPage + 1;
+      curPage++;
+      index = index * 4 - 4;
+      const targetList = [];
+
+      let max = 4;
+      let i = 0;
+
+      for (i = index; i < results.length && max != 0; i++) {
+         targetList.push(results[i]);
+         max--;
+      }
+      addSearchToDom(targetList);
+   }
+}
+
+
 function createSearchResult(movie) {
-  //      <hr class="w3-white m-0">
    let newPost = temp.clone();
-   newPost.find(".searchTitle").html(movie.title);
-   newPost.find(".resultImg").attr('src',movie.image);
-   newPost.find(".searchTitle").on('click',function(e){window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;})
+   newPost.find(".searchTitle").html(movie.name);
+   newPost.find(".resultImg").attr('src',movie.poster);
+   newPost.find(".searchTitle").on('click',function(e){
+      document.cookie="movie="+movie.name
+      window.location.href = "/moviePage";})
    return newPost;
 
 }
