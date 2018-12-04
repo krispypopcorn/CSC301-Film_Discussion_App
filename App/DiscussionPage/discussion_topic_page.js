@@ -1,18 +1,26 @@
 "use strict";
 
-//const discId = getCookie('discussionId');
+const discId = getCookie('discussion');
 
 let thisDiscussion = null;
 let thisMovie = null;
-let movieId = "";
+let movieName = "";
+let thisUser = null;
+
+const helper = require("../Helper/helper.js")
 
 /*-------request URL-------*/
 const discussionUrl = '/getDiscussion/'
+const commentUrl = '/getComment/'
 const MovieUrl = '/getMovie/'
 const newComment = '/createComment/'
 const replyUrl = '/createReply/'
 
 /*-------request URL-------*/
+
+helper.setUserIcon();
+helper.checkUserClass();
+
 
 function getDiscussion(){
     fetch(discussionUrl+discId)
@@ -25,13 +33,27 @@ function getDiscussion(){
     })
     .then((json) => {
     	thisDiscussion = json;
-    	movieId = json.movie;
+    	movieName = json.movie;
+    })
+}
+
+function getComment(cid){
+    fetch(commentUrl+cid)
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get the discussion')
+       }                
+    })
+    .then((json) => {
+    	return json;
     })
 }
 
 function getMovie(){
 
-    fetch(MovieUrl+movieId)
+    fetch(MovieUrl+movieName)
     .then((res) => { 
         if (res.status === 200) {
            return res.json() 
@@ -41,6 +63,22 @@ function getMovie(){
     })
     .then((json) => {
         thisMovie = json
+    })
+}
+
+function getUser(){
+
+    fetch("/user")
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get movies')
+       }                
+    })
+    .then((json) => {
+        thisUser = json;
+
     })
 }
 
@@ -60,26 +98,11 @@ $(".usn").on('click', function(event) {window.location.href = "/profilePage";});
 $("#bannerText").on('click', function(event) {window.location.href = '/moviePage'});
 $("#replyToDiscussion").on('click', commentOnDiscussion);
 $(".reply").on('click', replyToComment);
-$(".close").on('click', deleteComment);
+$(".com").on('click', deleteComment);
+$(".rep").on('click', deleteReply);
 $("#deletePost").on('click', deleteDiscussion);
 
-//checkUserClass()
 
-function checkUserClass(){
-  fetch('/userClass')
-  .then(res =>{
-    if (res.status === 200) {
-         return res.json() 
-     } else {
-       console.log('Could not get user class')
-     }                
-  })
-  .then(json =>{
-    if(json == false){
-      $('#adminLink').hide()
-    }
-  })
-}
 
 function fillDiscussionPost(){
 
@@ -88,7 +111,7 @@ function fillDiscussionPost(){
 	let disc_post_text = document.getElementById('discussionContent')
 	let user = document.getElementById('discussionUser');
 	let date = document.getElementById('discussionTime')
-	//Then populate fields!
+	//Then populating fields!
 	disc_post_text.innerHTML = thisDiscussion.discussion_content;
 	disc_img.src = thisDiscussion.img;
 	user.html(thisDiscussion.user);
@@ -117,7 +140,8 @@ function fillAllComments(){
 	let comments = thisDiscussion.comments;
 
 	for (com in comments ){
-		fillComment(comments[com]);
+		let newCom = getComment(comments[com])
+		fillComment(newCom);
 		for (var reply in com.replies){
 			if (reply){
 				fillAllComments(com.replies[reply])
@@ -128,12 +152,14 @@ function fillAllComments(){
 
 //helper that fills the Comment or reply in the DOM.
 function fillComment(com){
+	let isComment = false;
 	if (!com.comment){
 		let postToreplyTo = document.getElementById("comments");
+		isComment = true
 	}else{
 		let postToreplyTo = document.getElementById(com.comment)
 	}
-	let reply = createCommentJSON(com);
+	let reply = createCommentJSON(com,isComment);
 	if (reply){
 		if (comments.firstElementChild){
 		comments.insertBefore(reply, comments.firstElementChild);
@@ -178,23 +204,37 @@ function deleteDiscussion(e){
 function deleteComment(e){
 	e.preventDefault();
 
-	//required: PERMISSION CHECK
+	let comments = e.target.parentElement.parentElement.parentElement;
 
-		let comments = e.target.parentElement.parentElement.parentElement;
+	let postToRemove = e.target.parentElement.parentElement;
+	
+	 let postUser = getComment(postToRemove.id)
+	if (thisUser == postUser._id){
 
-		let postToRemove = e.target.parentElement.parentElement;
-		comments.removeChild(postToRemove);
-
-
-		//db.bios.find( { _id: 5 } )
-		fetch('/deleteComment/'+postToRemove.id, {
+		fetch('/deleteComment/'+thisDiscussion._id+'/'+postToRemove.id, {
 	    method: 'DELETE', }).then(response => {
-	      getDiscussions(currentMovie._id)
-	      updateTopicNum(currentMovie._id)
+	      comments.removeChild(postToRemove);
 		})
-
+	}
 }
 
+function deleteReply(e){
+	e.preventDefault();
+
+	//required: PERMISSION CHECK
+
+	let parentComment = e.target.parentElement.parentElement.parentElement;
+
+	let postToRemove = e.target.parentElement.parentElement;
+	let postUser = getComment(postToRemove.id)
+	if (thisUser == postUser._id){
+
+		fetch('/deleteReply/'+parentComment.id+'/'+postToRemove.id, {
+	    method: 'DELETE', }).then(response => {
+	      parentComment.removeChild(postToRemove);
+		})
+	}
+}
 
 
 function replyToComment(e){
@@ -290,7 +330,7 @@ function createReply(text, postToreplyTo){
 	
 		let close_button = document.createElement('button')
 		close_button.type = 'button';
-		close_button.className = "close col-sm-1 offset-sm-11"	
+		close_button.className = "close rep col-sm-1 offset-sm-11"	
 		let close_span = document.createElement('span')
 		close_span.setAttribute('aria-hidden', 'true');
 		close_span.innerHTML = '&times;';
@@ -326,6 +366,11 @@ function createReply(text, postToreplyTo){
 //                 <button type=button class='reply col-md-1 offset-md-9 '>Reply</button>
 //             </div>
 //         </div>
+//
+//
+// comment is a relply to a discussions post (main post)
+//
+//
 
 function createComment(){
 	let text = document.getElementById("postText").value;
@@ -412,7 +457,7 @@ function createComment(){
 	
 		let close_button = document.createElement('button')
 		close_button.type = 'button';
-		close_button.className = "close col-sm-1 offset-sm-11"	
+		close_button.className = "close com col-sm-1 offset-sm-11"	
 		let close_span = document.createElement('span')
 		close_span.setAttribute('aria-hidden', 'true');
 		close_span.innerHTML = '&times;';
@@ -430,7 +475,7 @@ function createComment(){
 
 }
 
-function createCommentJSON(comment){
+function createCommentJSON(comment, isComment){
 	let text = comment.comment_content;
 
 	if (text){
@@ -465,7 +510,6 @@ function createCommentJSON(comment){
 		let footer_text = document.createTextNode("Comment by ");
 		let usn = document.createElement("a");
 		usn.className = 'usn';
-		//get and set ID from sserv
 		let usn_text = comment.user;
 		usn.append(usn_text);
 
@@ -492,7 +536,12 @@ function createCommentJSON(comment){
 	
 		let close_button = document.createElement('button')
 		close_button.type = 'button';
-		close_button.className = "close col-sm-1 offset-sm-11"	
+		if (isComment){
+			close_button.className = "close com col-sm-1 offset-sm-11"
+		} else {
+			close_button.className = "close rep col-sm-1 offset-sm-11"
+		}
+
 		let close_span = document.createElement('span')
 		close_span.setAttribute('aria-hidden', 'true');
 		close_span.innerHTML = '&times;';
@@ -512,7 +561,7 @@ function createCommentJSON(comment){
 
 
 
-//reply to main discussion-post
+//comment on discussion-post (main post)
 function commentOnDiscussion(e){
 	e.preventDefault();
 

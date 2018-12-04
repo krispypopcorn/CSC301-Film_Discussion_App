@@ -14,6 +14,7 @@ discussion_routes.get('/getAllDiscussions', (req, res) => {
         res.send(discussions)
     }).catch(err => {log(err)})
 })
+
 /*
     Get a discussion by id    
 */
@@ -25,6 +26,23 @@ discussion_routes.get('/getDiscussion/:id', (req, res) => {
             res.status(404).send()
         } else {
             res.send(disc)
+        }
+    }).catch((error) => {
+        res.status(400).send(error)
+    })
+})
+
+/*
+    Get a comment by id    
+*/
+discussion_routes.get('/getComment/:cid', (req, res) => {
+    const cid = req.params.id;
+
+    Comment.findById(id).then((com) => {
+        if (!com) {
+            res.status(404).send()
+        } else {
+            res.send(com)
         }
     }).catch((error) => {
         res.status(400).send(error)
@@ -114,6 +132,10 @@ discussion_routes.post('/creatComment/:id',(req, res)=>{
     })  
 })
 
+/* 
+    Create a reply to the comment with ID == cid
+*/
+
 discussion_routes.post('/createReply/:cid',(req, res)=>{
 
     const cid = req.params.cid;
@@ -195,7 +217,7 @@ function deleteArrayElement(comments, cid) {
 
 
 /*
-    Deletes given comment/reply from the database
+    Deletes given comment from the database
 */
 
 discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
@@ -215,6 +237,37 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
                     }
             });
             disc.save(function (err) {
+            if (err) {
+                log(err)
+                return handleError(err)
+            }
+            });
+        }
+    })  
+    
+})
+
+/*
+    Deletes given reply from the database
+*/
+
+discussion_routes.delete('/deleteReply/:id/:cid', (req, res) => {
+    // Add code here
+    const id = req.params.id
+    const cid = req.params.cid
+
+    Comment.findById(id).then((com1) => {
+        if (!com1) {
+            res.status(404).send()
+        } else {
+            deleteArrayElement(com1.replies, cid);
+            Comment.findByIdAndRemove(cid, (err, discussion) =>{
+                    if(err){res.send(err)}
+                    else{
+                        res.send("discussion deleted")
+                    }
+            });
+            com1.save(function (err) {
             if (err) {
                 log(err)
                 return handleError(err)

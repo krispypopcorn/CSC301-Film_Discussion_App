@@ -15,6 +15,17 @@ user_routes.get('/allUsers', (req, res) => {
 })
 
 /*
+    Get user by ID
+*/
+user_routes.get('/user', (req, res) => {
+    User.findById(req.session.user).then((result) => {
+        res.send(result)
+    }).catch((error) => {
+        res.status(404).send()
+    })
+})
+
+/*
     Get count on number of users
 */
 user_routes.get('/userCount', (req, res) => {
