@@ -70,7 +70,6 @@ $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $('#DiscussionTopics').click(display_discussion_topics)
 $('#Comments').click(display_comments)
-$('#Replies').click(display_replies)
 
 /*-------------Add Event-listener-------------*/
 
@@ -80,7 +79,7 @@ const user = getUser()
 
 const html_categories = $('#Categories').children()
 
-var categories = {"discussion_topics":0, "comments":1, "replies":2}
+var categories = {"discussion_topics":0, "comments":1}
 
 display_category(categories.discussion_topics)
 
@@ -137,10 +136,6 @@ function display_comments(e){
 	display_category(categories.comments)
 }
 
-function display_replies(e){
-	e.preventDefault();
-	display_category(categories.replies)
-}
 
 // Helper function
 // Creates a discussion div based on given discussion object
@@ -160,7 +155,7 @@ function createDiscussion(discussion) {
    text.html(discussion.content);
    if(view==0){newTitle.html(discussion.title);}
    else if (view==1){newTitle.html("Comment");}
-   else(newTitle.html("Reply"))
+   
    
    upVote.html(discussion.thumbsUp.toString());
 
