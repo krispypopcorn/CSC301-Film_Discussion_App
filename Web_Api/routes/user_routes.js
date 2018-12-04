@@ -258,7 +258,6 @@ user_routes.patch('/modifyPassword', (req, res)=>{
 })
 
 user_routes.delete('/deleteFinal/:id', (req, res) => {
-    log("reached")
 
     const user_id = req.params.id
 
@@ -271,5 +270,16 @@ user_routes.delete('/deleteFinal/:id', (req, res) => {
     })
 })
 
+
+user_routes.get('/currentUser', (req, res)=>{
+    User.findById(req.session.user).then((result)=>{
+        if(!result){
+            res.status(404).send()
+        }
+        else{
+            res.send(result)
+        }
+    })
+})
 
 module.exports = user_routes

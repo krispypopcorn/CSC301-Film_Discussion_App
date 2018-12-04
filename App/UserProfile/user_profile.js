@@ -21,6 +21,9 @@ let searchMode = 0;
 //store current page
 let currentPage = 1;
 
+checkUserClass()
+setUserIcon()
+
 class Discussion {
    constructor(title, author, content) {
        //read from user input or pull from server
@@ -40,6 +43,9 @@ class User {
        this.password = password;
    }
 }
+
+
+
 
 // Dummy user
 const DummyUser = new User("Dummy", "123")
@@ -68,11 +74,45 @@ $('#Replies').click(display_replies)
 
 /*-------------Add Event-listener-------------*/
 
+
+
+const user = getUser()
+
+
 const html_categories = $('#Categories').children()
 
 var categories = {"discussion_topics":0, "comments":1, "replies":2}
 
 display_category(categories.discussion_topics)
+
+
+function displayUser(user){
+
+
+  const username = document.querySelector('#currUsername');
+  username.innerText = user.username
+  // change icon
+
+}
+
+function getUser(){
+  const isCurrentUser = getCookie('isCurrentUser');
+  console.log(getCookie);
+  console.log(isCurrentUser);
+  if(isCurrentUser == 'true'){
+    fetch('/currentUser').then ((result) => {
+    return result.json()
+  }).then((user) => {
+    displayUser(user);
+  }).catch((error) => {
+    console.log(error)
+  })
+  }
+  else{
+    //get other user
+  }
+
+}
 
 
 function display_discussion_topics(e){
@@ -267,5 +307,7 @@ function tryModifyPassword(e){
         } else {
             console.log("invalid username or password");
         }             
-    }) 
+    }).catch((error) => {
+    res.status(400).send(error)
+  })
 }

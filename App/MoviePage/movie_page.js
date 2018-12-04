@@ -44,7 +44,10 @@ $("#popupCloseButton").on('click',function(){
 })
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
-$("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
+$("#profilePic").on('click', function(event) {
+  eraseCookie('isCurrentUser')
+  createCookie('isCurrentUser','true',1)
+  window.location.href = "/profilePage";});
 $('#star-5').on('click',rate);
 $('#star-4').on('click',rate);
 $('#star-3').on('click',rate);
