@@ -145,16 +145,21 @@ function discussionCheck(e){
     const inputTitle = $('#inputTitle').val().trim();
     if(inputTitle==''){
         popUP('Title cannot be empty')
+        return 0
     }
-    if( document.querySelector('[type=file]').files.length==0){
+    else if( document.querySelector('[type=file]').files.length==0){
         popUP('Please select an image')
+        return 0
+    }
+    else if($('#content').val().trim() == ''){
+        popUP('Content cannot be empty')
+        return 0
     }
     fetch('/discussionInMovie/'+currentMovie._id+'/'+inputTitle)
     .then(response => {
         return response.json()
     }).then(json =>{
         if(json == true){
-            console.log('here')
             popUP('Discussion already exist')
         }else if(json == false){
             addNewDiscussion()
