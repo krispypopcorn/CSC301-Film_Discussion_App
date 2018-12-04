@@ -84,15 +84,12 @@ body {
     color: black;
 }
 
-.previous {
+.previous, .next {
     background-color: #f1f1f1;
     color: black;
+    cursor:pointer;
 }
 
-.next {
-    background-color: #f1f1f1;
-    color: black;
-}
 
 .searchButton {
     width: 40px;
@@ -137,7 +134,23 @@ body {
     object-fit: cover;
 }
 
-.searchTitle:hover{
-  text-decoration: underline;
-  cursor: pointer; 
+.searchTitle:hover {
+    text-decoration: underline;
+    cursor: pointer; 
+}
+
+.NavSearchButtonLeft {
+    cursor: pointer; 
+    color: #646464;
+    border-radius: 50%;
+}
+.NavSearchButtonRight {
+    cursor: pointer; 
+    margin-left:35%;
+    color: #646464;
+    border-radius: 50%;
+}
+
+.NavSearchButtonRight:hover, .NavSearchButtonLeft:hover{
+    color: #cacaca;
 }

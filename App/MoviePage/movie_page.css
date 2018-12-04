@@ -250,10 +250,6 @@ input.star:checked ~ .rev-box{
   opacity: 1;
 }
 
-.previous .next {
-  cursor:pointer;
-}
-
 .card-title:hover{
   text-decoration: underline;
   cursor: pointer; 

@@ -3,8 +3,8 @@ $("#movieSearchButton").on('click',displaySearch);
 $("#movieSearch").keyup(function() {
   $("#movieSearchButton").click();
 });
-$(".searchPreviousButton").on('click',getPreviousPage);
-$(".searchNextButton").on('click',getNextPage);
+$(".NavSearchButtonLeft").on('click',getPreviousPage);
+$(".NavSearchButtonRight").on('click',getNextPage);
 
 //store current page
 let curPage = 1;
@@ -67,10 +67,10 @@ function addSearchToDom(searchList){
       targetList.push(newPost);
    }
 
-   $('#searchResult .result').remove();
+   $('#searchWraper .result').remove();
 
    for (i = 0; i < searchList.length; i++) {
-       $("#searchResult").append(targetList[i]);
+       $("#searchWraper").append(targetList[i]);
    }
   
 }
