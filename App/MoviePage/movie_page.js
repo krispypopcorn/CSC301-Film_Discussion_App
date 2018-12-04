@@ -217,6 +217,17 @@ function deletePost(e) {
   .then(response => {
       getDiscussions(currentMovie._id)
       updateTopicNum(currentMovie._id)
+      if(searchMode == 1){
+          let found = false
+          let i =0;
+          while(!found && i<search.length){
+            if(search[i].title == targetTitle){
+                found = true;
+                search.splice(i,1)
+            }  
+            i++
+          }
+      }
 })
 }
 
