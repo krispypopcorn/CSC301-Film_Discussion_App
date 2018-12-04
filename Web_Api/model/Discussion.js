@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const 
 const Schema = mongoose.Schema;
 
 const DisSchema = new mongoose.Schema({
