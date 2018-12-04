@@ -1,33 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-
-const CommentSchema =  new mongoose.Schema({
-    comment_content: {
-        type: String,
-        trim: true,
-        minlength: 1,
-        required: true
-    },
-
-    user: {
-        type: String
-    },
-    
-    comment: {
-        type: String
-    },
-
-    date: {
-        type: Date
-    },
-
-    replies: [{
-     type: Schema.ObjectId,
-     ref: 'CommentSchema'
-	}]
-})
-
 const DisSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -73,5 +46,5 @@ const DisSchema = new mongoose.Schema({
 })
 
 
-var Discussion = mongoose.model('Discussion', DisSchema);
+const Discussion = mongoose.model('Discussion', DisSchema);
 module.exports = { Discussion };

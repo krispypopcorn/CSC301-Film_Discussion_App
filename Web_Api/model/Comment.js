@@ -24,10 +24,8 @@ const CommentSchema =  new mongoose.Schema({
     },
 
     replies: [{
-     type: Schema.ObjectId,
-     ref: 'CommentSchema',
-     default: []
-	}]
+    type: String
+    }]
 })
 
 const Comment = mongoose.model('Comment', CommentSchema);
