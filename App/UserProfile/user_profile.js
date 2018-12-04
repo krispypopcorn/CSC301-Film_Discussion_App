@@ -90,7 +90,20 @@ function displayUser(user){
 
   const username = document.querySelector('#currUsername');
   username.innerText = user.username
-  // change icon
+  
+
+  fetch('/userIcon')
+    .then(res =>{
+      if (res.status === 200) {
+           return res.json() 
+       } else {
+         console.log('Could not get user icon')
+       }                
+    })
+    .then(url =>{
+      $('#userPic').attr('src',url)
+    })
+
 
 }
 
