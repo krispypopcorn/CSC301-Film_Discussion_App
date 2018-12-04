@@ -90,8 +90,10 @@ function getUser(){
 
 
 //Add event-listner
-$("#profilePic").on('click', function(event) {window.location.href ='/profilePage'});
-$("#homeLink").on('click', function(event) {window.location.href = "/home"});
+$("#profilePic").on('click', function(event) {
+  eraseCookie('isCurrentUser')
+  createCookie('isCurrentUser','true',1)
+  window.location.href = "/profilePage";});$("#homeLink").on('click', function(event) {window.location.href = "/home"});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".usn").on('click', function(event) {window.location.href = "/profilePage";});

@@ -78,7 +78,6 @@ $('#Replies').click(display_replies)
 
 const user = getUser()
 
-
 const html_categories = $('#Categories').children()
 
 var categories = {"discussion_topics":0, "comments":1, "replies":2}

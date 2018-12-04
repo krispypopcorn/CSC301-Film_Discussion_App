@@ -1,8 +1,10 @@
 "use strict"
 
 /*-------------Add Event-listener-------------*/
-$("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
-$("#homeLink").on('click', function(event) {window.location.href = "/home";});
+$("#profilePic").on('click', function(event) {
+  eraseCookie('isCurrentUser')
+  createCookie('isCurrentUser','true',1)
+  window.location.href = "/profilePage";});$("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".previousButton").on('click',loadPreviousPage);
