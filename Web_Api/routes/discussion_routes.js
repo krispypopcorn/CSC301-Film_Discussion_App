@@ -242,6 +242,21 @@ discussion_routes.delete('/deleteDiscussions/:movieId/:title',(req, res) => {
     });
 })
 
+discussion_routes.get('/discussionInMovie/:movieId/:title', (req, res)=> {
+    const movieId = req.params.movieId
+    const title = req.params.title
+    Discussion.findOne({"movie":movieId, "title":title}, (err, discussion) =>{
+        if(err){res.send(err)}
+        else{
+            if(discussion){
+                res.send('true')
+            }else{
+                res.send('false')
+            }
+        }
+    })
+})
+
 /*
     increment likes by one if current user haven't voted before
     decrement otherwise

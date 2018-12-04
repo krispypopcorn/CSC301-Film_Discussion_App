@@ -79,3 +79,8 @@ function updateTotalLike(movieId){
       console.log(error)
   })
 }
+
+function popUP(msg){
+    $('.hover_bkgr_fricc').show()
+    $('#warningContent').html(msg)
+}

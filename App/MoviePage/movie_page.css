@@ -267,3 +267,47 @@ input.star:checked ~ .rev-box{
     position: relative;
     bottom: 200px
 }
+
+.hover_bkgr_fricc{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 551px;
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 15px 5%;
+}
+#popupCloseButton {
+    cursor: pointer;
+    border: 1px solid #8989b9;
+    background:lightsteelblue;
+    color: #fff;
+    border-radius: 20px/50px;
+    display: inline-block;
+    font-size: 15px;
+    line-height: 30px;
+    text-align: center;
+}
+#popupCloseButton:hover {
+    background-color: #ccc;
+}

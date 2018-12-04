@@ -27,7 +27,7 @@ const movieName = getCookie('movie');
 $("#newPost").click(function() {
    $("#popup1").toggle(200);
 });
-$("#subButton").click(addNewDiscussion);
+$("#subButton").click(discussionCheck);
 $("#discussionSearch").click(displaySearch);
 $("#searchTerm").keyup(function(event) {
    if (event.keyCode === 13) {
@@ -38,6 +38,9 @@ $("#cleanSearch").click(restoreDiscussion);
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
+$("#popupCloseButton").on('click',function(){
+    $(".hover_bkgr_fricc").hide();
+})
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {window.location.href = "/profilePage";});
@@ -137,10 +140,31 @@ function rate(e){
     
 }
 
-function addNewDiscussion(e) {
-   e.preventDefault();
-   const inputTitle = $('#inputTitle').val();
-   const inputText = $('#content').val();
+function discussionCheck(e){
+    e.preventDefault();
+    const inputTitle = $('#inputTitle').val().trim();
+    if(inputTitle==''){
+        popUP('Title cannot be empty')
+    }
+    if( document.querySelector('[type=file]').files.length==0){
+        popUP('Please select an image')
+    }
+    fetch('/discussionInMovie/'+currentMovie._id+'/'+inputTitle)
+    .then(response => {
+        return response.json()
+    }).then(json =>{
+        if(json == true){
+            console.log('here')
+            popUP('Discussion already exist')
+        }else if(json == false){
+            addNewDiscussion()
+        }
+    })
+}
+
+function addNewDiscussion() {
+   const inputTitle = $('#inputTitle').val().trim();
+   const inputText = $('#content').val().trim();
    const files = document.querySelector('[type=file]').files;
    const formData = new FormData();
    formData.append('photo',files[0]);
