@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const 
 const Schema = mongoose.Schema;
 
 const DisSchema = new mongoose.Schema({
@@ -37,7 +38,9 @@ const DisSchema = new mongoose.Schema({
           type: String,
     },
 
-    comments: [CommentSchema],
+    comments: [{
+    type: String
+    }],
 
     liked_user: {
         type: Array,

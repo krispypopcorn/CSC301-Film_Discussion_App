@@ -1,5 +1,6 @@
 const discussion_routes = require('express').Router();
 const { Discussion } = require('../model/Discussion.js')
+const { Comment } = require('../model/Comment.js')
 const { User } = require('../model/User')
 const fs = require('fs');
 const log = console.log
@@ -96,7 +97,12 @@ discussion_routes.post('/creatComment/:id',(req, res)=>{
         if (!disc) {
             res.status(404).send()
         } else {
-            disc.comments.push(com)
+            com.save(function (err) {
+                    if (err) {
+                        return handleError(err)
+                    }
+            });
+            disc.comments.push(com._id)
             res.send(com)
             disc.save(function (err) {
             if (err) {
@@ -124,16 +130,18 @@ discussion_routes.post('/createReply/:cid',(req, res)=>{
         
         comment: cid,
     })
-    Discussion.findOne({_id : cid}).then((parentComment) => {
+    Comment.findById(cid).then((parentComment) => {
         if (!parentComment) {
-            log("a")
             res.status(404).send()
         } else {
-                log(parentComment)
-                parentComment.replies.push(com)
+                com.save(function (err) {
+                    if (err) {
+                        return handleError(err)
+                    }
+                });
+                parentComment.replies.push(com._id)
                 parentComment.save(function (err) {
                     if (err) {
-                        log(err)
                         return handleError(err)
                     }
                 });
@@ -173,6 +181,20 @@ discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
 })
 
 /*
+    Deletes given element from the Array
+*/
+
+function deleteArrayElement(comments, cid) {
+    const index = comments.indexOf(cid);
+    comments.splice(index, 1);
+}
+
+
+
+
+
+
+/*
     Deletes given comment/reply from the database
 */
 
@@ -180,26 +202,27 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
     // Add code here
     const id = req.params.id
     const cid = req.params.cid
+
     Discussion.findById(id).then((disc) => {
         if (!disc) {
             res.status(404).send()
-        }else {
-            let comment = disc.comments.id(cid);
-                if (!comment){
-                    res.status(404).send()
-                } else{
-                    comment.remove();
-                    disc.save(function (err) {
-                        if (err) {
-                            log(err)
-                            return handleError(err)
-                        }
-                    res.send();
-                    });
-                }
+        } else {
+            deleteArrayElement(discussion.comments, cid);
+            Comment.findByIdAndRemove(cid, (err, discussion) =>{
+                    if(err){res.send(err)}
+                    else{
+                        res.send("discussion deleted")
+                    }
+            });
+            disc.save(function (err) {
+            if (err) {
+                log(err)
+                return handleError(err)
+            }
+            });
         }
-        
-    })
+    })  
+    
 })
 
 
