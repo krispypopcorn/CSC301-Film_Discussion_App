@@ -55,6 +55,7 @@ UserSchema.statics.authenticate = function (username,password) {
   //hashing a password before saving it to the database
   UserSchema.pre('save', function (next) {
     const user = this;
+    log("reached")
 	// check to make sure we don't hash again
 	if (user.isModified('password')) {
 		bcrypt.genSalt(10, (error, salt) => {

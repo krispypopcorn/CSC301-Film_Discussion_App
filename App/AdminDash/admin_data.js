@@ -143,7 +143,7 @@ function confirmAddUser() {
 
 	// const icon = document.querySelector('#icon').value	
 
-	const url = `${domain}/adminCreateUser`
+	const url = `/adminCreateUser`
 
 	const data = {
 		"username": userToAdd,
@@ -199,7 +199,7 @@ function verifyDelete() {
 	const message = document.querySelector('#DeleteUserMessage')
 	message.style.color = "red"
 
-	fetch(`${domain}/searchUser/${confirmUser}`).then((result) => {
+	fetch(`/searchUser/${confirmUser}`).then((result) => {
 		return result.json()
 	}).then((data) => {
 
@@ -227,7 +227,7 @@ function verifyDelete() {
 function confirmDeleteUser() {
 
 	log(confirmUser)
-	const url = `${domain}/deleteFinal/${confirmUser}`
+	const url = `/deleteFinal/${confirmUser}`
 
 	const request = new Request(url, {
 		method: 'delete'
@@ -250,7 +250,7 @@ function populateUserTable() {
 	
 	let tempUsers = []
 
-	fetch(`${domain}/allUsers`).then((res) => {
+	fetch(`/allUsers`).then((res) => {
 		return res.json()
 	}).then((data) => {
 		// log(data)
@@ -278,13 +278,8 @@ function populateUserTable() {
 
 function saveUser(e) {
 
-	// console.log('Clicked')
-	// Get User to modify data
-
 	let currentUser = document.querySelector('#editTitle').innerText
 	let userToModify;
-
-	// Would normally do a database call
 
 	for (let i = 0; i < userSet.length; i++) {
 		if (userSet[i].username === currentUser) {
@@ -296,12 +291,14 @@ function saveUser(e) {
 	// Get new username
 
 	let newUserName = document.querySelector('#editUsername').value
+	let newUserPassword = document.querySelector("#editPassword").value
 	// userToModify.username = newUserName;
-	const url = `${domain}/modifyUserName/${userToModify.dbId}`
+	const url = `/modifyUserName/${userToModify.dbId}`
 	log(newUserName)
 
 	const data = {
-		"username": newUserName
+		"username": newUserName,
+		"password": newUserPassword
 	}
 	// const request = new Request(url, {
 	// 	method: 'PATCH',
@@ -324,8 +321,6 @@ function saveUser(e) {
 	}).catch((error) => {
 		log(error)
 	})
-
-
 	// Would also modify the password in this function 
 
 

@@ -1,6 +1,7 @@
 const user_routes = require('express').Router();
 const { User } = require('../model/User')
 const log = console.log
+var bcrypt = require('bcrypt');
 
 /*
     Get all available users
@@ -109,8 +110,16 @@ user_routes.post('/createUser',(req, res)=>{
 user_routes.patch('/modifyUserName/:id', (req, res) => {
 
     let newName = req.body.username
+    let newPassword = req.body.password
+    let passwordFlag = 0
+
+    if (newPassword) {
+        passwordFlag = 1
+    }
     log(newName)
+
     const user_id = req.params.id
+    if (passwordFlag === 0) {
     User.findByIdAndUpdate(user_id, {
         username: newName
     }, {new: true}).then((update) => {
@@ -118,8 +127,41 @@ user_routes.patch('/modifyUserName/:id', (req, res) => {
     }).catch((erorr) => {
         log(error)
     })
+    }
+
+    if (passwordFlag === 1) {
+        log("reached")
+        bcrypt.genSalt(10, (error, salt) => {
+            bcrypt.hash(newPassword, salt, (error, hash) => {
+                let newPass = hash
+                User.findByIdAndUpdate(user_id, {
+                    username: newName,
+                    password: newPass
+                }).then((result) => {
+                    res.status(200).send()
+                }).catch((error) => {
+                    log(error)
+                })
+            })
+        })
+    }
 
 })
+
+// user_routes.patch('/modifyUserPassword/:id', (req, res) => {
+
+//     const user_id = req.params.id
+//     bcrypt.genSalt(10, (error, salt) => {
+//         bcrypt.hash(req.body.password, salt, (error, hash) => {
+//             // user.password = hash;
+//             User.findByIdAndUpdate(user_id, {
+//                 password = hash
+//             }).then((result) => {
+//                 res.status(200).send()
+//             }).catch((error) => {
+//                 log(error)
+//             })
+// })
 
 user_routes.get('/searchUser/:id', (req, res) => {
 
