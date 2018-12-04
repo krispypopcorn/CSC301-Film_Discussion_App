@@ -123,8 +123,10 @@ function createSearchResult(movie) {
    newPost.find(".searchTitle").html(movie.name);
    newPost.find(".resultImg").attr('src',movie.poster);
    newPost.find(".searchTitle").on('click',function(e){
-      document.cookie="movie="+movie.name
-      window.location.href = "/moviePage";})
+      eraseCookie('movie')
+      createCookie('movie',movie.name,1)
+      window.location.href = "/moviePage";
+   })
    return newPost;
 
 }

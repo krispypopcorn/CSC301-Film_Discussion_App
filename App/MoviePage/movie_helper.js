@@ -28,7 +28,8 @@ function createDiscussion(discussion) {
     container.addEventListener('click', upVoteDis)
     target[3].addEventListener('click',deletePost);
     newTitle.on('click',function(event) {
-        document.cookie="discussion="+discussion._id
+        eraseCookie('discussion')
+        createCookie('discussion',discussion._id,1)
         window.location.href = "/discussionPage";});
     img.attr('src',discussion.img);
     text.html(discussion.discussion_content);

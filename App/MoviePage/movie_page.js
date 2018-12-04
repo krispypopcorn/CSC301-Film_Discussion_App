@@ -18,9 +18,10 @@ let currentPage = 1;
 // current movie
 let currentMovie;
 
+console.log(document.cookie)
+
 //keep a copy of the discussion div as template
 const template = $(".card:first").clone();
-
 const movieName = getCookie('movie');
 
 /*-------------Add Event-listener-------------*/

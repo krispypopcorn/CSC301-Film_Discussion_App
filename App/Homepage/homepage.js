@@ -15,6 +15,7 @@ let moviePage = 1;
 let PopularPage = 1;
 let LatestPage = 1;
 
+
 //keep a copy of the discussion div as template
 const discussionDiv = $("#latestSlider .column:first").clone();
 const movieDiv = $("#movieSlider .column:first").clone();
@@ -28,7 +29,6 @@ const Movieurl = '/findAllMovies';
 
 getDiscussion();
 getMovie();
-delete_cookie('movie')
 checkUserClass()
 setUserIcon()
 
@@ -217,7 +217,9 @@ function createDiscussion(discussion) {
   user.then((json) => {
    newPost.find(".author").html(json.username);
    newPost.on('click',function(event) {
-     document.cookie="discussion="+discussion._id
+     eraseCookie('discussion')
+     delete_cookie('discussion' )
+     createCookie('discussion',discussion._id,1)
      window.location.href = "/discussionPage";})
   })
   return newPost;
@@ -229,8 +231,10 @@ function createMovie(movie) {
    newPost.find(".movieTitle").html(movie.name);
    newPost.find(".point").html(movie.vote_average.toString());
    newPost.on('click',function(event) {
-    document.cookie="movie="+movie.name
-    window.location.href = "/moviePage";})
+    eraseCookie('movie')
+    createCookie('movie',movie.name,1)
+    window.location.href = "/moviePage";
+  })
    return newPost;
 }
 
