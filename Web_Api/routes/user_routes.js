@@ -224,6 +224,39 @@ user_routes.get('/searchUser/:id', (req, res) => {
 
 })
 
+
+
+user_routes.patch('/modifyPassword', (req, res)=>{
+    let newPassword = req.body.newPassword
+    const user_id = req.session.user
+    console.log("about to update")
+
+    User.findById(user_id).then((user) => {
+        if (!user) {
+            res.status(404).send()
+        } else {
+            user.password = newPassword
+            user.save().then((result)=>{
+                res.send(result)
+            })
+        }
+        
+    }).catch((error) => {
+        res.status(400).send(error)
+    })
+
+
+    User.findById(user_id, {
+        password: newPassword
+    }, {new: true}).then((update) => {
+        res.send(update)
+    }).catch((erorr) => {
+        log(error)
+    })
+
+
+})
+
 user_routes.delete('/deleteFinal/:id', (req, res) => {
     log("reached")
 
@@ -237,7 +270,6 @@ user_routes.delete('/deleteFinal/:id', (req, res) => {
         res.status(404).send()
     })
 })
-
 
 
 module.exports = user_routes

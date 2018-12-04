@@ -210,3 +210,62 @@ function display_category(index){
 	}
 }
 
+
+$('#SaveButton').click(tryModifyPassword)
+
+function tryModifyPassword(e){
+  e.preventDefault()
+
+  // extract values from fields
+  const username = $('#username').val()
+  const currPassword = $('#currentPassword').val()
+  const newPassword = $('#newPassword').val()
+  const confirmNewPassword = $('#confirmNewPassword').val()
+
+  console.log(username)
+  // verify that old password is correct
+
+  const loginUrl = '/users/login'
+
+  const headers = {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        }
+
+  const credentials = 'include'
+
+  var params = {
+        "username": username,
+        "password": currPassword
+    };
+
+    fetch(loginUrl, {
+        method: 'POST',
+        body: JSON.stringify(params),
+        headers: headers,
+        credentials: credentials,
+    }).then(res=>{
+        if (res.status === 200) {
+            console.log("valid, almost ready to change password");
+            if(newPassword === confirmNewPassword){ 
+              const modifyPasswordUrl = '/modifyPassword/'
+              fetch(modifyPasswordUrl, {
+                method: 'PATCH',
+                body: JSON.stringify({"newPassword": newPassword}),
+                headers : headers,
+                credentials : credentials
+              }).then(res =>{
+                if(res.status === 200){
+                  console.log("modified password");
+                }
+              })
+            }
+            else{
+              console.log("passwords dont match");
+            }
+
+        } else {
+            console.log("invalid username or password");
+        }             
+    }) 
+}
