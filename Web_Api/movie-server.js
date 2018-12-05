@@ -34,7 +34,7 @@ cloudinary.config({
     const parser = multer({ storage: storage });
 
 mongoose.connect(databaselink, { useNewUrlParser: true});
-app.use( express.static( path.join(__dirname, '../App') ));
+app.use( express.static( path.join(__dirname, './App') ));
 app.use(session({
 	secret: 'somesecret',
 	resave: false,

@@ -18,11 +18,11 @@ page_routes.get('/',sessionChecker, (req, res) => {
 })
 
 page_routes.get('/loginPage', sessionChecker,(req,res) => {
-    res.sendFile(path.join(__dirname, '../../App/Login/index.html'))   
+    res.sendFile(path.join(__dirname, '../App/Login/index.html'))   
 });
 
 page_routes.get('/SignUp', sessionChecker,(req,res) => {
-    res.sendFile(path.join(__dirname, '../../App/SignUp/signup.html'))   
+    res.sendFile(path.join(__dirname, '../App/SignUp/signup.html'))   
 });
 
 
@@ -30,7 +30,7 @@ page_routes.get('/SignUp', sessionChecker,(req,res) => {
  */
 page_routes.get('/home', (req, res) => {
     if(req.session.user){
-        res.sendFile(path.join(__dirname, '../../App/Homepage/homepage.html')) 
+        res.sendFile(path.join(__dirname, '../App/Homepage/homepage.html')) 
     }else{
         res.redirect('/loginPage')
     }
@@ -41,7 +41,7 @@ page_routes.get('/home', (req, res) => {
  */
 page_routes.get('/discussionPage', (req, res) => {
     if(req.session.user){
-        res.sendFile(path.join(__dirname, '../../App/DiscussionPage/discussion_topic_page.html')) 
+        res.sendFile(path.join(__dirname, '../App/DiscussionPage/discussion_topic_page.html')) 
     }else{
         res.redirect('/loginPage')
     }
@@ -52,7 +52,7 @@ page_routes.get('/discussionPage', (req, res) => {
  */
 page_routes.get('/profilePage', (req, res) => {
     if(req.session.user){
-        res.sendFile(path.join(__dirname, '../../App/UserProfile/user_profile.html'))   
+        res.sendFile(path.join(__dirname, '../App/UserProfile/user_profile.html'))   
     }else{
         res.redirect('/loginPage')
     }
@@ -63,7 +63,7 @@ page_routes.get('/profilePage', (req, res) => {
  */
 page_routes.get('/moviePage', (req, res) => {
     if(req.session.user){
-        res.sendFile(path.join(__dirname, '../../App/MoviePage/movie_page.html')) 
+        res.sendFile(path.join(__dirname, '../App/MoviePage/movie_page.html')) 
     }else{
         res.redirect('/loginPage')
     } 
@@ -78,7 +78,7 @@ page_routes.get('/adminDash', (req, res) => {
             if(err){res.send(err)}
             else{
                 if(user.admin==true){
-                    res.sendFile(path.join(__dirname, '../../App/AdminDash/admin.html'))
+                    res.sendFile(path.join(__dirname, '../App/AdminDash/admin.html'))
                 }else{
                     res.redirect('/home')
                 }
