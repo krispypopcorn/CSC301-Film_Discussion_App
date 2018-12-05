@@ -86,8 +86,7 @@ function displayDiscussions(discussionList) {
 // Creates a discussion div based on given discussion object
 function createDiscussion(discussion) {
 
-  console.log(discussion);
-
+   // what is this doing?
    let newPost = $(".card:first").clone();
    const target = newPost.children().children();
    
@@ -98,7 +97,9 @@ function createDiscussion(discussion) {
    
    newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 
-   img.attr('src',discussion.image);
+   img.attr('src',discussion.img);
+
+
    text.html(discussion.discussion_content);
    newTitle.html(discussion.title);
    
@@ -214,9 +215,3 @@ function tryModifyPassword(e){
     res.status(400).send(error)
   })
 }
-
-
-
-/*-------------------------------------------------------*/
-/*Dom function below*/
-/*-------------------------------------------------------*/
