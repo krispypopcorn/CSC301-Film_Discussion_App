@@ -20,6 +20,12 @@ const replyUrl = '/createReply/'
 
 helper.setUserIcon();
 helper.checkUserClass();
+getMovie();
+fillDiscussionPost();
+fillBanner();
+getUser();
+getDiscussion();
+
 
 
 function getDiscussion(){
@@ -82,9 +88,6 @@ function getUser(){
     })
 }
 
-// getMovie();
-// fillDiscussionPost();
-// fillBanner();
 
 
 
