@@ -105,15 +105,12 @@ user_routes.post('/createUser',(req, res)=>{
         icon: req.body.icon,
         like:0,
       })
-    console.log(userData);
       userData.save(function (error, user) {
         if (error) {
             res.send(error)
-
         } else {
-        res.send("user saved")
-          req.session.userId = user._id;
-          return res.redirect('/home');
+            req.session.user = user._id;
+            res.redirect('/home');
         }
       });
 })

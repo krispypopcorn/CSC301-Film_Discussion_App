@@ -1,4 +1,9 @@
 'use strict'
+
+$("#popupCloseButton").on('click',function(){
+  $(".hover_bkgr_fricc").hide();
+})
+
 function setUserIcon(){
     fetch('/userIcon')
     .then(res =>{
@@ -62,4 +67,9 @@ function eraseCookie(name) {
 // only use this when younaccidentallyset the cookie value directly!!!
 function delete_cookie( name ) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function popUP(msg){
+  $('.hover_bkgr_fricc').show()
+  $('#warningContent').html(msg)
 }

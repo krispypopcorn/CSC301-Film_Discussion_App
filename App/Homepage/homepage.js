@@ -4,7 +4,8 @@
 $("#profilePic").on('click', function(event) {
   eraseCookie('isCurrentUser')
   createCookie('isCurrentUser','true',1)
-  window.location.href = "/profilePage";});$("#homeLink").on('click', function(event) {window.location.href = "/home";});
+  window.location.href = "/profilePage";});
+$("#homeLink").on('click', function(event) {window.location.href = "/home";});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".previousButton").on('click',loadPreviousPage);
@@ -48,7 +49,7 @@ function getMovie(){
     numberOfMovies=homeMovies.length;
     let temp = homeMovies.slice();
     temp.sort((a,b)=>{
-      return -(a.vote_average - b.vote_average);
+      return b.vote_average - a.vote_average;
     });
     movieHelper(1, temp)
     changeSlider()
@@ -132,7 +133,7 @@ function loadPreviousPage(e) {
       moviePage--;
       let temp = homeMovies.slice();
       temp.sort((a,b)=>{
-        return -(a.vote_average - b.vote_average);
+        return b.vote_average - a.vote_average;
        });
        movieHelper(index, temp)
     }
@@ -217,12 +218,16 @@ function createDiscussion(discussion) {
   newPost.find(".disTitle").html(discussion.title);
   const user = getUser(discussion.user)
   user.then((json) => {
-   newPost.find(".author").html(json.username);
-   newPost.on('click',function(event) {
-     eraseCookie('discussion')
-     delete_cookie('discussion' )
-     createCookie('discussion',discussion._id,1)
-     window.location.href = "/discussionPage";})
+    if(json){
+      newPost.find(".author").html(json.username);
+    }else{
+      newPost.find(".author").html('deleted user');
+    }
+    newPost.on('click',function(event) {
+      eraseCookie('discussion')
+      delete_cookie('discussion' )
+      createCookie('discussion',discussion._id,1)
+      window.location.href = "/discussionPage";})
   })
   return newPost;
 }

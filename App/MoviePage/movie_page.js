@@ -39,9 +39,6 @@ $("#cleanSearch").click(restoreDiscussion);
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $("#homeLink").on('click', function(event) {window.location.href = "/home";});
-$("#popupCloseButton").on('click',function(){
-    $(".hover_bkgr_fricc").hide();
-})
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $("#profilePic").on('click', function(event) {
