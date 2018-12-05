@@ -16,13 +16,30 @@ user_routes.get('/allUsers', (req, res) => {
 })
 
 /*
-    Get user by ID
+    Get current user
 */
 user_routes.get('/user', (req, res) => {
     User.findById(req.session.user).then((result) => {
         res.send(result)
     }).catch((error) => {
         res.status(404).send()
+    })
+})
+
+/*
+    Get a user by id    
+*/
+user_routes.get('/getUser/:id', (req, res) => {
+    const id = req.params.id;
+
+    User.findById(id).then((user) => {
+        if (!user) {
+            res.status(404).send()
+        } else {
+            res.send(user)
+        }
+    }).catch((error) => {
+        res.status(400).send(error)
     })
 })
 
