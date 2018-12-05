@@ -230,10 +230,10 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
             res.status(404).send()
         } else {
             deleteArrayElement(discussion.comments, cid);
-            Comment.findByIdAndRemove(cid, (err, discussion) =>{
+            Comment.findByIdAndRemove(cid, (err, com) =>{
                     if(err){res.send(err)}
                     else{
-                        res.send("discussion deleted")
+                        res.send("comment deleted")
                     }
             });
             disc.save(function (err) {
@@ -261,10 +261,10 @@ discussion_routes.delete('/deleteReply/:id/:cid', (req, res) => {
             res.status(404).send()
         } else {
             deleteArrayElement(com1.replies, cid);
-            Comment.findByIdAndRemove(cid, (err, discussion) =>{
+            Comment.findByIdAndRemove(cid, (err, rep) =>{
                     if(err){res.send(err)}
                     else{
-                        res.send("discussion deleted")
+                        res.send("reply deleted")
                     }
             });
             com1.save(function (err) {

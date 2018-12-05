@@ -14,33 +14,70 @@ function createUser(e){
     if(password == confirmpassword){
     	console.log("confirmpassword");
 
-       const files = document.querySelector('[type=file]').files;
-	   const formData = new FormData();
-	   formData.append('photo',files[0]);
-	   fetch('/uploadImg', {
-	        method: 'POST',
-	        body: formData,
-	    }).then(response => {
-	        return response.json()
-	    }).then(url=>{
-		    // check unique username
-	    	fetch(userUrl, {
-	        method: 'POST',
-	        body: JSON.stringify({"username":username, "password": password, "icon": url}),
-	        headers: {
-	            'Accept': 'application/json',
-	            'Content-type': 'application/json'
-	        },
-	        credentials: 'include',
-	    }).then(response => {
-	        if(response.status==200){
-				window.location.href = "/home"
-	        }else{
-				console.log("failed to save user")
-			}
-	    })		
-		}
-	)}
+    	let allUsers = null;
+	    fetch('/allUsers')
+	    .then((res) => { 
+	        if (res.status === 200) {
+	           return res.json() 
+	       } else {
+	            alert('Could not get the discussion')
+	       }                
+	    })
+	    .then((json) => {
+	    	allUsers = json;
+	    })
+	    let validUsn = true;
+	    let validPswd = false;
+	    for (var i in allUsers){
+	    	if (allUsers[i].username == username){
+	    		validUsn = false
+	    	}
+	    }
+
+	    if (password.length > 7){
+	    	validPswd = true;
+	    }
+
+	    if (validUsn && validPswd){
+	    	const files = document.querySelector('[type=file]').files;
+		    const formData = new FormData();
+		    formData.append('photo',files[0]);
+		    fetch('/uploadImg', {
+		        method: 'POST',
+		        body: formData,
+		    }).then(response => {
+		        return response.json()
+		    }).then(url=>{
+			    // check unique username
+		    	fetch(userUrl, {
+		        method: 'POST',
+		        body: JSON.stringify({"username":username, "password": password, "icon": url}),
+		        headers: {
+		            'Accept': 'application/json',
+		            'Content-type': 'application/json'
+		        },
+		        credentials: 'include',
+		    }).then(response => {
+		        if(response.status==200){
+					window.location.href = "/home"
+		        }else{
+					console.log("failed to save user")
+				}
+		    	})		
+			})
+	    }else {
+	    	if (validPswd && !validUsn){
+	    		alert("Username Already Taken.")
+	    	}
+	    	if (validUsn && !validPswd){
+	    		alert("Password must have a length of atleast 8")
+	    	} else {
+	    		alert("Try a different username and password [min length: 8]")
+	    	}
+
+
+	    }
+	}
 }
 
 

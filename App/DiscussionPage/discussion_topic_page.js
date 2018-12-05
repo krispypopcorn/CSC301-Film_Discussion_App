@@ -93,11 +93,19 @@ function getUser(){
 $("#profilePic").on('click', function(event) {
   eraseCookie('isCurrentUser')
   createCookie('isCurrentUser','true',1)
-  window.location.href = "/profilePage";});$("#homeLink").on('click', function(event) {window.location.href = "/home"});
+  window.location.href = "/profilePage";});
+$("#homeLink").on('click', function(event) {window.location.href = "/home"});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
-$(".usn").on('click', function(event) {window.location.href = "/profilePage";});
-$("#bannerText").on('click', function(event) {window.location.href = '/moviePage'});
+$(".usn").on('click', function(event) {
+	let usn = e.target.innerHTML;
+	eraseCookie('User')
+	createCookie('User', usn,1)
+	window.location.href = "/profilePage";});
+$("#bannerText").on('click', function(event) {
+        eraseCookie('movie')
+        createCookie('movie',movieName,1)
+        window.location.href = "/moviePage";});
 $("#replyToDiscussion").on('click', commentOnDiscussion);
 $(".reply").on('click', replyToComment);
 $(".com").on('click', deleteComment);
