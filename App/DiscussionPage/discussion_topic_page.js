@@ -17,8 +17,8 @@ const replyUrl = '/createReply/'
 
 /*-------request URL-------*/
 
-helper.setUserIcon();
-helper.checkUserClass();
+setUserIcon();
+checkUserClass();
 getMovie();
 fillDiscussionPost();
 fillBanner();
