@@ -7,6 +7,7 @@ let thisMovie = null;
 let movieName = "";
 let movieId = "";
 let thisUser = null;
+let discussionUser = null;
 
 /*-------request URL-------*/
 const discussionUrl = '/getDiscussion/'
@@ -31,9 +32,10 @@ function getDiscussion(){
             alert('Could not get the discussion')
        }                
     })
-    .then((json) => {
+    .then((json) => {''
     	thisDiscussion = json;
     	movieId = json.movie;
+    	getDiscUserById(json.user)
     	getMovie();
     })
 }
@@ -87,6 +89,21 @@ function getUserById(id){
 }
 
 
+function getDiscUserById(id){
+
+    fetch("/getUser/"+id)
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get movies')
+       }                
+    })
+    .then((json) => {
+        discussionUser = json;
+    })
+}
+
 
 
 
@@ -128,7 +145,7 @@ function fillDiscussionPost(){
 	//Then populating fields!
 	disc_post_text.innerHTML = thisDiscussion.discussion_content;
 	disc_img.src = thisDiscussion.img;
-	user.innerHTML= thisUser.username;
+	user.innerHTML= discussionUser.username;
 	date.innerHTML = thisDiscussion.date;
 	fillBanner();
 	fillAllComments(thisDiscussion.comments);
@@ -220,23 +237,37 @@ function deleteDiscussion(e){
 
 	//required: PERMISSION CHECK
 
+	let canEdit= false;
+
 	fetch('/canEdit/'+thisDiscussion._id).then(response => {
-    	return response.json()}).then(canEdit => {
-			   if (canEdit == true){
-				console.log("here")
-				   let comments = e.target.parentElement.parentElement.parentElement;
-				   let postToRemove = e.target.parentElement.parentElement;
-				   comments.removeChild(postToRemove);
-				   
-				   fetch('/deleteDiscussions/'+thisDiscussion._id, {
-					   method: 'DELETE', }).then(response => {
-						eraseCookie('discussion')
-						window.location.href = "/home"
-						})
-			}
-		 })
+    	return response.json()}).then(result=>{
+       		if(result == true){
+           		canEdit = true;
+       		}else {
+       			return null;
+       		}
+   		})
+
+	if (canEdit){
+
+		let comments = e.target.parentElement.parentElement.parentElement;
+
+		let postToRemove = e.target.parentElement.parentElement;
+		comments.removeChild(postToRemove);
+
+
+
+		fetch('/deleteDiscussions/'+thisDiscussion._id, {
+	    method: 'DELETE', }).then(response => {
+	      	fetch('/home')
+		})
+	}
 
 }
+
+
+
+
 
 
 function deleteReplies(replies){
@@ -299,8 +330,7 @@ function deleteReply(e){
        }                
     })
     .then((json) => {
-		let parentComment = comments.id
-		console.log(postToRemove.id)
+    	let parentComment = comments.id
     	if (thisUser._id == json.user){
     	fetch('/getReplies/'+postToRemove.id)
 	    .then((replies) => {
@@ -320,6 +350,7 @@ function deleteReply(e){
 function replyToComment(e){
 	e.preventDefault();
 	let postToreplyTo = e.target.parentElement.parentElement;
+	console.log(postToreplyTo);
 
 	let text = prompt("Reply to Comment", );
 
