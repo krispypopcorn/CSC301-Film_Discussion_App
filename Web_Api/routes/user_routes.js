@@ -209,12 +209,7 @@ user_routes.get('/searchUser/:id', (req, res) => {
     let user_id = req.params.id
 
     User.findById(user_id).then((result) => {
-
-        if (!result) {
-            res.status(404).send()
-        } else {
-            res.send(result)
-        }
+        res.send(result)
     }).catch((error) => {
         log(error)
     })

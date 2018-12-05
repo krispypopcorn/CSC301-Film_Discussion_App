@@ -85,7 +85,7 @@ function getDiscussion(){
 }
 
 function getUser(id){
-  return fetch("/user/"+id, {
+  return fetch("/searchUser/"+id, {
     method: 'GET',
     headers: new Headers({
       'Content-Type': 'application/json',
@@ -93,12 +93,11 @@ function getUser(id){
   })
   .then((res) => { 
     if (res.status === 200) {
-       return res.json() 
-   } else {
-        alert('Could not get user')
+      return res.json()
+   }else {
+      return null
    }                
 }).catch((error) => {
-      console.log(error)
   })
 }
 
@@ -217,7 +216,7 @@ function createDiscussion(discussion) {
   newPost.find(".backGroundImage").attr('src',discussion.img);
   newPost.find(".disTitle").html(discussion.title);
   const user = getUser(discussion.user)
-  user.then((json) => {
+  user.then((err, json) => {
     if(json){
       newPost.find(".author").html(json.username);
     }else{
