@@ -42,32 +42,36 @@ function createUser(e){
 	    	const files = document.querySelector('[type=file]').files;
 		    const formData = new FormData();
 		    formData.append('photo',files[0]);
-		    fetch('/uploadImg', {
-		        method: 'POST',
-		        body: formData,
-		    }).then(response => {
-		        return response.json()
-		    }).then(url=>{
-			    // check unique username
-		    	fetch(userUrl, {
-		        method: 'POST',
-		        body: JSON.stringify({"username":username, "password": password, "icon": url}),
-		        headers: {
-		            'Accept': 'application/json',
-		            'Content-type': 'application/json'
-		        },
-		        credentials: 'include',
-		    }).then(response => {
-		        if(response.status==200){
-					window.location.href = "/home"
-		        }else{
-					console.log("failed to save user")
-				}
-		    	})		
-			})
+		    if (file.length != 0){
+		    	fetch('/uploadImg', {
+			        method: 'POST',
+			        body: formData,
+			    }).then(response => {
+			        return response.json()
+			    }).then(url=>{
+				    // check unique username
+			    	fetch(userUrl, {
+			        method: 'POST',
+			        body: JSON.stringify({"username":username, "password": password, "icon": url}),
+			        headers: {
+			            'Accept': 'application/json',
+			            'Content-type': 'application/json'
+			        },
+			        credentials: 'include',
+			    }).then(response => {
+			        if(response.status==200){
+						window.location.href = "/home"
+			        }else{
+						console.log("failed to save user")
+					}
+			    	})		
+				})
+		    } else {
+		    	aler("You must upload a profile picture.")
+		    }
 	    }else {
 	    	if (validPswd && !validUsn){
-	    		alert("Username Already Taken.")
+	    		alert("Username already taken.")
 	    	}
 	    	if (validUsn && !validPswd){
 	    		alert("Password must have a length of atleast 8")
