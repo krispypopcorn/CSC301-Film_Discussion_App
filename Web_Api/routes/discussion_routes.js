@@ -413,4 +413,12 @@ discussion_routes.get('/totalLikesMovie/:movieId', (req, res) => {
     })
 })
 
+discussion_routes.get('/currentUserDiscussions/', (req, res)=>{
+    Discussion.find({user : req.session.user}).then(discussions=>{
+        res.send(discussions)
+    }).catch(error=>{
+         res.status(400).send(error)
+    })
+})
+
 module.exports = discussion_routes;

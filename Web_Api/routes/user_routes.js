@@ -195,9 +195,10 @@ user_routes.patch('/modifyPassword', (req, res)=>{
             user.password = newPassword
             user.save().then((result)=>{
                 res.send(result)
+            }).catch((error)=>{
+                res.status(400).send(error)
             })
         }
-        
     }).catch((error) => {
         res.status(400).send(error)
     })

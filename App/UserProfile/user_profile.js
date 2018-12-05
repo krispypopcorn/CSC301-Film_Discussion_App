@@ -86,6 +86,14 @@ function displayUser(user){
   username.innerText = user.username
   // you have the icon url in the user obj
   $('#userPic').attr('src',user.icon)
+
+  fetch('/currentUserDiscussions').then((result)=>{
+    return result.json()
+  }).then((discussions)=>{
+    console.log(discussions);
+  }).catch((error)=>{
+    console.log(error);
+  })
 }
 
 function getUser(){
