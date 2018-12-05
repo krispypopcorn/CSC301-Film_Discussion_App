@@ -242,6 +242,24 @@ function deleteArrayElement(comments, cid) {
 
 }
 
+discussion_routes.delete('/deleteComment/:id/', (req, res) => {
+    // Add code here
+    const id = req.params.id
+
+    Comment.findByIdAndRemove(id, (err, com) =>{
+        if(!com){res.send(err)}
+        else{
+            com.save(function (err) {
+                    if (err) {
+                        return handleError(err)
+                    }
+            });
+            res.send("Comment Deleted")
+        }
+    });
+    
+})
+
 /*
     Deletes given comment from the database
 */
@@ -251,11 +269,11 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
     const id = req.params.id
     const cid = req.params.cid
 
+
     Discussion.findById(id, (err, discussion) =>{
         if(err){res.send(err)}
         else{
             discussion.comments = deleteArrayElement(discussion.comments, cid);
-            log(discussion.comments)
             discussion.save(function (err) {
                     if (err) {
                         return handleError(err)
@@ -265,7 +283,7 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
                 if(err){res.send(err)}
                 else{
                     //res.send(comment.replies)
-                    res.send();
+                    res.send("Comment Deleted");
                 }
             });
         }
@@ -277,7 +295,7 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
     Deletes given reply from the database
 */
 
-discussion_routes.delete('/deleteReply/:id/:cid', (req, res) => {
+discussion_routes.delete('/deleteReply/:id/cid', (req, res) => {
     // Add code here
     const id = req.params.id
     const cid = req.params.cid
@@ -286,7 +304,6 @@ discussion_routes.delete('/deleteReply/:id/:cid', (req, res) => {
         if(err){res.send(err)}
         else{
             com.replies = deleteArrayElement(com.replies, cid);
-            log(com.comments)
             com.save(function (err) {
                     if (err) {
                         return handleError(err)
@@ -298,6 +315,7 @@ discussion_routes.delete('/deleteReply/:id/:cid', (req, res) => {
                     res.send("comment deleted")
                 }
             });
+            
         }
     });
     
@@ -326,6 +344,22 @@ discussion_routes.get('/canEdit/:id', (req, res) => {
             }
         }
     }); 
+})
+discussion_routes.patch('/resetComments/:id', (req, res) => {
+    const id = req.params.id;
+
+    Discussion.findById(id,(error, discussion)=>{
+                    if(discussion){
+                        discussion.comments = []
+                        discussion.save(function (err) {
+                        if (err) {
+                            return handleError(err)
+                        }
+                        });
+                        res.send("Comments Deleted")
+
+                    }
+                })
 })
 
 /*

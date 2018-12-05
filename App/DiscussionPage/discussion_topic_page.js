@@ -92,25 +92,28 @@ function getUserById(id){
 
 //Add event-listner
 $("#profilePic").on('click', function(event) {
+	event.preventDefault();
   eraseCookie('isCurrentUser')
   createCookie('isCurrentUser','true',1)
   window.location.href = "/profilePage";});
-$("#homeLink").on('click', function(event) {window.location.href = "/home"});
-$("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
-$("#signOut").on('click', function(event) {window.location.href = "/logout";});
+$("#homeLink").on('click', function(event) {event.preventDefault();window.location.href = "/home"});
+$("#adminLink").on('click', function(event) {event.preventDefault(); window.location.href = "/adminDash";});
+$("#signOut").on('click', function(event) {event.preventDefault(); window.location.href = "/logout";});
 $(".usn").on('click', function(event) {
+	event.preventDefault();
 	let usn = event.target.innerHTML;
 	eraseCookie('User')
-	createCookie('User', usn,1)
+	createCookie('User', usn, 1)
 	window.location.href = "/profilePage";});
 $("#bannerText").on('click', function(event) {
+	event.preventDefault();
         eraseCookie('movie')
         createCookie('movie',movieName,1)
         window.location.href = "/moviePage";});
 $("#replyToDiscussion").on('click', commentOnDiscussion);
 $(".reply").on('click', replyToComment);
-$(".com").on('click', deleteComment);
-$(".rep").on('click', deleteReply);
+$(".com reply").on('click', deleteComment);
+$(".rep reply").on('click', deleteReply);
 $("#deletePost").on('click', deleteDiscussion);
 
 
@@ -150,13 +153,39 @@ function fillBanner(){
 function fillAllComments(comments){
 
 	if (comments.length > 0){
-		for (var i in comments ){
+		for (var i=0; i < comments.length; i++){
 		fetch('/getComment/'+ comments[i])
 	    .then((res) => { 
 	        if (res.status === 200) {
 	           return res.json() 
 	       } else {
-	            alert('Could not get the comment')
+	            //alert('Could not get the comment')
+	       }                
+	    })
+	    .then((json) => {
+	    if (json){fillComment(json)
+		    if (json.replies.length > 0){
+		    	fillAllreplies(json.replies);
+		    }
+		}
+	    })
+		
+	}
+
+	}
+	
+	
+}
+function fillAllreplies(replies){
+
+	if (replies.length > 0){
+		for (var i=0; i < replies.length; i++){
+		fetch('/getComment/'+ replies[i])
+	    .then((res) => { 
+	        if (res.status === 200) {
+	           return res.json() 
+	       } else {
+	            //alert('Could not get the comment')
 	       }                
 	    })
 	    .then((json) => {
@@ -209,6 +238,8 @@ function deleteDiscussion(e){
 		let postToRemove = e.target.parentElement.parentElement;
 		comments.removeChild(postToRemove);
 
+
+
 		fetch('/deleteDiscussions/'+thisDiscussion._id, {
 	    method: 'DELETE', }).then(response => {
 	      	fetch('/home')
@@ -217,18 +248,20 @@ function deleteDiscussion(e){
 
 }
 
-function deleteReplies(replies, parentComment){
-	for (var i in replies){
-	    		let cid = replies[i];
-	    		fetch('/deleteReply/'+parentComment+'/'+cid, {
-	    		method: 'DELETE', }).then(response => {
-	    			if (response){
-	    				fetch('/getReplies/'+cid)
-				    	.then((replies) => {
-						deleteReplies(replies, cid)
-				    })}
-	    			
-	    		})
+
+
+
+
+
+function deleteReplies(replies){
+
+	for (var i= 0; i < replies; i++){
+		let cid = replies[i];
+		fetch('/getReplies/'+cid).then((replies) => {
+		if (replies.length > 0){
+			deleteReplies(replies, cid);
+		}})
+		fetch('/deleteComment/'+ cid, {method: 'DELETE'});
 	}
 }
 
@@ -248,16 +281,19 @@ function deleteComment(e){
        }                
     })
     .then((json) => {
-    	if (thisUser._id == json.user){
-    	fetch('/getReplies/'+postToRemove.id)
-	    .then((replies) => {
-			//deleteReplies(replies, postToRemove.id)
-			fetch('/deleteComment/'+thisDiscussion._id+'/'+postToRemove.id, {
-		    method: 'DELETE', }).then(response => {
-			comments.removeChild(postToRemove);
-			})
-	    })
-	}
+    	let parentComment = thisDiscussion._id
+	    	if (thisUser._id == json.user){
+	    	fetch('/getReplies/'+postToRemove.id)
+		    .then((replies) => {
+		    	//if (replies.length > 0){deleteReplies(replies)}
+				fetch('/deleteComment/'+parentComment+'/'+postToRemove.id, {
+			    method: 'DELETE'}).then(response => {
+				comments.removeChild(postToRemove);
+				})
+		    })
+	}else{
+    	alert("You do not have permission to delete this element")
+    }
     })
 	
 }
@@ -265,12 +301,10 @@ function deleteComment(e){
 function deleteReply(e){
 	e.preventDefault();
 
-	//required: PERMISSION CHECK
-
-	let parentComment = e.target.parentElement.parentElement.parentElement;
+	let comments = e.target.parentElement.parentElement.parentElement;
 
 	let postToRemove = e.target.parentElement.parentElement;
-	fetch(commentUrl+postToRemove.id)
+	fetch('/getComment/'+postToRemove.id)
     .then((res) => { 
         if (res.status === 200) {
            return res.json() 
@@ -279,22 +313,26 @@ function deleteReply(e){
        }                
     })
     .then((json) => {
-    	if (thisUser == json._id){
-
-		fetch('/deleteReply/'+parentComment.id+'/'+postToRemove.id, {
-	    method: 'DELETE', }).then(response => {
-	      parentComment.removeChild(postToRemove);
-		})
-	}
+    	let parentComment = comments.id
+    	if (thisUser._id == json.user){
+    	fetch('/getReplies/'+postToRemove.id)
+	    .then((replies) => {
+	    	if (replies.length > 0){deleteReplies(replies)}
+			fetch('/deleteReply/'+parentComment+'/'+postToRemove.id, {
+		    method: 'DELETE'}).then(response => {
+			comments.removeChild(postToRemove);
+			})
+	    })
+	}else{
+    	alert("You do not have permission to delete this element")
+    }
     })
 	
 }
 
-
 function replyToComment(e){
 	e.preventDefault();
 	let postToreplyTo = e.target.parentElement.parentElement;
-	console.log(postToreplyTo)
 
 	let text = prompt("Reply to Comment", );
 
@@ -373,7 +411,7 @@ function createReply(text, postToreplyTo){
 
 			let reply_footer_btn = document.createElement('button');
 			reply_footer_btn.type = "button";
-			reply_footer_btn.className = 'reply col-md-1 offset-md-9'
+			reply_footer_btn.className = 'reply col-md-1 offset-md-11'
 			let button_text = document.createTextNode("Reply");
 			reply_footer_btn.append(button_text)
 
@@ -388,7 +426,7 @@ function createReply(text, postToreplyTo){
 		
 			let close_button = document.createElement('button')
 			close_button.type = 'button';
-			close_button.className = "close rep col-sm-1 offset-sm-11"	
+			close_button.className = "rep close col-sm-1 offset-sm-11"	
 			let close_span = document.createElement('span')
 			close_span.setAttribute('aria-hidden', 'true');
 			close_span.innerHTML = '&times;';
@@ -518,7 +556,7 @@ function createComment(){
 		
 			let close_button = document.createElement('button')
 			close_button.type = 'button';
-			close_button.className = "close com col-sm-1 offset-sm-11"	
+			close_button.className = "com close col-sm-1 offset-sm-11"	
 			let close_span = document.createElement('span')
 			close_span.setAttribute('aria-hidden', 'true');
 			close_span.innerHTML = '&times;';
@@ -584,7 +622,7 @@ function createCommentJSON(comment, isComment, postToreplyTo){
 	        if (res.status === 200) {
 	           return res.json() 
 	       } else {
-	            alert('Could not get movies')
+	            alert('Could not get user')
 	       }                
 	    })
 	    .then((json) => {
@@ -615,9 +653,9 @@ function createCommentJSON(comment, isComment, postToreplyTo){
 			let close_button = document.createElement('button')
 			close_button.type = 'button';
 			if (isComment){
-				close_button.className = "close com col-sm-1 offset-sm-11"
-			} else {
-				close_button.className = "close rep col-sm-1 offset-sm-11"
+				close_button.className = "com close col-sm-1 offset-sm-11"
+			}else{
+				close_button.className = "rep close col-sm-1 offset-sm-11"
 			}
 
 			let close_span = document.createElement('span')
@@ -630,8 +668,6 @@ function createCommentJSON(comment, isComment, postToreplyTo){
 			reply.append(close_button);
 			reply.append(row);
 			reply.append(row_footer);
-
-			console.log("here")
 
 			if (isComment){
 				if (postToreplyTo.firstElementChild){
