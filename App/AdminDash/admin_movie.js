@@ -90,7 +90,7 @@ function verifyMovie() {
 
 	// Search, Save and get data from movie
 
-	fetch(`http://localhost:8000/search/${movieName}/${movieYear}`).then(res => {
+	fetch(`/search/${movieName}/${movieYear}`).then(res => {
 		return res.json()
 	}).then(data => {
 		const moviePoster = document.createElement('img')
@@ -120,7 +120,7 @@ function addNewMovie() {
 	const movieName = document.querySelector('#movieName').value
 	const movieYear = document.querySelector('#movieYear').value
 	
-	fetch(`http://localhost:8000/movie/${movieName}/${movieYear}`).then(res => {
+	fetch(`/movie/${movieName}/${movieYear}`).then(res => {
 		return res.json()
 	}).then((result) => {
 		removeData(movieDataTable)
@@ -134,7 +134,7 @@ function populateMovieTable() {
 	let currentMovies;
 
 	let tempMovieSet = []
-	fetch('http://localhost:8000/findAllMovies').then(res => { 
+	fetch('/findAllMovies').then(res => { 
   		return res.json()
 	}).then(data=>{
 		currentMovies = data;
@@ -214,7 +214,7 @@ function verifyDelete() {
 	const message = document.querySelector('#DeleteMessage')
 	message.style.color = "red"
 
-	fetch(`http://localhost:8000/search/${confirmMovie}`).then((result) => {
+	fetch(`/search/${confirmMovie}`).then((result) => {
 		// console.log(result)
 		return result.json()
 	}).then((data) => {
@@ -240,7 +240,7 @@ function verifyDelete() {
 
 function deleteMovieFromDatabase() {
 
-	const url = `http://localhost:8000/search/${confirmMovie}`
+	const url = `/search/${confirmMovie}`
 
 	const request = new Request(url , {
 		method: 'delete'

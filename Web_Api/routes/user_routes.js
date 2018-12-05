@@ -118,7 +118,7 @@ user_routes.post('/createUser',(req, res)=>{
       });
 })
 
-user_routes.patch('/modifyUserName/:id', (req, res) => {
+user_routes.patch('/modifyUser/:id', (req, res) => {
 
     let newName = req.body.username
     let newPassword = req.body.password
@@ -130,14 +130,15 @@ user_routes.patch('/modifyUserName/:id', (req, res) => {
     log(newName)
 
     const user_id = req.params.id
+
     if (passwordFlag === 0) {
-    User.findByIdAndUpdate(user_id, {
-        username: newName
-    }, {new: true}).then((update) => {
-        res.send(update)
-    }).catch((erorr) => {
-        log(error)
-    })
+        User.findByIdAndUpdate(user_id, {
+            username: newName
+        }, {new: true}).then((update) => {
+            res.send(update)
+        }).catch((erorr) => {
+            log(error)
+        })
     }
 
     if (passwordFlag === 1) {

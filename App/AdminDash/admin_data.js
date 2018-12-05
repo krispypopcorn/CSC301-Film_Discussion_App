@@ -32,15 +32,17 @@ const addUserButton = document.querySelector('#addUserButton')
 
 const verifyUser = document.querySelector('#verifyUser')
 
+const verifyUserEdit = document.querySelector('#verifyEditUser')
 
 /* User Class */
 
 class User {
-	constructor(image, username, like, dbId) {
+	constructor(image, username, like, dbId, admin) {
 		this.image = image;
 		this.username = username;
 		this.like = like;
 		this.dbId = dbId
+		this.admin = admin
 	}
 }
 
@@ -76,6 +78,7 @@ verifyUser.addEventListener('click', verifyUserDB)
 
 addUserButton.addEventListener('click', confirmAddUser)
 
+verifyUserEdit.addEventListener('click', verifyEdit)
 
 
 /* User Specific Funtions */
@@ -263,8 +266,9 @@ function populateUserTable() {
 			// let discussions = currentUsers[i].discussions.length
 			let like = currentUsers[i].like
 			let dbId = currentUsers[i]._id
+			let admin = currentUsers[i].admin
 			// log(dbId)
-			let newUser = new User(image,name,like, dbId)
+			let newUser = new User(image,name,like, dbId, admin)
 			tempUsers.push(newUser)
 			createDataRow(newUser)
 		}
@@ -273,6 +277,32 @@ function populateUserTable() {
 	}).catch((error) => {
 		log(error)
 	})
+}
+
+function verifyEdit() {
+
+	let editUserName = document.querySelector('#editUsername').value
+	let editPassword = document.querySelector("#editPassword").value
+	const message = document.querySelector("#EditUserMessage")
+
+	if (!editUserName) {
+		message.style.color = "red"
+		message.innerText = "Username field cannot be blank, enter new or existing username"
+		return
+	}
+
+	if (editPassword.length > 0 && editPassword.length < 6) {
+		message.style.color = "red"
+		message.innerText = "Minimum Password length in 6"
+		return
+	}
+
+	message.style.color = "green"
+	message.innerText = "Verfication passed, please click Save"
+	document.querySelector('#editUsername').disabled = 'true'
+	document.querySelector("#editPassword").disabled = 'true'
+	saveButton.removeAttribute('disabled')
+
 }
 
 
@@ -287,25 +317,18 @@ function saveUser(e) {
 			break;
 		}
 	}
-
 	// Get new username
 
 	let newUserName = document.querySelector('#editUsername').value
 	let newUserPassword = document.querySelector("#editPassword").value
 	// userToModify.username = newUserName;
-	const url = `/modifyUserName/${userToModify.dbId}`
+	const url = `/modifyUser/${userToModify.dbId}`
 	log(newUserName)
 
 	const data = {
 		"username": newUserName,
 		"password": newUserPassword
 	}
-	// const request = new Request(url, {
-	// 	method: 'PATCH',
-	// 	body: JSON.stringify(data)
-	// });
-
-	// log(request)
 
 	fetch(url, {
 		method: 'PATCH', 
@@ -360,7 +383,12 @@ function deleteUser(e) {
 
 function editUserOrDelete(e) {
 	if (e.target.classList.contains('edit')) {
-
+		saveButton.disabled = 'true'
+		document.querySelector('#editUsername').removeAttribute('disabled')
+		document.querySelector("#editPassword").removeAttribute('disabled')
+		const message = document.querySelector("#EditUserMessage")
+		message.innerText = ""
+		
 		editUser(e);
 
 	}
