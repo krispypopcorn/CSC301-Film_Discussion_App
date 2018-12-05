@@ -19,11 +19,13 @@ const replyUrl = '/createReply/'
 
 setUserIcon();
 checkUserClass();
+getUser();
+getDiscussion();
 getMovie();
 fillDiscussionPost();
 fillBanner();
-getUser();
-getDiscussion();
+
+
 
 
 
@@ -58,7 +60,7 @@ function getComment(cid){
 
 function getMovie(){
 
-    fetch(MovieUrl+movieName)
+    fetch('/search/'+movieName)
     .then((res) => { 
         if (res.status === 200) {
            return res.json() 
