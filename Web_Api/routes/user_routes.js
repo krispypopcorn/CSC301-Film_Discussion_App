@@ -3,6 +3,14 @@ const { User } = require('../model/User')
 const log = console.log
 var bcrypt = require('bcrypt');
 
+const sessionExist = (req, res, next)=>{
+    if(!req.session.user) {
+        res.redirect('/loginPage')
+    }else{
+        next()
+    }
+}
+
 /*
     Get all available users
 */
@@ -60,7 +68,7 @@ user_routes.get('/userCount', (req, res) => {
 /*
     Get current user's class
 */
-user_routes.get('/userClass', (req, res) => {
+user_routes.get('/userClass', sessionExist, (req, res) => {
     User.findById(req.session.user, (err, user) =>{
         if(err){res.send(err)}
         else{
@@ -69,7 +77,7 @@ user_routes.get('/userClass', (req, res) => {
     });
 })
 
-user_routes.get('/userIcon', (req, res) => {
+user_routes.get('/userIcon', sessionExist, (req, res) => {
     User.findById(req.session.user, (err, user) =>{
         if(err){res.send(err)}
         else{
@@ -122,15 +130,12 @@ user_routes.post('/createUser',(req, res)=>{
         icon: req.body.icon,
         like:0,
       })
-    console.log(userData);
       userData.save(function (error, user) {
         if (error) {
             res.send(error)
-
         } else {
-        res.send("user saved")
-          req.session.userId = user._id;
-          return res.redirect('/home');
+            req.session.user = user._id;
+            res.redirect('/home');
         }
       });
 })
@@ -224,24 +229,22 @@ user_routes.patch('/modifyPassword', (req, res)=>{
 //             })
 // })
 
-user_routes.get('/searchUser/:id', (req, res) => {
-
+user_routes.get('searchUser/:id', (req, res) => {
     let user_id = req.params.id
-
     User.findById(user_id).then((result) => {
-
-        if (!result) {
-            res.status(404).send()
-        } else {
-            res.send(result)
-        }
+        res.send(result)
     }).catch((error) => {
         log(error)
     })
-
-
 })
 
+user_routes.get('/searchUserByName/:name', (req, res)=>{
+    const name = req.params.name
+    User.findOne({username: name}, (err, user) =>{
+        if(err){res.send(err)}
+        res.send(user)
+    })
+})
 
 
 user_routes.patch('/modifyPassword', (req, res)=>{

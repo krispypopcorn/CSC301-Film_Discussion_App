@@ -44,9 +44,6 @@ class User {
    }
 }
 
-
-
-
 // Dummy user
 const DummyUser = new User("Dummy", "123")
 
@@ -85,30 +82,14 @@ display_category(categories.discussion_topics)
 
 
 function displayUser(user){
-
-
   const username = document.querySelector('#currUsername');
   username.innerText = user.username
-  
-
-  fetch('/userIcon')
-    .then(res =>{
-      if (res.status === 200) {
-           return res.json() 
-       } else {
-         console.log('Could not get user icon')
-       }                
-    })
-    .then(url =>{
-      $('#userPic').attr('src',url)
-    })
-
-
+  // you have the icon url in the user obj
+  $('#userPic').attr('src',user.icon)
 }
 
 function getUser(){
   const isCurrentUser = getCookie('isCurrentUser');
-  console.log(getCookie);
   console.log(isCurrentUser);
   if(isCurrentUser == 'true'){
     fetch('/currentUser').then ((result) => {
@@ -120,9 +101,15 @@ function getUser(){
   })
   }
   else{
-    //get other user
+    const name = getCookie('User')
+    fetch('/searchUserByName/'+name).then ((result) => {
+      return result.json()
+    }).then((user) => {
+      displayUser(user);
+    }).catch((error) => {
+      console.log(error)
+    })
   }
-
 }
 
 
