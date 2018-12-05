@@ -66,7 +66,7 @@ $(".card-title").on('click', function(event) {window.location.href = "../Discuss
 $(".previous").on('click',loadPreviousPage);
 $(".next").on('click',loadNextPage);
 $('#DiscussionTopics').click(display_discussion_topics)
-$('#Comments').click(display_comments)
+$('#SaveButton').click(tryModifyPassword)
 
 /*-------------Add Event-listener-------------*/
 
@@ -76,7 +76,7 @@ const user = getUser()
 
 const html_categories = $('#Categories').children()
 
-var categories = {"discussion_topics":0, "comments":1}
+var categories = {"discussion_topics":0}
 
 display_category(categories.discussion_topics)
 
@@ -126,10 +126,6 @@ function display_discussion_topics(e){
 	display_category(categories.discussion_topics)
 }
 
-function display_comments(e){
-	e.preventDefault();
-	display_category(categories.comments)
-}
 
 
 // Helper function
@@ -201,59 +197,9 @@ function loadNextPage(e) {
    }
 }
 
-/*-------------------------------------------------------*/
-/*Dom function below*/
-/*-------------------------------------------------------*/
-
-function addMultiplyDiscussion(discussionList) {
-   let i;
-   const targetList = [];
-   let newPost;
-   for (i = 0; i < discussionList.length && i < 4; i++) {
-       newPost = createDiscussion(discussionList[i]);
-       targetList.push(newPost);
-   }
-
-   $('#postsContainer .card').remove();
-
-   for (i = 0; i < targetList.length; i++) {
-       $("#postsContainer").append(targetList[i]);
-   }
-}
-
-function display_category(index){
-	if(0 <= index && index <= html_categories.length - 1){
-		html_categories[index].style.color = '#3366cc';
-		for(let i = 0; i < html_categories.length; i++){
-			if(i!== index){
-				html_categories[i].style.color = 'white';
-			}
-		}
-	}
-
-	// we should use a server call here to get current user
-	//current user holds different lists
-	//ex: discussion list, comments list
-	//useing hardcode list here for demo
-	if(index == 0){
-	  currentPage=1;
-	  view=0;
-		addMultiplyDiscussion(discussions)
-	}
-	else if (index == 1){
-	  currentPage=1;
-	  view=1;
-		addMultiplyDiscussion(discussions)
-	}
-	else if(index == 2){
-	  currentPage=1;
-	  view=2;
-		addMultiplyDiscussion(discussions)
-	}
-}
 
 
-$('#SaveButton').click(tryModifyPassword)
+
 
 function tryModifyPassword(e){
   e.preventDefault()
@@ -313,3 +259,48 @@ function tryModifyPassword(e){
     res.status(400).send(error)
   })
 }
+
+
+
+/*-------------------------------------------------------*/
+/*Dom function below*/
+/*-------------------------------------------------------*/
+
+function addMultiplyDiscussion(discussionList) {
+   let i;
+   const targetList = [];
+   let newPost;
+   for (i = 0; i < discussionList.length && i < 4; i++) {
+       newPost = createDiscussion(discussionList[i]);
+       targetList.push(newPost);
+   }
+
+   $('#postsContainer .card').remove();
+
+   for (i = 0; i < targetList.length; i++) {
+       $("#postsContainer").append(targetList[i]);
+   }
+}
+
+function display_category(index){
+	if(0 <= index && index <= html_categories.length - 1){
+		html_categories[index].style.color = '#3366cc';
+		for(let i = 0; i < html_categories.length; i++){
+			if(i!== index){
+				html_categories[i].style.color = 'white';
+			}
+		}
+	}
+
+	// we should use a server call here to get current user
+	//current user holds different lists
+	//ex: discussion list, comments list
+	//useing hardcode list here for demo
+	if(index == 0){
+	  currentPage=1;
+	  view=0;
+		addMultiplyDiscussion(discussions)
+	}
+	
+}
+
