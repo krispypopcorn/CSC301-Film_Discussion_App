@@ -8,7 +8,6 @@ let movieName = "";
 let movieId = "";
 let thisUser = null;
 
-
 /*-------request URL-------*/
 const discussionUrl = '/getDiscussion/'
 const commentUrl = '/getComment/'
@@ -19,9 +18,9 @@ const replyUrl = '/createReply/'
 /*-------request URL-------*/
 
 setUserIcon();
-checkUserClass();
 getUser();
-getDiscussion();
+checkUserClass();
+
 
 function getDiscussion(){
     fetch(discussionUrl+discId)
@@ -39,19 +38,6 @@ function getDiscussion(){
     })
 }
 
-function getComment(cid){
-    fetch(commentUrl+cid)
-    .then((res) => { 
-        if (res.status === 200) {
-           return res.json() 
-       } else {
-            alert('Could not get the discussion')
-       }                
-    })
-    .then((json) => {
-    	return json;
-    })
-}
 
 function getMovie(){
     fetch('/getMovie/'+movieId)
@@ -81,7 +67,22 @@ function getUser(){
     })
     .then((json) => {
         thisUser = json;
+        getDiscussion();
+    })
+}
 
+function getUserById(id){
+
+    fetch("/getUser/"+id)
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get movies')
+       }                
+    })
+    .then((json) => {
+        commentsUser = json;
     })
 }
 
@@ -98,7 +99,7 @@ $("#homeLink").on('click', function(event) {window.location.href = "/home"});
 $("#adminLink").on('click', function(event) {window.location.href = "/adminDash";});
 $("#signOut").on('click', function(event) {window.location.href = "/logout";});
 $(".usn").on('click', function(event) {
-	let usn = e.target.innerHTML;
+	let usn = event.target.innerHTML;
 	eraseCookie('User')
 	createCookie('User', usn,1)
 	window.location.href = "/profilePage";});
@@ -127,6 +128,7 @@ function fillDiscussionPost(){
 	user.innerHTML= thisUser.username;
 	date.innerHTML = thisDiscussion.date;
 	fillBanner();
+	fillAllComments(thisDiscussion.comments);
 
 };
 
@@ -145,38 +147,43 @@ function fillBanner(){
 };
 
 //fills comments and replies for thisDiscussion
-function fillAllComments(){
+function fillAllComments(comments){
 
-	let comments = thisDiscussion.comments;
-
-	for (com in comments ){
-		let newCom = getComment(comments[com])
-		fillComment(newCom);
-		for (var reply in com.replies){
-			if (reply){
-				fillAllComments(com.replies[reply])
-			}
+	if (comments.length > 0){
+		for (var i in comments ){
+		fetch('/getComment/'+ comments[i])
+	    .then((res) => { 
+	        if (res.status === 200) {
+	           return res.json() 
+	       } else {
+	            alert('Could not get the comment')
+	       }                
+	    })
+	    .then((json) => {
+	    if (json){fillComment(json)
+		    if (json.replies.length > 0){
+		    	fillAllComments(json.replies);
+		    }
 		}
+	    })
+		
 	}
+
+	}
+	
+	
 }
 
-//helper that fills the Comment or reply in the DOM.
+//func that fills the Comment or reply in the DOM.
 function fillComment(com){
-	let isComment = false;
-	if (!com.comment){
-		let postToreplyTo = document.getElementById("comments");
-		isComment = true
-	}else{
-		let postToreplyTo = document.getElementById(com.comment)
+	let isComment = true;
+	let postToreplyTo = document.getElementById("comments")
+	if (com.comment){
+		postToreplyTo = document.getElementById(com.comment);
+		isComment = false;
 	}
-	let reply = createCommentJSON(com,isComment);
-	if (reply){
-		if (comments.firstElementChild){
-		comments.insertBefore(reply, comments.firstElementChild);
-		}else {
-			comments.appendChild(reply);
-		}
-	}
+	createCommentJSON(com, isComment, postToreplyTo);
+	
 }
 
 function deleteDiscussion(e){
@@ -210,6 +217,21 @@ function deleteDiscussion(e){
 
 }
 
+function deleteReplies(replies, parentComment){
+	for (var i in replies){
+	    		let cid = replies[i];
+	    		fetch('/deleteReply/'+parentComment+'/'+cid, {
+	    		method: 'DELETE', }).then(response => {
+	    			if (response){
+	    				fetch('/getReplies/'+cid)
+				    	.then((replies) => {
+						deleteReplies(replies, cid)
+				    })}
+	    			
+	    		})
+	}
+}
+
 
 function deleteComment(e){
 	e.preventDefault();
@@ -217,15 +239,27 @@ function deleteComment(e){
 	let comments = e.target.parentElement.parentElement.parentElement;
 
 	let postToRemove = e.target.parentElement.parentElement;
-	
-	 let postUser = getComment(postToRemove.id)
-	if (thisUser == postUser._id){
-
-		fetch('/deleteComment/'+thisDiscussion._id+'/'+postToRemove.id, {
-	    method: 'DELETE', }).then(response => {
-	      comments.removeChild(postToRemove);
-		})
+	fetch(/getComment/+postToRemove.id)
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get the discussion')
+       }                
+    })
+    .then((json) => {
+    	if (thisUser._id == json.user){
+    	fetch('/getReplies/'+postToRemove.id)
+	    .then((replies) => {
+			//deleteReplies(replies, postToRemove.id)
+			fetch('/deleteComment/'+thisDiscussion._id+'/'+postToRemove.id, {
+		    method: 'DELETE', }).then(response => {
+			comments.removeChild(postToRemove);
+			})
+	    })
 	}
+    })
+	
 }
 
 function deleteReply(e){
@@ -236,26 +270,37 @@ function deleteReply(e){
 	let parentComment = e.target.parentElement.parentElement.parentElement;
 
 	let postToRemove = e.target.parentElement.parentElement;
-	let postUser = getComment(postToRemove.id)
-	if (thisUser == postUser._id){
+	fetch(commentUrl+postToRemove.id)
+    .then((res) => { 
+        if (res.status === 200) {
+           return res.json() 
+       } else {
+            alert('Could not get the discussion')
+       }                
+    })
+    .then((json) => {
+    	if (thisUser == json._id){
 
 		fetch('/deleteReply/'+parentComment.id+'/'+postToRemove.id, {
 	    method: 'DELETE', }).then(response => {
 	      parentComment.removeChild(postToRemove);
 		})
 	}
+    })
+	
 }
 
 
 function replyToComment(e){
 	e.preventDefault();
 	let postToreplyTo = e.target.parentElement.parentElement;
+	console.log(postToreplyTo)
 
 	let text = prompt("Reply to Comment", );
 
 	if (text){
 
-		postToreplyTo.appendChild(createReply(text));
+		createReply(text, postToreplyTo);
 
 	}
 }
@@ -271,7 +316,7 @@ function createReply(text, postToreplyTo){
 			comment_content: text,
 		}
 
-		fetch(replyUrl+postToreplyTo._id, {
+		fetch('/createReply/'+postToreplyTo.id, {
             method: 'POST', 
             body: JSON.stringify(newReply), 
             headers: {
@@ -281,81 +326,83 @@ function createReply(text, postToreplyTo){
             credentials: 'include',
           })
           .then(response => {
-          	usn_text = document.createTextNode(response.user);
+          	let user = thisUser.username
+          	usn_text = document.createTextNode(user);
           	replyId = response._id;
           	date = response.date;
+          	let reply = document.createElement("div");
+			reply.className = "card comment1";
+			reply.id = replyId;
+
+			let row = document.createElement("div");
+			row.className = "row no-gutters";
+
+			let col = document.createElement("div");
+			col.className = "col";
+
+			let card_block = document.createElement("div");
+			card_block.className = "card-block px-2";
+
+			let card_text = document.createElement("p");
+			card_text.className = "card-text";
+			let in_text = document.createTextNode(text);
+			
+
+			card_text.append(in_text);
+			card_block.append(card_text);
+			col.append(card_block);
+
+
+			let row_footer = document.createElement('div');
+			row_footer.className = "row card-footer w-100 text-muted";
+
+
+			let footer_text_div = document.createElement("p");
+			let footer_text = document.createTextNode("Comment by ");
+			let usn = document.createElement("a");
+			usn.className = 'usn';
+			
+			usn.append(usn_text);
+
+			
+			let date_text = document.createTextNode(' on ' + date);
+
+			footer_text_div.append(footer_text);
+			footer_text_div.append(usn);
+			footer_text_div.append(date_text);
+
+			let reply_footer_btn = document.createElement('button');
+			reply_footer_btn.type = "button";
+			reply_footer_btn.className = 'reply col-md-1 offset-md-9'
+			let button_text = document.createTextNode("Reply");
+			reply_footer_btn.append(button_text)
+
+			$(reply_footer_btn).on('click', replyToComment);
+			
+			row_footer.append(footer_text_div)
+			row_footer.append(reply_footer_btn)
+
+
+			row.append(col);
+
+		
+			let close_button = document.createElement('button')
+			close_button.type = 'button';
+			close_button.className = "close rep col-sm-1 offset-sm-11"	
+			let close_span = document.createElement('span')
+			close_span.setAttribute('aria-hidden', 'true');
+			close_span.innerHTML = '&times;';
+			close_button.append(close_span)
+
+			$(close_button).on('click', deleteComment);
+
+			reply.append(close_button);
+			reply.append(row);
+			reply.append(row_footer);
+
+			postToreplyTo.append(reply);
         })
-		let reply = document.createElement("div");
-		reply.className = "card comment";
-		reply.id = replyId;
-
-		let row = document.createElement("div");
-		row.className = "row no-gutters";
-
-		let col = document.createElement("div");
-		col.className = "col";
-
-		let card_block = document.createElement("div");
-		card_block.className = "card-block px-2";
-
-		let card_text = document.createElement("p");
-		card_text.className = "card-text";
-		let in_text = document.createTextNode(text);
-		
-
-		card_text.append(in_text);
-		card_block.append(card_text);
-		col.append(card_block);
-
-
-		let row_footer = document.createElement('div');
-		row_footer.className = "row card-footer w-100 text-muted";
-
-
-		let footer_text_div = document.createElement("p");
-		let footer_text = document.createTextNode("Reply by ");
-		let usn = document.createElement("a");
-		usn.className = 'usn';
-
-		usn.append(usn_text);
-
-		footer_text_div.append(footer_text);
-		footer_text_div.append(usn);
-
-
-		let reply_footer_btn = document.createElement('button');
-		reply_footer_btn.type = "button";
-		reply_footer_btn.className = 'reply col-md-1 offset-md-9'
-		let button_text = document.createTextNode("Reply");
-		reply_footer_btn.append(button_text)
-
-		$(reply_footer_btn).on('click', replyToComment);
-		
-		row_footer.append(footer_text_div)
-		row_footer.append(reply_footer_btn)
-
-
-		row.append(col);
-
-	
-		let close_button = document.createElement('button')
-		close_button.type = 'button';
-		close_button.className = "close rep col-sm-1 offset-sm-11"	
-		let close_span = document.createElement('span')
-		close_span.setAttribute('aria-hidden', 'true');
-		close_span.innerHTML = '&times;';
-		close_button.append(close_span)
-
-		$(close_button).on('click', deleteComment);
-
-		reply.append(close_button);
-		reply.append(row);
-		reply.append(row_footer);
-
-
-		return reply;
 	}
-
 }
 
 
@@ -384,6 +431,7 @@ function createReply(text, postToreplyTo){
 
 function createComment(){
 	let text = document.getElementById("postText").value;
+	let comments = document.getElementById("comments");
 
 	if (text){
 		let date;
@@ -392,8 +440,8 @@ function createComment(){
 		const newComment = {
 			comment_content: text,
 		}
-
-		fetch(newComment+thisDiscussion._id, {
+		let response;
+		fetch('/createComment/'+thisDiscussion._id, {
             method: 'POST', 
             body: JSON.stringify(newComment), 
             headers: {
@@ -401,94 +449,105 @@ function createComment(){
                 'Content-type': 'application/json'
             },
             credentials: 'include',
-          })
-          .then(response => {
-          	usn_text = document.createTextNode(response.user);
+          }).then((res) => { 
+		        if (res.status === 200) {
+		           return res.json() 
+		       } else {
+		            alert('Could not add Comment')
+		       }                
+		    }).then((response) => {
+		    let user = thisUser.username
+          	usn_text = document.createTextNode(user);
           	replyId = response._id;
           	date = response.date;
-        })
+          	let reply = document.createElement("div");
+			reply.className = "card comment1";
+			reply.id = replyId;
 
-		let reply = document.createElement("div");
-		reply.className = "card comment1";
-		reply.id = replyId;
+			let row = document.createElement("div");
+			row.className = "row no-gutters";
 
-		let row = document.createElement("div");
-		row.className = "row no-gutters";
+			let col = document.createElement("div");
+			col.className = "col";
 
-		let col = document.createElement("div");
-		col.className = "col";
+			let card_block = document.createElement("div");
+			card_block.className = "card-block px-2";
 
-		let card_block = document.createElement("div");
-		card_block.className = "card-block px-2";
+			let card_text = document.createElement("p");
+			card_text.className = "card-text";
+			let in_text = document.createTextNode(text);
+			
 
-		let card_text = document.createElement("p");
-		card_text.className = "card-text";
-		let in_text = document.createTextNode(text);
+			card_text.append(in_text);
+			card_block.append(card_text);
+			col.append(card_block);
+
+
+			let row_footer = document.createElement('div');
+			row_footer.className = "row card-footer w-100 text-muted";
+
+
+			let footer_text_div = document.createElement("p");
+			let footer_text = document.createTextNode("Comment by ");
+			let usn = document.createElement("a");
+			usn.className = 'usn';
+			
+			usn.append(usn_text);
+
+			
+			let date_text = document.createTextNode(' on ' + date);
+
+			footer_text_div.append(footer_text);
+			footer_text_div.append(usn);
+			footer_text_div.append(date_text);
+
+			let reply_footer_btn = document.createElement('button');
+			reply_footer_btn.type = "button";
+			reply_footer_btn.className = 'reply col-md-1 offset-md-9'
+			let button_text = document.createTextNode("Reply");
+			reply_footer_btn.append(button_text)
+
+			$(reply_footer_btn).on('click', replyToComment);
+			
+			row_footer.append(footer_text_div)
+			row_footer.append(reply_footer_btn)
+
+
+			row.append(col);
+
 		
+			let close_button = document.createElement('button')
+			close_button.type = 'button';
+			close_button.className = "close com col-sm-1 offset-sm-11"	
+			let close_span = document.createElement('span')
+			close_span.setAttribute('aria-hidden', 'true');
+			close_span.innerHTML = '&times;';
+			close_button.append(close_span)
 
-		card_text.append(in_text);
-		card_block.append(card_text);
-		col.append(card_block);
+			$(close_button).on('click', deleteComment);
 
-
-		let row_footer = document.createElement('div');
-		row_footer.className = "row card-footer w-100 text-muted";
-
-
-		let footer_text_div = document.createElement("p");
-		let footer_text = document.createTextNode("Comment by ");
-		let usn = document.createElement("a");
-		usn.className = 'usn';
-		
-		
-		usn.append(usn_text);
-
-		
-		let date_text = document.createTextNode('on ' + date);
-
-		footer_text_div.append(footer_text);
-		footer_text_div.append(usn);
-		footer_text_div.append(date_text);
-
-		let reply_footer_btn = document.createElement('button');
-		reply_footer_btn.type = "button";
-		reply_footer_btn.className = 'reply col-md-1 offset-md-9'
-		let button_text = document.createTextNode("Reply");
-		reply_footer_btn.append(button_text)
-
-		$(reply_footer_btn).on('click', replyToComment);
-		
-		row_footer.append(footer_text_div)
-		row_footer.append(reply_footer_btn)
+			reply.append(close_button);
+			reply.append(row);
+			reply.append(row_footer);
 
 
-		row.append(col);
+			if (comments.firstElementChild){
+				comments.insertBefore(reply, comments.firstElementChild);
+			}else {
+				comments.appendChild(reply);
+			}
 
-	
-		let close_button = document.createElement('button')
-		close_button.type = 'button';
-		close_button.className = "close com col-sm-1 offset-sm-11"	
-		let close_span = document.createElement('span')
-		close_span.setAttribute('aria-hidden', 'true');
-		close_span.innerHTML = '&times;';
-		close_button.append(close_span)
-
-		$(close_button).on('click', deleteComment);
-
-		reply.append(close_button);
-		reply.append(row);
-		reply.append(row_footer);
-
-
-		return reply;
+		    }) 
+        	
 	}
-
 }
 
-function createCommentJSON(comment, isComment){
+function createCommentJSON(comment, isComment, postToreplyTo){
+
 	let text = comment.comment_content;
 
 	if (text){
+
 		let reply = document.createElement("div");
 		reply.className = "card comment1";
 		reply.id = comment._id;
@@ -520,51 +579,72 @@ function createCommentJSON(comment, isComment){
 		let footer_text = document.createTextNode("Comment by ");
 		let usn = document.createElement("a");
 		usn.className = 'usn';
-		let usn_text = comment.user;
-		usn.append(usn_text);
+		fetch("/getUser/"+comment.user)
+	    .then((res) => { 
+	        if (res.status === 200) {
+	           return res.json() 
+	       } else {
+	            alert('Could not get movies')
+	       }                
+	    })
+	    .then((json) => {
+	        let usn_text = document.createTextNode(json.username);
+			usn.append(usn_text);
 
-		let date_text = document.createTextNode(comment.date);
+			let date_text = document.createTextNode(" on " + comment.date);
 
-		footer_text_div.append(footer_text);
-		footer_text_div.append(usn);
-		footer_text_div.append(date_text);
+			footer_text_div.append(footer_text);
+			footer_text_div.append(usn);
+			footer_text_div.append(date_text);
 
-		let reply_footer_btn = document.createElement('button');
-		reply_footer_btn.type = "button";
-		reply_footer_btn.className = 'reply col-md-1 offset-md-9'
-		let button_text = document.createTextNode("Reply");
-		reply_footer_btn.append(button_text)
+			let reply_footer_btn = document.createElement('button');
+			reply_footer_btn.type = "button";
+			reply_footer_btn.className = 'reply col-md-1 offset-md-9'
+			let button_text = document.createTextNode("Reply");
+			reply_footer_btn.append(button_text)
 
-		$(reply_footer_btn).on('click', replyToComment);
+			$(reply_footer_btn).on('click', replyToComment);
+			
+			row_footer.append(footer_text_div)
+			row_footer.append(reply_footer_btn)
+
+
+			row.append(col);
+
 		
-		row_footer.append(footer_text_div)
-		row_footer.append(reply_footer_btn)
+			let close_button = document.createElement('button')
+			close_button.type = 'button';
+			if (isComment){
+				close_button.className = "close com col-sm-1 offset-sm-11"
+			} else {
+				close_button.className = "close rep col-sm-1 offset-sm-11"
+			}
 
+			let close_span = document.createElement('span')
+			close_span.setAttribute('aria-hidden', 'true');
+			close_span.innerHTML = '&times;';
+			close_button.append(close_span)
 
-		row.append(col);
+			$(close_button).on('click', deleteComment);
 
-	
-		let close_button = document.createElement('button')
-		close_button.type = 'button';
-		if (isComment){
-			close_button.className = "close com col-sm-1 offset-sm-11"
-		} else {
-			close_button.className = "close rep col-sm-1 offset-sm-11"
-		}
+			reply.append(close_button);
+			reply.append(row);
+			reply.append(row_footer);
 
-		let close_span = document.createElement('span')
-		close_span.setAttribute('aria-hidden', 'true');
-		close_span.innerHTML = '&times;';
-		close_button.append(close_span)
+			console.log("here")
 
-		$(close_button).on('click', deleteComment);
+			if (isComment){
+				if (postToreplyTo.firstElementChild){
+				postToreplyTo.insertBefore(reply, postToreplyTo.firstElementChild);
+				}else {
+					postToreplyTo.append(reply);
+				}
+			} else {
+				postToreplyTo.append(reply);
+			}
+			
 
-		reply.append(close_button);
-		reply.append(row);
-		reply.append(row_footer);
-
-
-		return reply;
+		    })
 	}
 
 }
@@ -575,15 +655,8 @@ function createCommentJSON(comment, isComment){
 function commentOnDiscussion(e){
 	e.preventDefault();
 
-	let comments = document.getElementById("comments");
+	
 
-	let reply = createComment();
-	if (reply){
-		if (comments.firstElementChild){
-		comments.insertBefore(reply, comments.firstElementChild);
-		}else {
-			comments.appendChild(reply);
-		}
-	}
+	createComment();
 	
 }

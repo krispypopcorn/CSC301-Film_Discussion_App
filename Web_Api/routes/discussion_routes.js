@@ -36,18 +36,26 @@ discussion_routes.get('/getDiscussion/:id', (req, res) => {
     Get a comment by id    
 */
 discussion_routes.get('/getComment/:cid', (req, res) => {
-    const cid = req.params.id;
+    const cid = req.params.cid;
 
     Comment.findById(cid).then((com) => {
         if (!com) {
             res.status(404).send()
         } else {
             res.send(com)
-        }
-    }).catch((error) => {
-        res.status(400).send(error)
+        }    
     })
 })
+
+/*
+    get all comments in the database
+*/
+discussion_routes.get('/getAllComments', (req, res) => {
+    Comment.find().then((comments) => {
+        res.send(comments)
+    }).catch(err => {log(err)})
+})
+
 
 /*
     Get the number of discussion currently in the database
@@ -70,6 +78,24 @@ discussion_routes.get('/getMovieDisCount/:id', (req, res) => {
             "value": num
         })
     })
+})
+
+
+/*
+    Send the replies of a given comment
+*/
+discussion_routes.get('/getReplies/:cid', (req, res) => {
+
+    const cid = req.params.cid
+
+    Comment.findById(cid, (err, comment) =>{
+        if(err){
+            res.send(err)
+        }else{
+            res.send(comment.replies)
+        }
+    });
+    
 })
 
 /*
@@ -99,9 +125,8 @@ discussion_routes.post('/creatDiscussion',(req, res)=>{
 /*
     Add a comment to a Discussion Post.
 */
-discussion_routes.post('/creatComment/:id',(req, res)=>{
+discussion_routes.post('/createComment/:id',(req, res)=>{
     const id = req.params.id
-    log(req.body)
     const com = new Comment({
         comment_content: req.body.comment_content,
 
@@ -115,19 +140,22 @@ discussion_routes.post('/creatComment/:id',(req, res)=>{
         if (!disc) {
             res.status(404).send()
         } else {
-            com.save(function (err) {
-                    if (err) {
-                        return handleError(err)
-                    }
-            });
             disc.comments.push(com._id)
-            res.send(com)
             disc.save(function (err) {
             if (err) {
                 log(err)
                 return handleError(err)
             }
             });
+            com.save(function (err) {
+            if (err) {
+                log(err)
+                return handleError(err)
+            }
+            });
+            
+            
+            res.send(com)
         }
     })  
 })
@@ -144,7 +172,6 @@ discussion_routes.post('/createReply/:cid',(req, res)=>{
         return res.status(404).send()
     }
 
-    log(req.body)
     const com = new Comment ({
         comment_content: req.body.comment_content,
 
@@ -156,13 +183,13 @@ discussion_routes.post('/createReply/:cid',(req, res)=>{
         if (!parentComment) {
             res.status(404).send()
         } else {
-                com.save(function (err) {
+                parentComment.replies.push(com._id)
+                parentComment.save(function (err) {
                     if (err) {
                         return handleError(err)
                     }
                 });
-                parentComment.replies.push(com._id)
-                parentComment.save(function (err) {
+                com.save(function (err) {
                     if (err) {
                         return handleError(err)
                     }
@@ -202,19 +229,18 @@ discussion_routes.delete('/deleteDiscussions/:id', (req, res) => {
     });
 })
 
+
 /*
     Deletes given element from the Array
 */
 
 function deleteArrayElement(comments, cid) {
-    const index = comments.indexOf(cid);
-    comments.splice(index, 1);
+
+   return comments.filter(function(ele){
+       return ele != cid;
+   });
+
 }
-
-
-
-
-
 
 /*
     Deletes given comment from the database
@@ -225,25 +251,25 @@ discussion_routes.delete('/deleteComment/:id/:cid', (req, res) => {
     const id = req.params.id
     const cid = req.params.cid
 
-    Discussion.findById(id).then((disc) => {
-        if (!disc) {
-            res.status(404).send()
-        } else {
-            deleteArrayElement(discussion.comments, cid);
-            Comment.findByIdAndRemove(cid, (err, com) =>{
-                    if(err){res.send(err)}
-                    else{
-                        res.send("comment deleted")
+    Discussion.findById(id, (err, discussion) =>{
+        if(err){res.send(err)}
+        else{
+            discussion.comments = deleteArrayElement(discussion.comments, cid);
+            log(discussion.comments)
+            discussion.save(function (err) {
+                    if (err) {
+                        return handleError(err)
                     }
             });
-            disc.save(function (err) {
-            if (err) {
-                log(err)
-                return handleError(err)
-            }
+            Comment.findByIdAndRemove(cid, (err, comment) =>{
+                if(err){res.send(err)}
+                else{
+                    //res.send(comment.replies)
+                    res.send();
+                }
             });
         }
-    })  
+    });
     
 })
 
@@ -256,25 +282,24 @@ discussion_routes.delete('/deleteReply/:id/:cid', (req, res) => {
     const id = req.params.id
     const cid = req.params.cid
 
-    Comment.findById(id).then((com1) => {
-        if (!com1) {
-            res.status(404).send()
-        } else {
-            deleteArrayElement(com1.replies, cid);
-            Comment.findByIdAndRemove(cid, (err, rep) =>{
-                    if(err){res.send(err)}
-                    else{
-                        res.send("reply deleted")
+    Comment.findById(id, (err, com) =>{
+        if(err){res.send(err)}
+        else{
+            com.replies = deleteArrayElement(com.replies, cid);
+            log(com.comments)
+            com.save(function (err) {
+                    if (err) {
+                        return handleError(err)
                     }
             });
-            com1.save(function (err) {
-            if (err) {
-                log(err)
-                return handleError(err)
-            }
+            Comment.findByIdAndRemove(cid, (err, discussion) =>{
+                if(err){res.send(err)}
+                else{
+                    res.send("comment deleted")
+                }
             });
         }
-    })  
+    });
     
 })
 
