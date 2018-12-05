@@ -3,6 +3,14 @@ const { User } = require('../model/User')
 const log = console.log
 var bcrypt = require('bcrypt');
 
+const sessionExist = (req, res, next)=>{
+    if(!req.session.user) {
+        res.redirect('/loginPage')
+    }else{
+        next()
+    }
+}
+
 /*
     Get all available users
 */
@@ -43,7 +51,7 @@ user_routes.get('/userCount', (req, res) => {
 /*
     Get current user's class
 */
-user_routes.get('/userClass', (req, res) => {
+user_routes.get('/userClass', sessionExist, (req, res) => {
     User.findById(req.session.user, (err, user) =>{
         if(err){res.send(err)}
         else{
@@ -52,7 +60,7 @@ user_routes.get('/userClass', (req, res) => {
     });
 })
 
-user_routes.get('/userIcon', (req, res) => {
+user_routes.get('/userIcon', sessionExist, (req, res) => {
     User.findById(req.session.user, (err, user) =>{
         if(err){res.send(err)}
         else{
