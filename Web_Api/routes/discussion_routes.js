@@ -38,7 +38,7 @@ discussion_routes.get('/getDiscussion/:id', (req, res) => {
 discussion_routes.get('/getComment/:cid', (req, res) => {
     const cid = req.params.id;
 
-    Comment.findById(id).then((com) => {
+    Comment.findById(cid).then((com) => {
         if (!com) {
             res.status(404).send()
         } else {
