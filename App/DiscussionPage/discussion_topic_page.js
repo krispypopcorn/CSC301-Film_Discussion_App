@@ -239,8 +239,6 @@ function deleteDiscussion(e){
 }
 
 
-
-
 function deleteReplies(replies){
 
 	for (var i= 0; i < replies; i++){
@@ -301,7 +299,8 @@ function deleteReply(e){
        }                
     })
     .then((json) => {
-    	let parentComment = comments.id
+		let parentComment = comments.id
+		console.log(postToRemove.id)
     	if (thisUser._id == json.user){
     	fetch('/getReplies/'+postToRemove.id)
 	    .then((replies) => {

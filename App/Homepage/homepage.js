@@ -215,8 +215,19 @@ function createDiscussion(discussion) {
   let newPost = discussionDiv.clone();
   newPost.find(".backGroundImage").attr('src',discussion.img);
   newPost.find(".disTitle").html(discussion.title);
-  const user = getUser(discussion.user)
-  user.then((err, json) => {
+  fetch("/searchUser/"+discussion.user, {
+    method: 'GET',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+  })
+  .then((res) => { 
+    if (res.status === 200) {
+      return res.json()
+   }else {
+      return null
+   }                
+  }).then(json => {
     if(json){
       newPost.find(".author").html(json.username);
     }else{
