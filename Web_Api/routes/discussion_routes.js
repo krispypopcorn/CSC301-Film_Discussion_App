@@ -333,7 +333,7 @@ discussion_routes.get('/canEdit/:id', (req, res) => {
         if(err){res.send(err)}
         else{
             if(user.admin==true){
-                res.send('true')
+                res.send(true)
             }else{
                 Discussion.findById(id,(error, discussion)=>{
                     if(!error){

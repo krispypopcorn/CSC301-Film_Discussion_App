@@ -220,35 +220,23 @@ function deleteDiscussion(e){
 
 	//required: PERMISSION CHECK
 
-	let canEdit= false;
-
 	fetch('/canEdit/'+thisDiscussion._id).then(response => {
-    	return response.json()}).then(result=>{
-       		if(result == true){
-           		canEdit = true;
-       		}else {
-       			return null;
-       		}
-   		})
-
-	if (canEdit){
-
-		let comments = e.target.parentElement.parentElement.parentElement;
-
-		let postToRemove = e.target.parentElement.parentElement;
-		comments.removeChild(postToRemove);
-
-
-
-		fetch('/deleteDiscussions/'+thisDiscussion._id, {
-	    method: 'DELETE', }).then(response => {
-	      	fetch('/home')
-		})
-	}
+    	return response.json()}).then(canEdit => {
+			   if (canEdit == true){
+				console.log("here")
+				   let comments = e.target.parentElement.parentElement.parentElement;
+				   let postToRemove = e.target.parentElement.parentElement;
+				   comments.removeChild(postToRemove);
+				   
+				   fetch('/deleteDiscussions/'+thisDiscussion._id, {
+					   method: 'DELETE', }).then(response => {
+						eraseCookie('discussion')
+						window.location.href = "/home"
+						})
+			}
+		 })
 
 }
-
-
 
 
 
