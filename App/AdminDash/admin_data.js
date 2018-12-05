@@ -479,8 +479,8 @@ function createDataRow(currentUser) {
 	let dataName = document.createElement('td')
 	dataName.innerText = currentUser.username
 
-	let dataPost = document.createElement('td')
-	dataPost.innerText = currentUser.like
+	// let dataPost = document.createElement('td')
+	// dataPost.innerText = currentUser.like
 
 	let options = document.createElement('td')
 
@@ -493,7 +493,7 @@ function createDataRow(currentUser) {
 
 	newRow.appendChild(dataTh)
 	newRow.appendChild(dataName)
-	newRow.appendChild(dataPost)
+	// newRow.appendChild(dataPost)
 	newRow.appendChild(options)
 
 	// return newRow;
