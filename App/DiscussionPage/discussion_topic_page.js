@@ -7,7 +7,6 @@ let thisMovie = null;
 let movieName = "";
 let thisUser = null;
 
-const helper = require("../Helper/helper.js")
 
 /*-------request URL-------*/
 const discussionUrl = '/getDiscussion/'
