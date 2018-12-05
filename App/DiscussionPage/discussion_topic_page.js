@@ -5,6 +5,7 @@ const discId = getCookie('discussion');
 let thisDiscussion = null;
 let thisMovie = null;
 let movieName = "";
+let movieId = "";
 let thisUser = null;
 
 
@@ -21,13 +22,6 @@ setUserIcon();
 checkUserClass();
 getUser();
 getDiscussion();
-getMovie();
-fillDiscussionPost();
-fillBanner();
-
-
-
-
 
 function getDiscussion(){
     fetch(discussionUrl+discId)
@@ -40,7 +34,8 @@ function getDiscussion(){
     })
     .then((json) => {
     	thisDiscussion = json;
-    	movieName = json.movie;
+    	movieId = json.movie;
+    	getMovie();
     })
 }
 
@@ -59,8 +54,7 @@ function getComment(cid){
 }
 
 function getMovie(){
-
-    fetch('/search/'+movieName)
+    fetch('/getMovie/'+movieId)
     .then((res) => { 
         if (res.status === 200) {
            return res.json() 
@@ -70,6 +64,8 @@ function getMovie(){
     })
     .then((json) => {
         thisMovie = json
+        movieName = thisMovie.name;
+        fillDiscussionPost();
     })
 }
 
@@ -128,23 +124,23 @@ function fillDiscussionPost(){
 	//Then populating fields!
 	disc_post_text.innerHTML = thisDiscussion.discussion_content;
 	disc_img.src = thisDiscussion.img;
-	user.html(thisDiscussion.user);
-	date.html(date.format(thisDiscussion.date, 'hh:mm A DD/MM/YYYY '));
+	user.innerHTML= thisUser.username;
+	date.innerHTML = thisDiscussion.date;
+	fillBanner();
 
 };
 
 
 function fillBanner(){
-
 	//access banner
 	let bannerImg = document.getElementById('bannerImg');
 	let bannerTitle = document.getElementById('bannerTitle');
 	let bannerText = document.getElementById('bannerText');
 
 	//pop the fields
-	bannerImg.attr('src',thisMovie.banner);
-	bannerTitle.html(thisDiscussion.title);
-	bannerText.html(thisMovie.name);
+	bannerImg.src = thisMovie.banner;
+	bannerTitle.innerHTML = thisDiscussion.title;
+	bannerText.innerHTML = thisMovie.name;
 
 };
 
