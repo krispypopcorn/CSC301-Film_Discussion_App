@@ -239,7 +239,7 @@ function deleteComment(e){
 	let comments = e.target.parentElement.parentElement.parentElement;
 
 	let postToRemove = e.target.parentElement.parentElement;
-	fetch(/getComment/+postToRemove.id)
+	fetch('/getComment/'+postToRemove.id)
     .then((res) => { 
         if (res.status === 200) {
            return res.json() 

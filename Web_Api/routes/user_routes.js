@@ -204,19 +204,22 @@ user_routes.patch('/modifyPassword', (req, res)=>{
 //             })
 // })
 
-user_routes.get('/searchUser/:id', (req, res) => {
-
+user_routes.get('searchUser/:id', (req, res) => {
     let user_id = req.params.id
-
     User.findById(user_id).then((result) => {
         res.send(result)
     }).catch((error) => {
         log(error)
     })
-
-
 })
 
+user_routes.get('/searchUserByName/:name', (req, res)=>{
+    const name = req.params.name
+    User.findOne({username: name}, (err, user) =>{
+        if(err){res.send(err)}
+        res.send(user)
+    })
+})
 
 
 user_routes.patch('/modifyPassword', (req, res)=>{

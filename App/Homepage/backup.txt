@@ -1,0 +1,4 @@
+ eraseCookie('isCurrentUser')
+  eraseCookie('User')
+  createCookie('isCurrentUser','false',1)
+  createCookie('User','Faiyaz',1)
