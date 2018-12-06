@@ -98,8 +98,13 @@ function createDiscussion(discussion) {
    let newTitle = target.find(".card-title");
    let upVote = target.find(".upVoteNumber");
    
-   newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
+   // newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
 
+    newTitle.on('click',function(event) {
+        eraseCookie('discussion')
+        createCookie('discussion',discussion._id,1)
+        window.location.href = "/discussionPage";});
+    
    img.attr('src',discussion.img);
 
 
