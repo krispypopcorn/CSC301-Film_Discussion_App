@@ -455,4 +455,13 @@ discussion_routes.get('/currentUserDiscussions/', (req, res)=>{
     })
 })
 
+discussion_routes.get('/userDiscussions/:username', (req, res)=>{
+    const username = req.params.username
+    Discussion.find({user : username}).then(discussions=>{
+        res.send(discussions)
+    }).catch(error=>{
+         res.status(400).send(error)
+    })
+})
+
 module.exports = discussion_routes;

@@ -39,12 +39,20 @@ function getUser(){
     fetch('/searchUserByName/'+name).then ((result) => {
       return result.json()
     }).then((user) => {
-      displayUser(user);
+      displayOtherUser(user);
+      removeModifyPasswordOption()
     }).catch((error) => {
       console.log(error)
     })
   }
 }
+
+
+function removeModifyPasswordOption(){
+  const removePasswordBtn = document.querySelector('#ChangePasswordButton')
+  removePasswordBtn.parentNode.removeChild(removePasswordBtn);
+}
+
 
 
 function displayUser(user){
@@ -57,6 +65,26 @@ function displayUser(user){
     return result.json()
   }).then((discussionList)=>{
     discussions = discussionList
+    displayDiscussions(discussionList)
+    displayDiscussionNum(discussionList.length)
+  }).catch((error)=>{
+    console.log(error);
+  })
+}
+
+
+function displayOtherUser(user){
+  
+  const username = document.querySelector('#currUsername');
+  username.innerText = user.username
+  // you have the icon url in the user obj
+  $('#userPic').attr('src',user.icon)
+
+  fetch('/userDiscussions/' + user._id).then((result)=>{
+    return result.json()
+  }).then((discussionList)=>{
+    discussions = discussionList
+    
     displayDiscussions(discussionList)
     displayDiscussionNum(discussionList.length)
   }).catch((error)=>{
