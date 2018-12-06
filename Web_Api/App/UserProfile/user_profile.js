@@ -128,7 +128,7 @@ function loadPreviousPage(e) {
            targetList.push(discussions[i]);
            max--;
        }
-       addMultiplyDiscussion(targetList);
+       displayDiscussions(targetList);
    }
 }
 
