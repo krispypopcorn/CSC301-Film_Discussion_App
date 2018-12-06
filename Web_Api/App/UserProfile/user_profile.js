@@ -19,6 +19,8 @@ $('#SaveButton').click(tryModifyPassword)
 //store current page
 let currentPage = 1;
 
+let discussions = null;
+
 const user = getUser()
 
 function getUser(){
@@ -54,8 +56,9 @@ function displayUser(user){
 
   fetch('/currentUserDiscussions').then((result)=>{
     return result.json()
-  }).then((discussions)=>{
-    displayDiscussions(discussions)
+  }).then((discussionList)=>{
+    discussions = discussionList
+    displayDiscussions(discussionList)
   }).catch((error)=>{
     console.log(error);
   })
@@ -131,9 +134,10 @@ function loadPreviousPage(e) {
 
 function loadNextPage(e) {
    e.preventDefault();
-   let total = numberOfDiscusstions;
+   let total = discussions.length;
    let mainList = discussions;
    const maxPage = Math.ceil(total / 4);
+
 
    if (currentPage != maxPage) {
        let index = currentPage + 1;
@@ -148,8 +152,7 @@ function loadNextPage(e) {
            targetList.push(mainList[i]);
            max--;
        }
-
-       addMultiplyDiscussion(targetList);
+       displayDiscussions(targetList);
    }
 }
 
