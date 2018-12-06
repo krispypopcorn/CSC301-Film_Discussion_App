@@ -42,15 +42,13 @@ function getDiscussion(){
 
 
 function getMovie(){
-    fetch('/getMovie/'+movieId)
-    .then((res) => { 
+    fetch('/getMovie/'+movieId).then((res) => { 
         if (res.status === 200) {
            return res.json() 
        } else {
             alert('Could not get movies')
        }                
-    })
-    .then((json) => {
+    }).then((json) => {
         thisMovie = json
         movieName = thisMovie.name;
         fillDiscussionPost();
@@ -59,18 +57,52 @@ function getMovie(){
 
 function getUser(){
 
-    fetch("/user")
-    .then((res) => { 
+    fetch("/user").then((res) => { 
         if (res.status === 200) {
            return res.json() 
        } else {
             alert('Could not get movies')
        }                
-    })
-    .then((json) => {
+    }).then((json) => {
         thisUser = json;
-        getDiscussion();
-    })
+        // getDiscussion();
+    }).then((data) => {
+		fetch(discussionUrl+discId).then((res) => { 
+			if (res.status === 200) {
+			   return res.json() 
+		   } else {
+				alert('Could not get the discussion')
+		   }                
+		}).then((json) => {''
+			thisDiscussion = json;
+			movieId = json.movie;
+			return json.user
+			getDiscUserById(json.user)
+			getMovie();
+		}).then((user_data) => {
+			fetch("/getUser/"+user_data).then((res) => { 
+        	if (res.status === 200) {
+           		return res.json() 
+       		} else {
+            	alert('Could not get movies')
+       		}                
+    		}).then((json) => {
+        		discussionUser = json;
+			}).then((irr) => {
+				fetch('/getMovie/'+movieId).then((res) => { 
+					if (res.status === 200) {
+					   return res.json() 
+				   } else {
+						alert('Could not get movies')
+				   }                
+				}).then((json) => {
+					thisMovie = json
+					movieName = thisMovie.name;
+					fillDiscussionPost();
+				})
+			})
+		})
+	})
 }
 
 function getUserById(id){
