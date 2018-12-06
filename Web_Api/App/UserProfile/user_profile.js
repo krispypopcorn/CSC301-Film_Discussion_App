@@ -4,8 +4,10 @@ checkUserClass()
 setUserIcon()
 
 /*-------------Add Event-listener-------------*/
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html";});
-$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
+$("#profilePic").on('click', function(event) {
+  eraseCookie('isCurrentUser')
+  createCookie('isCurrentUser','true',1)
+  window.location.href = "/profilePage";});$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
