@@ -1,6 +1,5 @@
 "use strict"
 
-
 checkUserClass()
 setUserIcon()
 
@@ -59,12 +58,11 @@ function displayUser(user){
   }).then((discussionList)=>{
     discussions = discussionList
     displayDiscussions(discussionList)
+    displayDiscussionNum(discussionList.length)
   }).catch((error)=>{
     console.log(error);
   })
 }
-
-
 
 function displayDiscussions(discussionList) {
 
@@ -83,6 +81,11 @@ function displayDiscussions(discussionList) {
    }
 }
 
+
+function displayDiscussionNum(total){
+  const titleWithNum = document.querySelector('#DiscussionTopics')
+  titleWithNum.innerText = `My Discussion Topics (${total})`
+}
 
 
 // Helper function
@@ -104,7 +107,7 @@ function createDiscussion(discussion) {
         eraseCookie('discussion')
         createCookie('discussion',discussion._id,1)
         window.location.href = "/discussionPage";});
-    
+
    img.attr('src',discussion.img);
 
 
@@ -160,9 +163,6 @@ function loadNextPage(e) {
        displayDiscussions(targetList);
    }
 }
-
-
-
 
 
 function tryModifyPassword(e){
