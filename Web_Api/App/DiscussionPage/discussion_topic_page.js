@@ -69,7 +69,6 @@ function getUser(){
        }                
     }).then((json) => {
         thisUser = json;
-        // getDiscussion();
     }).then((data) => {
 		fetch(discussionUrl+discId).then((res) => { 
 			if (res.status === 200) {
@@ -397,7 +396,7 @@ function deleteReply(e){
 
 function replyToComment(e){
 	e.preventDefault();
-	let postToreplyTo = e.target.parentElement.parentElement;
+	let postToreplyTo = e.target.parentElement.parentElement.parentElement;
 
 	let text = prompt("Reply to Comment", );
 
@@ -415,10 +414,17 @@ function createReply(text, postToreplyTo){
 		let date = '';
 		let usn_text = "";
 		let replyId = "";
+		let date_unformatted;
+		let day;
+		let hour;
+		let minute;
+		let month;
+		let dateNum;
+		let year;
 		const newReply = {
 			comment_content: text,
 		}
-
+		console.log(postToreplyTo)
 		fetch('/createReply/'+postToreplyTo.id, {
             method: 'POST', 
             body: JSON.stringify(newReply), 
@@ -432,15 +438,15 @@ function createReply(text, postToreplyTo){
           	let user = thisUser.username
           	usn_text = document.createTextNode(user);
           	replyId = response._id;
-          	let date_unformatted = new Date (response.date);
-			let day = days[date_unformatted.getDay()];
-			let hour = date_unformatted.getHours();
-			let minute = date_unformatted.getMinutes()
-			let month = months[date_unformatted.getMonth()]
-			let dateNum = date_unformatted.getDate()
-			let year = date_unformatted.getFullYear();
-	
-			date = day + ', ' + dateNum + " " + month + " " + year + ' at ' + hour + ': ' + minute;
+          	date_unformatted = new Date (response.date);
+			day = days[date_unformatted.getDay()];
+			hour = date_unformatted.getHours();
+			minute = date_unformatted.getMinutes()
+			month = months[date_unformatted.getMonth()]
+			dateNum = date_unformatted.getDate()
+			year = date_unformatted.getFullYear();
+          })
+          	date = day + ', ' + dateNum + " " + month + " " + year + ' at ' + hour + ': ' + minute;
           	let reply = document.createElement("div");
 			reply.className = "card comment1";
 			reply.id = replyId;
@@ -516,7 +522,7 @@ function createReply(text, postToreplyTo){
 			reply.append(row_footer);
 
 			postToreplyTo.append(reply);
-        })
+
 	}
 }
 

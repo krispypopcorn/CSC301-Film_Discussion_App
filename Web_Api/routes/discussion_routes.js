@@ -169,6 +169,7 @@ discussion_routes.post('/createReply/:cid',(req, res)=>{
     const cid = req.params.cid;
 
     if (!ObjectID.isValid(cid)) {
+
         return res.status(404).send()
     }
 
@@ -181,6 +182,7 @@ discussion_routes.post('/createReply/:cid',(req, res)=>{
     })
     Comment.findById(cid).then((parentComment) => {
         if (!parentComment) {
+        	
             res.status(404).send()
         } else {
                 parentComment.replies.push(com._id)
