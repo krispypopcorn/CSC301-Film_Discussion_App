@@ -53,3 +53,8 @@
 .modal-content{
 	background-color:white !important;
 }
+
+#DiscussionTopics{
+	text-decoration: underline;
+	color: #2363CD;
+}

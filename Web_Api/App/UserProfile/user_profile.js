@@ -1,12 +1,13 @@
 "use strict"
 
-
 checkUserClass()
 setUserIcon()
 
 /*-------------Add Event-listener-------------*/
-$("#profilePic").on('click', function(event) {window.location.href = "../UserProfile/user_profile.html";});
-$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
+$("#profilePic").on('click', function(event) {
+  eraseCookie('isCurrentUser')
+  createCookie('isCurrentUser','true',1)
+  window.location.href = "/profilePage";});$("#homeLink").on('click', function(event) {window.location.href = "../Homepage/homepage.html";});
 $("#adminLink").on('click', function(event) {window.location.href = "../AdminDash/admin.html";});
 $("#signOut").on('click', function(event) {window.location.href = "../Login/index.html";});
 $(".card-title").on('click', function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html";});
@@ -18,6 +19,8 @@ $('#SaveButton').click(tryModifyPassword)
 
 //store current page
 let currentPage = 1;
+
+let discussions = null;
 
 const user = getUser()
 
@@ -38,12 +41,20 @@ function getUser(){
     fetch('/searchUserByName/'+name).then ((result) => {
       return result.json()
     }).then((user) => {
-      displayUser(user);
+      displayOtherUser(user);
+      removeModifyPasswordOption()
     }).catch((error) => {
       console.log(error)
     })
   }
 }
+
+
+function removeModifyPasswordOption(){
+  const removePasswordBtn = document.querySelector('#ChangePasswordButton')
+  removePasswordBtn.parentNode.removeChild(removePasswordBtn);
+}
+
 
 
 function displayUser(user){
@@ -54,14 +65,34 @@ function displayUser(user){
 
   fetch('/currentUserDiscussions').then((result)=>{
     return result.json()
-  }).then((discussions)=>{
-    displayDiscussions(discussions)
+  }).then((discussionList)=>{
+    discussions = discussionList
+    displayDiscussions(discussionList)
+    displayDiscussionNum(discussionList.length)
   }).catch((error)=>{
     console.log(error);
   })
 }
 
 
+function displayOtherUser(user){
+  
+  const username = document.querySelector('#currUsername');
+  username.innerText = user.username
+  // you have the icon url in the user obj
+  $('#userPic').attr('src',user.icon)
+
+  fetch('/userDiscussions/' + user._id).then((result)=>{
+    return result.json()
+  }).then((discussionList)=>{
+    discussions = discussionList
+    
+    displayDiscussions(discussionList)
+    displayDiscussionNum(discussionList.length)
+  }).catch((error)=>{
+    console.log(error);
+  })
+}
 
 function displayDiscussions(discussionList) {
 
@@ -81,6 +112,11 @@ function displayDiscussions(discussionList) {
 }
 
 
+function displayDiscussionNum(total){
+  const titleWithNum = document.querySelector('#DiscussionTopics')
+  titleWithNum.innerText = `My Discussion Topics (${total})`
+}
+
 
 // Helper function
 // Creates a discussion div based on given discussion object
@@ -95,7 +131,12 @@ function createDiscussion(discussion) {
    let newTitle = target.find(".card-title");
    let upVote = target.find(".upVoteNumber");
    
-   newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
+   // newTitle.on('click',function(event) {window.location.href = "../DiscussionPage/discussion_topic_page.html" + "?para1="+ permission;});
+
+    newTitle.on('click',function(event) {
+        eraseCookie('discussion')
+        createCookie('discussion',discussion._id,1)
+        window.location.href = "/discussionPage";});
 
    img.attr('src',discussion.img);
 
@@ -125,15 +166,16 @@ function loadPreviousPage(e) {
            targetList.push(discussions[i]);
            max--;
        }
-       addMultiplyDiscussion(targetList);
+       displayDiscussions(targetList);
    }
 }
 
 function loadNextPage(e) {
    e.preventDefault();
-   let total = numberOfDiscusstions;
+   let total = discussions.length;
    let mainList = discussions;
    const maxPage = Math.ceil(total / 4);
+
 
    if (currentPage != maxPage) {
        let index = currentPage + 1;
@@ -148,13 +190,9 @@ function loadNextPage(e) {
            targetList.push(mainList[i]);
            max--;
        }
-
-       addMultiplyDiscussion(targetList);
+       displayDiscussions(targetList);
    }
 }
-
-
-
 
 
 function tryModifyPassword(e){

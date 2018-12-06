@@ -1,0 +1,106 @@
+# team03 phase2.txt
+
+## Summary
+
+Our web app is a movie discussion site, "Conspire View". The value of our platform is centered on allowing  users to discuss about movies. For instance, they could discuss about a weird ending of a movie, or how a characteris suspicious and may have killed the protagonist, what a great actor someone is, among other topics.
+
+## Changes from phase 1
+All features from phase 1 have been included in phase 2. We added a feature for new users to sign up through the login page.
+
+## Suggested starting view
+
+Local: http://localhost:8000/loginPage
+Heroku: https://enigmatic-brushlands-58937.herokuapp.com/loginPage
+
+
+Hopefully the platform is intuitive for users and admins to know in which ways they can interact with the platform, but we have included a breakdown of the available features for both the user and admin:
+
+
+## User features / instructions
+
+A user can do the following, by pages:
+
+- Login page
+	- username: Micari
+	- password: password
+
+
+- Common to all pages (through navbar):
+	- Search for a movie e.g. 'Avengers', 'Halloween', 'Life of Pi' 
+	- Navigate to the user's profile by clicking on user's icon (top-right corner)
+	- Sign out of platform
+
+- Homepage:
+	- See the most popular discussion topics 
+	- See the latest  discussion topics
+	- See the top rated movies
+	* Navigate to the corresponding page by clicking on a discussion topic or movie
+
+- Movie page:
+	- Rate a movie by clicking on stars
+	- See the discussion topics about the movie (next page available)
+	- Navigate to a discussion topic by cliking on its title
+	- Search for a discussion topic
+	- Add a new discussion topic by clicking on blue 'plus' sign at the bottom-right corner
+
+- Discussion page:
+	- See the discussion topic (title on banner)
+	- See which movie the discussion topic is about (film title on banner)
+	- Navigate to the movie by clicking on film title
+	- Read the discussion topic description
+	- See the different comments and replies on that topic 
+	- Add a new comment 
+	- Leave a reply on a comment or other replies
+	- Delete their own comments and replies 
+
+
+- User profile page:
+	- See the number of discussion topics the user has written
+	- See the actual discussion topics, comments and replies the user has written
+	- Change password
+
+
+## Admin features / Instructions
+
+- Login page
+	- username: Faiyaz
+	- password: password
+
+
+The admin can do all the things that a regular user can do. Additionally, the admin can do the following, by pages:
+
+- Common to all pages:
+	- Navigate to admin dash
+
+- Movie page:
+	- Delete discussion topics by clicking 'x' on the top-right corner of a topic.
+
+- Discussion page:
+	- Delete comments and replies by clicking 'x' on the top-right corner of a post or reply, correspondingly.
+
+
+- Admin Dash page
+	- See the total number of users, films, discussion topics and comments in dial form
+	- See visual aspects of popular genre and top contributors in the site (we may change the visual 
+	charts later on phase 2 depending on data stored in server
+	- Able to view all users in database
+	- Able to search for individual users
+	- Able to change username and password for individual users
+	- Able to delete users.
+
+## Overview of routes
+
+We have a long list of routes in our Express server. For this reason, we created a directory with the different routes, which we have grouped into categories and which are explained below:
+
+
+- main server (movie-server.js)
+	These routes are used primarily used for login and logout.
+	The rest of routes are imported into this module
+- movie	
+	These routes are used for retrieving or modifying movie information such as movie posts, ratings, trending movies, number of movies
+- discussion
+	These routes are used for retrieving or modifying discussion topic information such as discussion posts, their comments and likes
+- user
+	These routes are used for creating and deleting users as well for modifying their information (password, icon)
+- page 
+	These routes are used for retrieving the different pages while doing a security check to make sure that a user is logged in, otherwise the server will redirect them to the login page.
