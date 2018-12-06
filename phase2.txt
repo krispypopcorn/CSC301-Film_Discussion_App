@@ -2,15 +2,15 @@
 
 ## Summary
 
-Our web app is a movie discussion site, "Conspire View". The value of our platform is centered on allowing the users to discussion about a specific topic about a movie. For instance, they could discuss about a weird ending of a movie, or how a characteris suspicious and may have killed the protagonist, among other topics.
+Our web app is a movie discussion site, "Conspire View". The value of our platform is centered on allowing  users to discuss about movies. For instance, they could discuss about a weird ending of a movie, or how a characteris suspicious and may have killed the protagonist, what a great actor someone is, among other topics.
 
 ## Changes from phase 1
-All features from phase 1 have been included in phase 2. We only added a feature for new users to sign up through the login page.
+All features from phase 1 have been included in phase 2. We added a feature for new users to sign up through the login page.
 
 ## Suggested starting view
 
-??? start in heroku url or localhost version
-It is suggested to start from the Login/index.html page and navigate from there.
+Local: http://localhost:8000/loginPage
+Heroku: https://enigmatic-brushlands-58937.herokuapp.com/loginPage
 
 
 Hopefully the platform is intuitive for users and admins to know in which ways they can interact with the platform, but we have included a breakdown of the available features for both the user and admin:
@@ -90,4 +90,17 @@ The admin can do all the things that a regular user can do. Additionally, the ad
 
 ## Overview of routes
 
-Also, provide an overview of the routes in your Express server, and what they are used for in your app.
+We have a long list of routes in our Express server. For this reason, we created a directory with the different routes, which we have grouped into categories and which are explained below:
+
+
+- main server (movie-server.js)
+	These routes are used primarily used for login and logout.
+	The rest of routes are imported into this module
+- movie	
+	These routes are used for retrieving or modifying movie information such as movie posts, ratings, trending movies, number of movies
+- discussion
+	These routes are used for retrieving or modifying discussion topic information such as discussion posts, their comments and likes
+- user
+	These routes are used for creating and deleting users as well for modifying their information (password, icon)
+- page 
+	These routes are used for retrieving the different pages while doing a security check to make sure that a user is logged in, otherwise the server will redirect them to the login page.
