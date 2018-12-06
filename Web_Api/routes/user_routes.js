@@ -233,7 +233,10 @@ user_routes.patch('/modifyPassword', (req, res)=>{
 user_routes.get('/searchUser/:id', (req, res) => {
     let user_id = req.params.id
     User.findById(user_id).then((result) => {
-        res.send(result)
+        if (result==null){
+            res.send('null')
+        }else{
+        res.send(result)}
     }).catch((error) => {
         log(error)
     })

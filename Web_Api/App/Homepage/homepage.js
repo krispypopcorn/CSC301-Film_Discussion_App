@@ -218,15 +218,14 @@ function createDiscussion(discussion) {
   fetch("/searchUser/"+discussion.user, {
     method: 'GET',
     headers: new Headers({
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
     }),
   })
   .then((res) => { 
     if (res.status === 200) {
       return res.json()
-   }else {
-      return null
-   }                
+   }              
   }).then(json => {
     if(json){
       newPost.find(".author").html(json.username);

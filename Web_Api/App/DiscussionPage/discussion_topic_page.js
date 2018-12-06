@@ -120,6 +120,8 @@ $(".usn").on('click', function(event) {
 	event.preventDefault();
 	let usn = event.target.innerHTML;
 	eraseCookie('User')
+	eraseCookie('isCurrentUser')
+	createCookie('isCurrentUser','false',1)
 	createCookie('User', usn, 1)
 	window.location.href = "/profilePage";});
 $("#bannerText").on('click', function(event) {
