@@ -17,7 +17,9 @@
     width: 99%;
     margin: 10px;
 }
-
+a:hover {
+  color: yellow;
+}
 hr {
     margin-right: :-10px;
     margin-left:-10px;
@@ -69,6 +71,7 @@ textarea {
   background:rgba(0,0,0,0.47);
 }
 
+
 #myBanner {
   width: auto;
   max-height: 450px;
@@ -86,6 +89,11 @@ textarea {
 .reply:hover, #replyToDiscussion:hover, #confirmReply:hover, #cancelReply:hover {   
 
     background-color: #555;
+}
+
+.card:hover {  
+    background: #232323;
+
 }
 
 #confirmReply, #cancelReply{

@@ -9,6 +9,10 @@ let movieId = "";
 let thisUser = null;
 let discussionUser = null;
 
+let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+	 "October", "November", "December"]
+
 /*-------request URL-------*/
 const discussionUrl = '/getDiscussion/'
 const commentUrl = '/getComment/'
@@ -180,7 +184,17 @@ function fillDiscussionPost(){
 	disc_post_text.innerHTML = thisDiscussion.discussion_content;
 	disc_img.src = thisDiscussion.img;
 	user.innerHTML= discussionUser.username;
-	date.innerHTML = thisDiscussion.date;
+	
+	let date_unformatted = new Date(thisDiscussion.date);
+	let day = days[date_unformatted.getDay()];
+	let hour = date_unformatted.getHours();
+	let minute = date_unformatted.getMinutes()
+	let month = months[date_unformatted.getMonth()]
+	let dateNum = date_unformatted.getDate()
+	let year = date_unformatted.getFullYear();
+	
+	let dateString = day + ', ' + dateNum + " " + month + " " + year + ' at ' + hour + ': ' + minute;
+	date.innerHTML = dateString;
 	fillBanner();
 	fillAllComments(thisDiscussion.comments);
 
@@ -384,7 +398,6 @@ function deleteReply(e){
 function replyToComment(e){
 	e.preventDefault();
 	let postToreplyTo = e.target.parentElement.parentElement;
-	console.log(postToreplyTo);
 
 	let text = prompt("Reply to Comment", );
 
@@ -399,7 +412,7 @@ function replyToComment(e){
 function createReply(text, postToreplyTo){
 
 	if (text){
-		let date = "";
+		let date = '';
 		let usn_text = "";
 		let replyId = "";
 		const newReply = {
@@ -419,7 +432,15 @@ function createReply(text, postToreplyTo){
           	let user = thisUser.username
           	usn_text = document.createTextNode(user);
           	replyId = response._id;
-          	date = response.date;
+          	let date_unformatted = new Date (response.date);
+			let day = days[date_unformatted.getDay()];
+			let hour = date_unformatted.getHours();
+			let minute = date_unformatted.getMinutes()
+			let month = months[date_unformatted.getMonth()]
+			let dateNum = date_unformatted.getDate()
+			let year = date_unformatted.getFullYear();
+	
+			date = day + ', ' + dateNum + " " + month + " " + year + ' at ' + hour + ': ' + minute;
           	let reply = document.createElement("div");
 			reply.className = "card comment1";
 			reply.id = replyId;
@@ -463,14 +484,18 @@ function createReply(text, postToreplyTo){
 
 			let reply_footer_btn = document.createElement('button');
 			reply_footer_btn.type = "button";
-			reply_footer_btn.className = 'reply col-md-1 offset-md-11'
+			reply_footer_btn.className = 'reply'
+			let btnDiv = document.createElement("div");
+			btnDiv.className = 'col-md-1 offset-md-11'
+			
 			let button_text = document.createTextNode("Reply");
+			
 			reply_footer_btn.append(button_text)
 
 			$(reply_footer_btn).on('click', replyToComment);
-			
+			btnDiv.append(reply_footer_btn)
 			row_footer.append(footer_text_div)
-			row_footer.append(reply_footer_btn)
+			row_footer.append(btnDiv)
 
 
 			row.append(col);
@@ -549,7 +574,16 @@ function createComment(){
 		    let user = thisUser.username
           	usn_text = document.createTextNode(user);
           	replyId = response._id;
-          	date = response.date;
+          	let date_unformatted = new Date (response.date);
+			let day = days[date_unformatted.getDay()];
+			let hour = date_unformatted.getHours();
+			let minute = date_unformatted.getMinutes()
+			let month = months[date_unformatted.getMonth()]
+			let dateNum = date_unformatted.getDate()
+			let year = date_unformatted.getFullYear();
+	
+			date = day + ', ' + dateNum + " " + month + " " + year + ' at ' + hour + ': ' + minute;
+          	
           	let reply = document.createElement("div");
 			reply.className = "card comment1";
 			reply.id = replyId;
@@ -578,6 +612,7 @@ function createComment(){
 
 
 			let footer_text_div = document.createElement("p");
+			footer_text_div.className = 'col-md-11'
 			let footer_text = document.createTextNode("Comment by ");
 			let usn = document.createElement("a");
 			usn.className = 'usn';
@@ -593,14 +628,18 @@ function createComment(){
 
 			let reply_footer_btn = document.createElement('button');
 			reply_footer_btn.type = "button";
-			reply_footer_btn.className = 'reply col-md-1 offset-md-9'
+			reply_footer_btn.className = 'reply'
+			let btnDiv = document.createElement("div");
+			btnDiv.className = 'col-md-1 offset-md-11'
+			
 			let button_text = document.createTextNode("Reply");
+			
 			reply_footer_btn.append(button_text)
 
 			$(reply_footer_btn).on('click', replyToComment);
-			
+			btnDiv.append(reply_footer_btn)
 			row_footer.append(footer_text_div)
-			row_footer.append(reply_footer_btn)
+			row_footer.append(btnDiv)
 
 
 			row.append(col);
@@ -681,7 +720,17 @@ function createCommentJSON(comment, isComment, postToreplyTo){
 	        let usn_text = document.createTextNode(json.username);
 			usn.append(usn_text);
 
-			let date_text = document.createTextNode(" on " + comment.date);
+			let date_unformatted = new Date (comment.date);
+			let day = days[date_unformatted.getDay()];
+			let hour = date_unformatted.getHours();
+			let minute = date_unformatted.getMinutes()
+			let month = months[date_unformatted.getMonth()]
+			let dateNum = date_unformatted.getDate()
+			let year = date_unformatted.getFullYear();
+	
+			let date = day + ', ' + dateNum + " " + month + " " + year + ' at ' + hour + ': ' + minute;
+
+			let date_text = document.createTextNode(" on " + date);
 
 			footer_text_div.append(footer_text);
 			footer_text_div.append(usn);
@@ -689,14 +738,19 @@ function createCommentJSON(comment, isComment, postToreplyTo){
 
 			let reply_footer_btn = document.createElement('button');
 			reply_footer_btn.type = "button";
-			reply_footer_btn.className = 'reply col-md-1 offset-md-9'
+			reply_footer_btn.className = 'reply'
+			let btnDiv = document.createElement("div");
+			btnDiv.className = 'col-md-1 offset-md-11'
+			
 			let button_text = document.createTextNode("Reply");
+			
 			reply_footer_btn.append(button_text)
 
 			$(reply_footer_btn).on('click', replyToComment);
-			
+			btnDiv.append(reply_footer_btn)
 			row_footer.append(footer_text_div)
-			row_footer.append(reply_footer_btn)
+			row_footer.append(btnDiv)
+
 
 
 			row.append(col);
